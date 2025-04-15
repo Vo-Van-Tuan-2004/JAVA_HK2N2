@@ -1,4 +1,4 @@
-package com.motorcycle.sales.dto;
+package DTO;
 
 public class NhaSanXuat {
     private String maHang;

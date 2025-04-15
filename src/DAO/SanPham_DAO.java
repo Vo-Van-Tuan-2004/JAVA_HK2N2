@@ -1,9 +1,9 @@
 package DAO;
 
-
+import DTO.SanPham_DTO;
 public class SanPham_DAO {
-    void ThemSanPham (SanPham x){}
-    void CapNhatSanPham (SanPham x){}
+    void ThemSanPham (SanPham_DTO x){}
+    void CapNhatSanPham (SanPham_DTO x){}
     void XoaSanPham (String ma){}
-    SanPham LaySanPhamTheoMa (String ma){return null;}
+    SanPham_DTO LaySanPhamTheoMa (String ma){return null;}
 }

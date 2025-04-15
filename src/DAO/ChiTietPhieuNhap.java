@@ -1,8 +1,8 @@
 package DAO;
 
-import DTO.ChieTietPhieuNhap_DTO;
+import DTO.ChiTietPhieuNhap_DTO;
 
 public class ChiTietPhieuNhap {
-    void ThemChiTietPhieuNhap(ChieTietPhieuNhap_DTO x){}
+    void ThemChiTietPhieuNhap(ChiTietPhieuNhap_DTO x){}
     
 }
