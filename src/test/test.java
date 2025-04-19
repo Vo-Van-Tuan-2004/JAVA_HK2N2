@@ -1,10 +1,11 @@
-package GUI;
+package test;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import GUI.Component.*;
 
 public class test {
     public static void main(String[] args) {
@@ -34,7 +35,7 @@ public class test {
             menuPanel.add(menuButton);
             menuPanel.add(Box.createVerticalStrut(10));
         }
-
+        
         // Panel chính
         JPanel mainPanel = new JPanel(new BorderLayout());
 
