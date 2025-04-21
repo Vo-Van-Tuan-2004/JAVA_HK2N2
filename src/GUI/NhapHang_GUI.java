@@ -145,17 +145,23 @@ public class NhapHang_GUI {
         nvCombo.setPreferredSize(new Dimension(150, 25));
         nvPanel.add(nvCombo);
         
-        JButton xuatButton = new JButton("Xuat phieu nhap");
+        JButton xuatButton = new JButton("Xac nhan");
         xuatButton.setFont(new Font("Arial", Font.BOLD,20));
         xuatButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         xuatButton.setPreferredSize(new Dimension(230,40));
         xuatButton.setBackground(new Color(255, 128, 0));
         xuatButton.setForeground(Color.WHITE);
-
+        JButton xoaButton = new JButton("Xoa");
+        xoaButton.setFont(new Font("Arial", Font.BOLD,20));
+        xoaButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        xoaButton.setPreferredSize(new Dimension(230,40));
+        xoaButton.setBackground(new Color(255, 128, 0));
+        xoaButton.setForeground(Color.WHITE);
         
         chucnangPanel.add(ttphieunhapTitle);
         chucnangPanel.add(nccPanel);
         chucnangPanel.add(nvPanel);
+        chucnangPanel.add(xoaButton);
         chucnangPanel.add(xuatButton);
         chucnangPanel.add(Box.createVerticalStrut(10));
         
