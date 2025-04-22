@@ -18,7 +18,13 @@ public class Main_layout extends javax.swing.JFrame {
     /**
      * Creates new form Main_layout
      */
+    private javax.swing.JLabel currentUser_label;
+
     public Main_layout() {
+        this("");
+    }
+
+    public Main_layout(String username) {
         initComponents();
         setTitle("Quản lý cửa hàng bán xe máy");
         jPanel1.setBackground(new Color(70,20,180));
@@ -30,16 +36,23 @@ public class Main_layout extends javax.swing.JFrame {
         
         chucNang_label.setFont(new Font("Arial", Font.BOLD, 16));
         chucNang_label.setForeground(Color.white);
-
+ 
+        currentUser_label = new javax.swing.JLabel();
+        currentUser_label.setFont(new Font("Arial", Font.ITALIC, 14));
+        currentUser_label.setForeground(Color.white);
+        currentUser_label.setText("Người dùng hiện tại: " + username);
+        jPanel1.add(currentUser_label);
+        currentUser_label.setBounds(banHang_btn.getX(), chucNang_label.getY() + 25, 200, 20);
+ 
         // Custom button styles
         Font buttonFont = new Font("Segoe UI", Font.BOLD, 14);
-        Color buttonBackground = new Color(100, 149, 237); // Cornflower Blue
+        Color buttonBackground = new Color(100, 149, 237); 
         Color buttonForeground = Color.WHITE;
-
+ 
         javax.swing.JButton[] buttons = {
             banHang_btn, qlnv_btn, qlsp_btn, qlkh_btn, qltk_btn, nhapHang_btn, dangXuat_btn
         };
-
+ 
         for (javax.swing.JButton btn : buttons) {
             btn.setFont(buttonFont);
             btn.setBackground(buttonBackground);
@@ -68,6 +81,7 @@ public class Main_layout extends javax.swing.JFrame {
         chucNang_label = new javax.swing.JLabel();
         dangXuat_btn = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        thongKe_btn = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -108,6 +122,8 @@ public class Main_layout extends javax.swing.JFrame {
 
         dangXuat_btn.setText("Đăng xuất");
 
+        thongKe_btn.setText("Thống kê");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -116,6 +132,12 @@ public class Main_layout extends javax.swing.JFrame {
                 .addContainerGap(33, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(dangXuat_btn)
+                        .addGap(21, 21, 21))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(chucNang_label)
+                        .addGap(104, 104, 104))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(banHang_btn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(qlnv_btn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -123,14 +145,9 @@ public class Main_layout extends javax.swing.JFrame {
                             .addComponent(qlkh_btn, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
                             .addComponent(qltk_btn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(nhapHang_btn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(33, 33, 33))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(dangXuat_btn)
-                        .addGap(21, 21, 21))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(chucNang_label)
-                        .addGap(104, 104, 104))))
+                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(thongKe_btn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(33, 33, 33))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -151,7 +168,9 @@ public class Main_layout extends javax.swing.JFrame {
                 .addComponent(qltk_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(nhapHang_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 205, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(thongKe_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 158, Short.MAX_VALUE)
                 .addComponent(dangXuat_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(69, 69, 69))
         );
@@ -172,8 +191,9 @@ public class Main_layout extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
@@ -195,6 +215,9 @@ public class Main_layout extends javax.swing.JFrame {
 
     private void qltk_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_qltk_btnActionPerformed
         // TODO add your handling code here:
+        GUIQuanLyTaiKhoan tk = new GUIQuanLyTaiKhoan();
+        tk.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_qltk_btnActionPerformed
 
     private void nhapHang_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nhapHang_btnActionPerformed
@@ -248,5 +271,6 @@ public class Main_layout extends javax.swing.JFrame {
     private javax.swing.JButton qlnv_btn;
     private javax.swing.JButton qlsp_btn;
     private javax.swing.JButton qltk_btn;
+    private javax.swing.JButton thongKe_btn;
     // End of variables declaration//GEN-END:variables
 }
