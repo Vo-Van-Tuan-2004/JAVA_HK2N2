@@ -1,55 +1,57 @@
 package DTO;
 
-public class BaoHanh_DTO {
-    private String maBaoHanh;
-    private String maXe;
-    private String ngayBatDau;
-    private String ngayKetThuc;
+public class DTOBAOHANH {
+    private String ID_baohanh; 
+    private String ID_khachhang; 
+    private String ID_sanpham;  
+    private String ngaybatdau; 
+    private String ngayketthuc;    
 
-    // Constructor không tham số
-    public BaoHanh_DTO() {
+    public DTOBAOHANH(String ID_baohanh, String ID_khachhang, String ID_sanpham, String ngaybatdau, String ngayketthuc) {
+        this.ID_baohanh = ID_baohanh;
+        this.ID_khachhang = ID_khachhang;
+        this.ID_sanpham = ID_sanpham;
+        this.ngaybatdau = ngaybatdau;
+        this.ngayketthuc = ngayketthuc;
     }
 
-    // Constructor đầy đủ tham số
-    public BaoHanh_DTO(String maBaoHanh, String maXe, String ngayBatDau, String ngayKetThuc) {
-        this.maBaoHanh = maBaoHanh;
-        this.maXe = maXe;
-        this.ngayBatDau = ngayBatDau;
-        this.ngayKetThuc = ngayKetThuc;
+    public String getWarrantyId() {
+        return ID_baohanh;
     }
 
-    // Getters and Setters
-    public String getMaBaoHanh() {
-        return maBaoHanh;
+    public void setWarrantyId(String warrantyId) {
+        this.ID_baohanh = ID_baohanh;
     }
 
-    public void setMaBaoHanh(String maBaoHanh) {
-        this.maBaoHanh = maBaoHanh;
+    public String getCustomerId() {
+        return ID_khachhang;
     }
 
-    public String getMaXe() {
-        return maXe;
+    public void setCustomerId(String customerId) {
+        this.ID_khachhang = ID_khachhang;
     }
 
-    public void setMaXe(String maXe) {
-        this.maXe = maXe;
+    public String getProductId() {
+        return ID_sanpham;
     }
 
-    public String getNgayBatDau() {
-        return ngayBatDau;
+    public void setProductId(String productId) {
+        this.ID_sanpham = ID_sanpham;
     }
 
-    public void setNgayBatDau(String ngayBatDau) {
-        this.ngayBatDau = ngayBatDau;
+    public String getStartDate() {
+        return ngaybatdau;
     }
 
-    public String getNgayKetThuc() {
-        return ngayKetThuc;
+    public void setStartDate(String startDate) {
+        this.ngaybatdau = ngaybatdau;
     }
 
-    public void setNgayKetThuc(String ngayKetThuc) {
-        this.ngayKetThuc = ngayKetThuc;
+    public String getEndDate() {
+        return ngayketthuc;
     }
 
-    
+    public void setEndDate(String endDate) {
+        this.ngayketthuc = ngayketthuc;
+    }
 }
