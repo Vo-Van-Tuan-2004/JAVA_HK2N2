@@ -50,7 +50,7 @@ public class Main_layout extends javax.swing.JFrame {
         Color buttonForeground = Color.WHITE;
  
         javax.swing.JButton[] buttons = {
-            banHang_btn, qlnv_btn, qlsp_btn, qlkh_btn, qltk_btn, nhapHang_btn, dangXuat_btn
+            banHang_btn, qlnv_btn, qlsp_btn, qlkh_btn, qltk_btn, nhapHang_btn, dangXuat_btn, thongKe_btn
         };
  
         for (javax.swing.JButton btn : buttons) {
@@ -222,6 +222,13 @@ public class Main_layout extends javax.swing.JFrame {
 
     private void nhapHang_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nhapHang_btnActionPerformed
         // TODO add your handling code here:
+    }//GEN-LAST:event_nhapHang_btnActionPerformed
+
+    private void thongKe_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nhapHang_btnActionPerformed
+        // TODO add your handling code here:
+        GUIDangNhap dangNhap = new GUIDangNhap();
+        dangNhap.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_nhapHang_btnActionPerformed
 
     /**
