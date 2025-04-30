@@ -1,1 +1,44 @@
 
+package DAO;
+
+import DTO.BaoCao_DTO;
+import java.sql.*;
+import java.util.ArrayList;
+
+public class DatabaseConnection {
+    private Connection conn; 
+    private static final String DATABASE = "CuaHangBanXeMay";
+    private static final String URL = "jdbc:sqlserver://localhost:1433;databaseName=" + DATABASE + ";encrypt=true;trustServerCertificate=true";
+    private static final String USER = "sa";
+    private static final String PASSWORD = "123456789";
+   
+
+    private Connection getConnection() {
+        try {
+            if (conn == null || conn.isClosed()) {
+                conn = DriverManager.getConnection(URL, USER, PASSWORD);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return conn;
+    }
+    public List<BaoCao_DTO> getDoanhThuTheoThang() {
+        List<BaoCao_DTO> list = new ArrayList<>();
+        String sql = "SELECT MONTH(ngay_ban) AS thang, SUM(tong_tien) AS doanh_thu " +
+                     "FROM hoa_don GROUP BY MONTH(ngay_ban)";
+
+        try (PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                int thang = rs.getInt("thang");
+                double doanhThu = rs.getDouble("doanh_thu");
+                list.add(new BaoCao_DTO(thang, doanhThu));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+}
+
