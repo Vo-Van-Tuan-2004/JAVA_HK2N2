@@ -1,15 +1,31 @@
 package DAO;
 import DTO.NhaCungCap_DTO;
+import DTO.SanPham_DTO;
+
 import java.sql.*;
 import java.util.ArrayList;
 
 public class NhaCungCap_DAO {
     //lay connect
-    private Connection con;
-    public NhaCungCap_DAO(Connection connection){
-        this.con=connection;
-    }
+    private Connection conn;
+    private PreparedStatement pstmt;
+    private ResultSet rs;
 
+    public NhaCungCap_DAO(Connection connection){
+        this.conn=connection;
+    }
+    public NhaCungCap_DAO(){
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            conn = DriverManager.getConnection(
+                    "jdbc:sqlserver://localhost:1433;databaseName=CuaHangBanXeMay;encrypt=true;trustServerCertificate=true",
+                    "sa",
+                    "12345"
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     //them doi tuong
     public boolean themNhaCungCap(NhaCungCap_DTO ncc){
         return true;
@@ -24,7 +40,24 @@ public class NhaCungCap_DAO {
     }
     //lay danh sach doi tuong
     public ArrayList<NhaCungCap_DTO> layDanhSachNhaCungCap(){
-        return null;
+        ArrayList<NhaCungCap_DTO> danhSach = new ArrayList<>();
+        String sql = "SELECT * FROM NhaCungCap";
+        try {
+            this.pstmt = this.conn.prepareStatement(sql);
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                danhSach.add(new NhaCungCap_DTO(
+                    rs.getString("ma_nha_cung_cap"),
+                    rs.getString("ten"),
+                    rs.getString("dia_chi"),
+                    rs.getString("email"),
+                    rs.getString("quoc_gia")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return danhSach;
     }
     //Tim kiem doi tuong
     public NhaCungCap_DTO timNhaCungCap(String keyword){
@@ -34,7 +67,7 @@ public class NhaCungCap_DAO {
                       "  OR dia_chi LIKE ? " + 
                       "  OR email LIKE ? " +
                       "  OR quoc_gia LIKE ?" ;
-        try (PreparedStatement ps = con.prepareStatement(sql)){
+        try (PreparedStatement ps = conn.prepareStatement(sql)){
             for (int i=1; i<=5; i++){
                 ps.setString(i, keyword);
             }

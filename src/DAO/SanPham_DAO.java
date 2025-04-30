@@ -9,23 +9,24 @@ public class SanPham_DAO {
     private Connection conn;
     private PreparedStatement pstmt;
     private ResultSet rs;
-
+    private String ma;  
     public SanPham_DAO() {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             conn = DriverManager.getConnection(
-                    "jdbc:sqlserver://localhost:1433;databaseName=dataBanXe;encrypt=true;trustServerCertificate=true",
+                    "jdbc:sqlserver://localhost:1433;databaseName=CuaHangBanXeMay;encrypt=true;trustServerCertificate=true",
                     "sa",
-                    "123456789"
+                    "12345"
             );
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+   
     // Thêm sản phẩm mới
     public boolean ThemSanPham(SanPham_DTO sp) {
-        String sql = "INSERT INTO sanpham(masanpham, maloai, tensanpham, soluongton, giaban, gianhap, trangthai, trongluong, baohanh, thuonghieu) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO sanpham(ma_san_pham, ma_loai, ten_san_pham, so_luong_ton, gia_ban, gian_hap, trang_thai, trong_luong, bao_hanh, thuong_hieu) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, sp.getMa_san_pham());
@@ -55,6 +56,7 @@ public class SanPham_DAO {
             pstmt.setInt(4, sp.getGia_ban());
             pstmt.setInt(5, sp.getGia_nhap());
             pstmt.setString(6, sp.getTrang_thai());
+            pstmt.setString(7,sp.getMau_sac());
             pstmt.setString(8, sp.getBao_hanh());
             pstmt.setString(9, sp.getThuong_hieu());
             pstmt.setString(10, sp.getMa_san_pham());
@@ -94,6 +96,7 @@ public class SanPham_DAO {
                     rs.getInt("giaban"),
                     rs.getInt("gianhap"),
                     rs.getString("trangthai"),
+                    rs.getString("mausax"),
                     rs.getString("trongluong"),
                     rs.getString("baohanh"),
                     rs.getString("thuonghieu")
@@ -106,24 +109,25 @@ public class SanPham_DAO {
     }
 
     // Lấy danh sách tất cả sản phẩm
-    public List<SanPham_DTO> LayDanhSachSanPham() {
-        List<SanPham_DTO> danhSach = new ArrayList<>();
-        String sql = "SELECT * FROM sanpham";
+    public ArrayList<SanPham_DTO> LayDanhSachSanPham() {
+        ArrayList<SanPham_DTO> danhSach = new ArrayList<>();
+        String sql = "SELECT * FROM SanPham";
         try {
-            pstmt = conn.prepareStatement(sql);
+            this.pstmt = this.conn.prepareStatement(sql);
             rs = pstmt.executeQuery();
             while (rs.next()) {
                 danhSach.add(new SanPham_DTO(
-                    rs.getString("masanpham"),
-                    rs.getString("maloai"),
-                    rs.getString("tensanpham"),
-                    rs.getInt("soluongton"),
-                    rs.getInt("giaban"),
-                    rs.getInt("gianhap"),
-                    rs.getString("trangthai"),
-                    rs.getString("trongluong"),
-                    rs.getString("baohanh"),
-                    rs.getString("thuonghieu")
+                    rs.getString("ma_san_pham"),
+                    rs.getString("ma_loai"),
+                    rs.getString("ten_san_pham"),
+                    rs.getInt("so_luong_ton"),
+                    rs.getInt("gia_ban"),
+                    rs.getInt("gia_nhap"),
+                    rs.getString("trang_thai"),
+                    rs.getString("mau_sac"),
+                    rs.getString("trong_luong"),
+                    rs.getString("bao_hanh"),
+                    rs.getString("thuong_hieu")
                 ));
             }
         } catch (SQLException e) {
@@ -133,25 +137,32 @@ public class SanPham_DAO {
     }
 
     // Tìm kiếm sản phẩm theo tên
-    public List<SanPham_DTO> TimKiemSanPham(String tenSanPham) {
-        List<SanPham_DTO> danhSach = new ArrayList<>();
-        String sql = "SELECT * FROM sanpham WHERE tensanpham LIKE ?";
+    public ArrayList<SanPham_DTO> TimKiemSanPham(String keyword) {
+        ArrayList<SanPham_DTO> danhSach = new ArrayList<>();
+        String sql ;
         try {
-            pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, "%" + tenSanPham + "%");
+            if (keyword==null || keyword.trim().isEmpty()){
+                sql = "Select * From SanPham";
+                pstmt = conn.prepareStatement(sql);
+            } else{
+                sql = "SELECT * From SanPham WHERE LOWER(ten_san_pham) LIKE ?";
+                pstmt = conn.prepareStatement(sql);
+                pstmt.setString(1, "%" + keyword.toLowerCase() + "%");
+            }
             rs = pstmt.executeQuery();
             while (rs.next()) {
                 danhSach.add(new SanPham_DTO(
-                    rs.getString("masanpham"),
-                    rs.getString("maloai"),
-                    rs.getString("tensanpham"),
-                    rs.getInt("soluongton"),
-                    rs.getInt("giaban"),
-                    rs.getInt("gianhap"),
-                    rs.getString("trangthai"),
-                    rs.getString("trongluong"),
-                    rs.getString("baohanh"),
-                    rs.getString("thuonghieu")
+                    rs.getString("ma_san_pham"),
+                    rs.getString("ma_loai"),
+                    rs.getString("ten_san_pham"),
+                    rs.getInt("so_luong_ton"),
+                    rs.getInt("gia_ban"),
+                    rs.getInt("gia_nhap"),
+                    rs.getString("trang_thai"),
+                    rs.getString("mau_sac"),
+                    rs.getString("trong_luong"),
+                    rs.getString("bao_hanh"),
+                    rs.getString("thuong_hieu")
                 ));
             }
         } catch (SQLException e) {
@@ -177,6 +188,7 @@ public class SanPham_DAO {
                     rs.getInt("giaban"),
                     rs.getInt("gianhap"),
                     rs.getString("trangthai"),
+                    rs.getString("mausax"),
                     rs.getString("trongluong"),
                     rs.getString("baohanh"),
                     rs.getString("thuonghieu")
