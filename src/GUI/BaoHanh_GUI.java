@@ -1,7 +1,11 @@
 package GUI;
 import javax.swing.*;
+
+
 import java.awt.*;
-public class  GUIBAOHANH {
+
+
+public class  BaoHanh_GUI {
     public static void main(String[] args) {
         JFrame frame = new JFrame("BẢO HÀNH");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

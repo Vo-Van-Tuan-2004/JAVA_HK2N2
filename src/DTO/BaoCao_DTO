@@ -1,0 +1,20 @@
+package DTO;
+
+public class BaoCao_DTO {
+    private int thang;
+    private double tongDoanhThu;
+
+    public BaoCao_DTO(int thang, double tongDoanhThu) {
+        this.thang = thang;
+        this.tongDoanhThu = tongDoanhThu;
+    }
+
+    public int getThang() {
+        return thang;
+    }
+
+    public double getTongDoanhThu() {
+        return tongDoanhThu;
+    }
+}
+

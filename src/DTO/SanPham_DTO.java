@@ -11,6 +11,7 @@ public class SanPham_DTO {
     private String xuat_xu;
     private String bao_hanh;
     private String thuong_hieu;
+    private String mau_sac;
 
     // Constructor mặc định
     public SanPham_DTO() {
@@ -18,7 +19,7 @@ public class SanPham_DTO {
 
     // Constructor đầy đủ tham số
     public SanPham_DTO(String ma_san_pham, String ma_loai, String ten_san_pham, int so_luong_ton,
-                       int gia_ban, int gia_nhap, String trang_thai, String xuat_xu,
+                       int gia_ban, int gia_nhap, String trang_thai, String mau_sac, String xuat_xu,
                        String bao_hanh, String thuong_hieu) {
         this.ma_san_pham = ma_san_pham;
         this.ma_loai = ma_loai;
@@ -27,6 +28,7 @@ public class SanPham_DTO {
         this.gia_ban = gia_ban;
         this.gia_nhap = gia_nhap;
         this.trang_thai = trang_thai;
+        this.mau_sac = mau_sac;
         this.xuat_xu = xuat_xu;
         this.bao_hanh = bao_hanh;
         this.thuong_hieu = thuong_hieu;
@@ -86,6 +88,12 @@ public class SanPham_DTO {
 
     public void setTrang_thai(String trang_thai) {
         this.trang_thai = trang_thai;
+    }
+    public String getMau_sac(){
+        return this.mau_sac;
+    }
+    public void setMau_sac(String mau_sac){
+        this.mau_sac = mau_sac;
     }
 
     public String getXuat_xu() {

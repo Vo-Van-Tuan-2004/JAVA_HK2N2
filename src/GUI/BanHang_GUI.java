@@ -1,17 +1,26 @@
 package GUI;
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+
+import DAO.SanPham_DAO;
+import DTO.HoaDonBan_DTO;
+import DTO.SanPham_DTO;
+
 import java.util.ArrayList;
 
 import GUI.Component.CustomPanel;
 
 public class BanHang_GUI {
     private JFrame frame ;
-    public BanHang_GUI(){
+    public BanHang_GUI(ActionListener listen ){
        
         frame = new JFrame();
         frame.setSize(1000, 700);
@@ -33,16 +42,25 @@ public class BanHang_GUI {
         leftPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         // Panel danh sach san pham
         JPanel dsspPanel = new JPanel(new BorderLayout());
-        dsspPanel.setPreferredSize(new Dimension(600,400));
+        dsspPanel.setPreferredSize(new Dimension(600,300));
         JLabel dsspTitle = new JLabel("Danh sach san pham:");
         dsspTitle.setFont(new Font("Arial", Font.BOLD, 20));
         dsspPanel.add( dsspTitle, BorderLayout.NORTH);
-        DefaultTableModel dssp_dtm = new DefaultTableModel();
-        dssp_dtm.addColumn("Ma san pham");
-        dssp_dtm.addColumn("Ten san pham");
-        dssp_dtm.addColumn("Dơn gia");
-        dssp_dtm.addColumn("So luong");
-        dssp_dtm.addColumn("Mau sac");
+        DefaultTableModel dssp_dtm = new DefaultTableModel(null, new String[]{"Mã sản phảm", "Tên sản phẩm", "Giá bán", "Số lượng", "Màu sắc"}){
+                @Override
+                public boolean isCellEditable(int row, int column){
+                        return false;
+                }
+        };
+//
+        SanPham_DAO dao = new SanPham_DAO();
+        ArrayList<SanPham_DTO> dssplist = dao.LayDanhSachSanPham();
+        for (SanPham_DTO tmp : dssplist){
+                dssp_dtm.addRow(new Object[]{
+                        tmp.getMa_san_pham(), tmp.getTen_san_pham(), tmp.getGia_ban(), tmp.getSo_luong_ton(), tmp.getMau_sac() 
+                });
+        }
+//
         JTable dsspTable = new JTable();
         dsspTable.setModel(dssp_dtm);
         JTableHeader dssp_header = dsspTable.getTableHeader();
@@ -55,17 +73,30 @@ public class BanHang_GUI {
         JLabel giohangTitle = new JLabel("Gio hang:");
         giohangTitle.setFont(new Font("Arial", Font.BOLD, 20));
         giohangPanel.add(giohangTitle, BorderLayout.NORTH);
-        DefaultTableModel giohang_dtm = new DefaultTableModel();
-        giohang_dtm.addColumn("Ma san pham");
-        giohang_dtm.addColumn("Ten san pham");
-        giohang_dtm.addColumn("So luong");
-        giohang_dtm.addColumn("Don gia");
+        DefaultTableModel giohang_dtm = new DefaultTableModel(null,new String[]{"Mã sản phẩm", "Tên sản phẩm", "Số luộng", "Đơn giá", "Thanh tien"}){
+                @Override
+                public boolean isCellEditable(int row, int column){
+                        return false;
+                };
+        };
         JTable giohangTable = new JTable();
         giohangTable.setModel(giohang_dtm);
         JTableHeader giohang_header = dsspTable.getTableHeader();
         giohang_header.setFont(new Font("SansSerif", Font.BOLD, 12));
         JScrollPane giohangScrollPane = new JScrollPane(giohangTable);
         giohangPanel.add(giohangScrollPane, BorderLayout.CENTER);
+
+        //Panel tong tien
+        JPanel tongtienPanel = new JPanel(new BorderLayout());
+        tongtienPanel.setPreferredSize(new Dimension(600,70));
+        JLabel tongtienLabel = new JLabel("Tong tien");
+        tongtienLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        JLabel tongtienField = new JLabel();
+        tongtienField.setText("0");
+        tongtienField.setPreferredSize(new Dimension(400,70));
+        tongtienField.setFont(new Font("Arrial", Font.BOLD, 20));
+        tongtienPanel.add(tongtienLabel, BorderLayout.CENTER);
+        tongtienPanel.add(tongtienField, BorderLayout.EAST); 
 
 //right panel        
         JPanel rightPanel = new JPanel(new BorderLayout());
@@ -75,45 +106,52 @@ public class BanHang_GUI {
         JPanel chitietPanel = new JPanel();
         chitietPanel.setLayout(new BoxLayout(chitietPanel, BoxLayout.Y_AXIS));
         chitietPanel.setPreferredSize(new Dimension(250, 400));
-        JLabel chitietTitle = new JLabel("Chi tiet san pham:");
+        JLabel chitietTitle = new JLabel("Chi tiết sản phẩm:");
         chitietTitle.setFont(new Font("Arial", Font.BOLD, 20));
         chitietPanel.add(chitietTitle);
         
         JTextField maspField = new JTextField();
         maspField.setEditable(false);
-        maspField.setBorder(BorderFactory.createTitledBorder("Ma san pham:") );
+        maspField.setBorder(BorderFactory.createTitledBorder("Mã sản phẩm:") );
         maspField.setPreferredSize(new Dimension(230,30));
         maspField.setFont(new Font("Arial",Font.PLAIN, 15));
         
         JTextField tenspField = new JTextField();
         tenspField.setEditable(false);
-        tenspField.setBorder(BorderFactory.createTitledBorder("Ten san pham:") );
+        tenspField.setBorder(BorderFactory.createTitledBorder("Tên sản phẩm:") );
         tenspField.setPreferredSize(new Dimension(230,30));
         tenspField.setFont(new Font("Arial",Font.PLAIN, 15));
        
-        JTextField loaispField = new JTextField();
-        loaispField.setEditable(false);
-        loaispField.setBorder(BorderFactory.createTitledBorder("Phan loai:") );
-        loaispField.setPreferredSize(new Dimension(230,30));
-        loaispField.setFont(new Font("Arial",Font.PLAIN, 15));
+        JTextField mausacField = new JTextField();
+        mausacField.setEditable(false);
+        mausacField.setBorder(BorderFactory.createTitledBorder("Màu sắc:") );
+        mausacField.setPreferredSize(new Dimension(230,30));
+        mausacField.setFont(new Font("Arial",Font.PLAIN, 15));
         
         JTextField soluongField = new JTextField();
         soluongField.setEditable(true);
-        soluongField.setBorder(BorderFactory.createTitledBorder("So luong:") );
+        soluongField.setBorder(BorderFactory.createTitledBorder("Số lượng bán:") );
         soluongField.setPreferredSize(new Dimension(230,30));
         soluongField.setFont(new Font("Arial",Font.PLAIN, 15));
         
         JTextField dongiaField = new JTextField();
         dongiaField.setEditable(false);
-        dongiaField.setBorder(BorderFactory.createTitledBorder("Don gia:") );
+        dongiaField.setBorder(BorderFactory.createTitledBorder("Giá:") );
         dongiaField.setPreferredSize(new Dimension(230,30));
         dongiaField.setFont(new Font("Arial",Font.PLAIN, 15));
 
+        JTextField thanhtienField = new JTextField();
+        thanhtienField.setEditable(false);
+        thanhtienField.setBorder(BorderFactory.createTitledBorder("Thành tiền:") );
+        thanhtienField.setPreferredSize(new Dimension(230,30));
+        thanhtienField.setFont(new Font("Arial",Font.PLAIN, 15));
+
         chitietPanel.add(maspField);
         chitietPanel.add(tenspField);
-        chitietPanel.add(loaispField);
+        chitietPanel.add(mausacField);
         chitietPanel.add(soluongField);
         chitietPanel.add(dongiaField);
+        chitietPanel.add(thanhtienField);
         //chuc nang panel
         JPanel chucnangPanel = new JPanel();
         chucnangPanel.setLayout(new BoxLayout(chucnangPanel, BoxLayout.Y_AXIS));
@@ -152,6 +190,7 @@ public class BanHang_GUI {
 //add item
         leftPanel.add(dsspPanel, BorderLayout.NORTH);
         leftPanel.add(giohangPanel, BorderLayout.CENTER);
+        leftPanel.add(tongtienPanel, BorderLayout.SOUTH);
         rightPanel.add(chitietPanel, BorderLayout.NORTH);
         rightPanel.add(chucnangPanel, BorderLayout.CENTER);
         mainPanel.add(leftPanel, BorderLayout.WEST);
@@ -160,8 +199,80 @@ public class BanHang_GUI {
         frame.add(mainPanel, BorderLayout.CENTER);
         frame.setVisible(true);
 
+// cai dat hanh dong cho viec chon mot dong trong danh sacah san pham
+        dsspTable.addMouseListener(new java.awt.event.MouseAdapter() {
+                @Override
+                public void mousePressed(java.awt.event.MouseEvent evt) {
+                         int selectedRow = dsspTable.getSelectedRow();
+                        if (selectedRow >= 0) {
+                                maspField.setText(dssp_dtm.getValueAt(selectedRow, 0).toString());
+                                tenspField.setText(dssp_dtm.getValueAt(selectedRow, 1).toString());
+                                soluongField.setText("1");
+                                dongiaField.setText(dssp_dtm.getValueAt(selectedRow, 2).toString());
+                                mausacField.setText(dssp_dtm.getValueAt(selectedRow, 4).toString());
+                                thanhtienField.setText(dongiaField.getText());
+                        }
+                }
+        });
+//update thanh tien theo du lieu lien tuc
+        soluongField.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
+                public void changedUpdate(javax.swing.event.DocumentEvent e) {
+                    updateThanhTien();
+                }
+                public void removeUpdate(javax.swing.event.DocumentEvent e) {
+                    updateThanhTien();
+                }
+                public void insertUpdate(javax.swing.event.DocumentEvent e) {
+                    updateThanhTien();
+                }
+            
+                public void updateThanhTien() {
+                    String dongiaText = dongiaField.getText();
+                    String soluongText = soluongField.getText();
+                    String thanhtienText = thanhtienField.getText();
+
+                    if (!dongiaText.isEmpty() && !soluongText.isEmpty()) {
+                        try {
+                                int dongia = Integer.parseInt(dongiaText);
+                                int soluong = Integer.parseInt(soluongText);
+                                thanhtienText = Integer.toString(dongia * soluong);
+                                thanhtienField.setText(thanhtienText);
+                        } catch (NumberFormatException ex) {
+                                thanhtienField.setText(""); // Nếu nhập sai, reset thành tiền
+                        }
+                    } else {
+                        thanhtienField.setText(""); // Nếu một trong hai rỗng thì reset
+                    }
+                }
+            });
+//Cài đặth hành đọng cho nút thêm     
+        themButton.addActionListener(e -> {
+                String maSP = maspField.getText();
+                String tenSP = tenspField.getText();
+                String soLuong = soluongField.getText();
+                int donGia = Integer.parseInt(dongiaField.getText());
+                if (maSP.isEmpty() || tenSP.isEmpty() || soLuong.isEmpty() || soLuong.equals("0") || donGia==0 ){
+                        JOptionPane.showMessageDialog(frame, "Thông tin sản phẩm không đầy đủ");
+                        return ;
+                }
+
+                giohang_dtm.addRow(new Object[]{maSP, tenSP, soLuong, donGia, thanhtienField.getText()});
+                int tongtien = Integer.parseInt(tongtienField.getText());
+                tongtien += Integer.parseInt(thanhtienField.getText());
+                tongtienField.setText(Integer.toString(tongtien));
+
+        });
+//cài đặt hành động cho nút xóa
+        xoaButton.addActionListener(e -> {
+                giohang_dtm.setRowCount(0);
+        });
+//cài đặt hành động cho nút xuất hóa đơn
+        xuatButton.addActionListener(e -> {
+                HoaDonBan_DTO hoadon = new HoaDonBan_DTO(); 
+                new XuatHoaDonBan_GUI(hoadon);
+        });
     }
     public static void main(String[] args) {
-       new BanHang_GUI();
+       new BanHang_GUI(null);
     }
 }
