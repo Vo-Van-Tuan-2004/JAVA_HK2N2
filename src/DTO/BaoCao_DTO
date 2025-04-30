@@ -1,1 +1,18 @@
+public class DTOBAOCAO {
+    private int thang;
+    private double tongDoanhThu;
+
+    public DTOBAOCAO(int thang, double tongDoanhThu) {
+        this.thang = thang;
+        this.tongDoanhThu = tongDoanhThu;
+    }
+
+    public int getThang() {
+        return thang;
+    }
+
+    public double getTongDoanhThu() {
+        return tongDoanhThu;
+    }
+}
 
