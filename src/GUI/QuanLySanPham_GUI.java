@@ -370,12 +370,12 @@ JLabel logoLabel = new JLabel(logo);
         // Add menu button events
         btnBanHang.addActionListener(e -> {
             // Handle bán hàng action
-            try {
-                new BanHang_GUI();
-                dispose();
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, "Chức năng Bán hàng đang phát triển!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-            }
+            // try {
+            //     new BanHang_GUI();
+            //     dispose();
+            // } catch (Exception ex) {
+            //     JOptionPane.showMessageDialog(this, "Chức năng Bán hàng đang phát triển!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            // }
         });
         
         btnQuanLyNhanVien.addActionListener(e -> {

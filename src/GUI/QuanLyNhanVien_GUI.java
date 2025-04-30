@@ -351,12 +351,12 @@ JLabel logoLabel = new JLabel(logo);
 
     private void addEvents() {
         btnBanHang.addActionListener(e -> {
-            try {
-                new BanHang_GUI();
-                dispose();
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, "Chức năng Bán hàng đang phát triển!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-            }
+            // try {
+            //     new BanHang_GUI();
+            //     dispose();
+            // } catch (Exception ex) {
+            //     JOptionPane.showMessageDialog(this, "Chức năng Bán hàng đang phát triển!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            // }
         });
         
         btnQuanLyNhanVien.addActionListener(e -> {

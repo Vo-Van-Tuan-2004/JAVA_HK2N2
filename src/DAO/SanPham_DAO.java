@@ -9,18 +9,7 @@ public class SanPham_DAO {
     private Connection conn;
     private PreparedStatement pstmt;
     private ResultSet rs;
-<<<<<<< HEAD
-    private String ma;  
-    public SanPham_DAO() {
-        try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            conn = DriverManager.getConnection(
-                    "jdbc:sqlserver://localhost:1433;databaseName=CuaHangBanXeMay;encrypt=true;trustServerCertificate=true",
-                    "sa",
-                    "12345"
-            );
-        } catch (Exception e) {
-=======
+
     private static final String DATABASE = "CuaHangBanXeMay";
     private static final String URL = "jdbc:sqlserver://localhost:1433;databaseName=" + DATABASE + ";encrypt=true;trustServerCertificate=true";
     private static final String USER = "sa";
@@ -38,7 +27,7 @@ public class SanPham_DAO {
             System.out.println("Kết nối database thất bại!");
             System.out.println("URL: " + URL);
             System.out.println("Error: " + e.getMessage());
->>>>>>> 1da56f1a893c6862c5370af735140adf2a9ee957
+
             e.printStackTrace();
         }
     }
@@ -46,11 +35,10 @@ public class SanPham_DAO {
    
     // Thêm sản phẩm mới
     public boolean ThemSanPham(SanPham_DTO sp) {
-<<<<<<< HEAD
-        String sql = "INSERT INTO sanpham(ma_san_pham, ma_loai, ten_san_pham, so_luong_ton, gia_ban, gian_hap, trang_thai, trong_luong, bao_hanh, thuong_hieu) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-=======
+
+
         String sql = "INSERT INTO SanPham(ma_spham, ten_spham, xuat_xu, so_luong_ton, gia_ban, trang_thai, ma_loai) VALUES(?,?,?,?,?,?,?)";
->>>>>>> 1da56f1a893c6862c5370af735140adf2a9ee957
+
         try {
             if (conn == null || conn.isClosed()) {
                 conn = DriverManager.getConnection(URL, USER, PASSWORD);
@@ -77,20 +65,8 @@ public class SanPham_DAO {
     public boolean CapNhatSanPham(SanPham_DTO sp) {
         String sql = "UPDATE SanPham SET ten_spham=?, xuat_xu=?, so_luong_ton=?, gia_ban=?, trang_thai=?, ma_loai=? WHERE ma_spham=?";
         try {
-<<<<<<< HEAD
-            pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, sp.getMa_loai());
-            pstmt.setString(2, sp.getTen_san_pham());
-            pstmt.setInt(3, sp.getSo_luong_ton());
-            pstmt.setInt(4, sp.getGia_ban());
-            pstmt.setInt(5, sp.getGia_nhap());
-            pstmt.setString(6, sp.getTrang_thai());
-            pstmt.setString(7,sp.getMau_sac());
-            pstmt.setString(8, sp.getBao_hanh());
-            pstmt.setString(9, sp.getThuong_hieu());
-            pstmt.setString(10, sp.getMa_san_pham());
-            return pstmt.executeUpdate() > 0;
-=======
+
+
             if (conn == null || conn.isClosed()) {
                 conn = DriverManager.getConnection(URL, USER, PASSWORD);
             }
@@ -105,7 +81,7 @@ public class SanPham_DAO {
             ps.setString(7, sp.getMa_san_pham());
             
             return ps.executeUpdate() > 0;
->>>>>>> 1da56f1a893c6862c5370af735140adf2a9ee957
+
         } catch (SQLException e) {
             System.out.println("Lỗi khi cập nhật sản phẩm!");
             e.printStackTrace();
@@ -145,21 +121,8 @@ public class SanPham_DAO {
             ResultSet rs = ps.executeQuery();
             
             if (rs.next()) {
-<<<<<<< HEAD
-                return new SanPham_DTO(
-                    rs.getString("masanpham"),
-                    rs.getString("maloai"),
-                    rs.getString("tensanpham"),
-                    rs.getInt("soluongton"),
-                    rs.getInt("giaban"),
-                    rs.getInt("gianhap"),
-                    rs.getString("trangthai"),
-                    rs.getString("mausax"),
-                    rs.getString("trongluong"),
-                    rs.getString("baohanh"),
-                    rs.getString("thuonghieu")
-                );
-=======
+
+
                 SanPham_DTO sp = new SanPham_DTO();
                 sp.setMa_san_pham(rs.getString("ma_spham"));
                 sp.setTen_san_pham(rs.getString("ten_spham"));
@@ -169,7 +132,7 @@ public class SanPham_DAO {
                 sp.setTrang_thai(rs.getString("trang_thai"));
                 sp.setMa_loai(rs.getString("ma_loai"));
                 return sp;
->>>>>>> 1da56f1a893c6862c5370af735140adf2a9ee957
+
             }
         } catch (SQLException e) {
             System.out.println("Lỗi khi lấy thông tin sản phẩm!");
@@ -179,28 +142,8 @@ public class SanPham_DAO {
     }
 
     // Lấy danh sách tất cả sản phẩm
-<<<<<<< HEAD
-    public ArrayList<SanPham_DTO> LayDanhSachSanPham() {
-        ArrayList<SanPham_DTO> danhSach = new ArrayList<>();
-        String sql = "SELECT * FROM SanPham";
-        try {
-            this.pstmt = this.conn.prepareStatement(sql);
-            rs = pstmt.executeQuery();
-            while (rs.next()) {
-                danhSach.add(new SanPham_DTO(
-                    rs.getString("ma_san_pham"),
-                    rs.getString("ma_loai"),
-                    rs.getString("ten_san_pham"),
-                    rs.getInt("so_luong_ton"),
-                    rs.getInt("gia_ban"),
-                    rs.getInt("gia_nhap"),
-                    rs.getString("trang_thai"),
-                    rs.getString("mau_sac"),
-                    rs.getString("trong_luong"),
-                    rs.getString("bao_hanh"),
-                    rs.getString("thuong_hieu")
-                ));
-=======
+
+
     public List<SanPham_DTO> LayDanhSachSanPham() {
         List<SanPham_DTO> danhSach = new ArrayList<>();
         String sql = "SELECT sp.*, lsp.ten_loai FROM SanPham sp JOIN LoaiSanPham lsp ON sp.ma_loai = lsp.ma_loai";
@@ -209,7 +152,7 @@ public class SanPham_DAO {
             if (conn == null || conn.isClosed()) {
                 // Thử kết nối lại nếu connection bị đóng
                 conn = DriverManager.getConnection(URL, USER, PASSWORD);
->>>>>>> 1da56f1a893c6862c5370af735140adf2a9ee957
+
             }
             
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -238,21 +181,8 @@ public class SanPham_DAO {
         return danhSach;
     }
 
-<<<<<<< HEAD
-    // Tìm kiếm sản phẩm theo tên
-    public ArrayList<SanPham_DTO> TimKiemSanPham(String keyword) {
-        ArrayList<SanPham_DTO> danhSach = new ArrayList<>();
-        String sql ;
-        try {
-            if (keyword==null || keyword.trim().isEmpty()){
-                sql = "Select * From SanPham";
-                pstmt = conn.prepareStatement(sql);
-            } else{
-                sql = "SELECT * From SanPham WHERE LOWER(ten_san_pham) LIKE ?";
-                pstmt = conn.prepareStatement(sql);
-                pstmt.setString(1, "%" + keyword.toLowerCase() + "%");
-            }
-=======
+
+
     // Tìm kiếm sản phẩm theo tên hoặc mã
     public List<SanPham_DTO> TimKiemSanPham(String keyword) {
         List<SanPham_DTO> danhSach = new ArrayList<>();
@@ -264,25 +194,11 @@ public class SanPham_DAO {
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, "%" + keyword + "%");
             pstmt.setString(2, "%" + keyword + "%");
->>>>>>> 1da56f1a893c6862c5370af735140adf2a9ee957
+
             rs = pstmt.executeQuery();
             
             while (rs.next()) {
-<<<<<<< HEAD
-                danhSach.add(new SanPham_DTO(
-                    rs.getString("ma_san_pham"),
-                    rs.getString("ma_loai"),
-                    rs.getString("ten_san_pham"),
-                    rs.getInt("so_luong_ton"),
-                    rs.getInt("gia_ban"),
-                    rs.getInt("gia_nhap"),
-                    rs.getString("trang_thai"),
-                    rs.getString("mau_sac"),
-                    rs.getString("trong_luong"),
-                    rs.getString("bao_hanh"),
-                    rs.getString("thuong_hieu")
-                ));
-=======
+
                 SanPham_DTO sp = new SanPham_DTO();
                 sp.setMa_san_pham(rs.getString("ma_spham"));
                 sp.setTen_san_pham(rs.getString("ten_spham"));
@@ -293,7 +209,7 @@ public class SanPham_DAO {
                 sp.setMa_loai(rs.getString("ma_loai"));
                 danhSach.add(sp);
                 System.out.println("Tìm thấy sản phẩm: " + sp.getMa_san_pham() + " - " + sp.getTen_san_pham());
->>>>>>> 1da56f1a893c6862c5370af735140adf2a9ee957
+
             }
         } catch (SQLException e) {
             System.out.println("Lỗi khi tìm kiếm sản phẩm: " + e.getMessage());
@@ -314,21 +230,7 @@ public class SanPham_DAO {
             pstmt.setString(1, maLoai);
             rs = pstmt.executeQuery();
             while (rs.next()) {
-<<<<<<< HEAD
-                danhSach.add(new SanPham_DTO(
-                    rs.getString("masanpham"),
-                    rs.getString("maloai"),
-                    rs.getString("tensanpham"),
-                    rs.getInt("soluongton"),
-                    rs.getInt("giaban"),
-                    rs.getInt("gianhap"),
-                    rs.getString("trangthai"),
-                    rs.getString("mausax"),
-                    rs.getString("trongluong"),
-                    rs.getString("baohanh"),
-                    rs.getString("thuonghieu")
-                ));
-=======
+
                 SanPham_DTO sp = new SanPham_DTO();
                 sp.setMa_san_pham(rs.getString("ma_spham"));
                 sp.setTen_san_pham(rs.getString("ten_spham"));
@@ -338,7 +240,7 @@ public class SanPham_DAO {
                 sp.setTrang_thai(rs.getString("trang_thai"));
                 sp.setMa_loai(rs.getString("ma_loai"));
                 danhSach.add(sp);
->>>>>>> 1da56f1a893c6862c5370af735140adf2a9ee957
+
             }
         } catch (SQLException e) {
             e.printStackTrace();
