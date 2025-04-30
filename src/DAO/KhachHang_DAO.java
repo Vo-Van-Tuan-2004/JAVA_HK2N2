@@ -9,179 +9,166 @@ public class KhachHang_DAO {
     private Connection conn;
     private PreparedStatement pstmt;
     private ResultSet rs;
+    private static final String DATABASE = "CuaHangBanXeMay";
+    private static final String URL = "jdbc:sqlserver://localhost:1433;databaseName=" + DATABASE + ";encrypt=true;trustServerCertificate=true";
+    private static final String USER = "sa";
+    private static final String PASSWORD = "123456789";
 
     public KhachHang_DAO() {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            conn = DriverManager.getConnection(
-                    "jdbc:sqlserver://localhost:1433;databaseName=dataBanXe;encrypt=true;trustServerCertificate=true",
-                    "sa",
-                    "123456789"
-            );
-        } catch (Exception e) {
+            conn = DriverManager.getConnection(URL, USER, PASSWORD);
+            System.out.println("Kết nối database thành công!");
+        } catch (ClassNotFoundException e) {
+            System.out.println("Không tìm thấy driver SQL Server JDBC!");
+            e.printStackTrace();
+        } catch (SQLException e) {
+            System.out.println("Kết nối database thất bại!");
+            System.out.println("URL: " + URL);
+            System.out.println("Error: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
-    // Thêm khách hàng mới
+    public List<KhachHang_DTO> LayDanhSachKhachHang() {
+        List<KhachHang_DTO> danhSach = new ArrayList<>();
+        String sql = "SELECT * FROM KhachHang";
+        
+        try (Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            
+            while (rs.next()) {
+                KhachHang_DTO kh = new KhachHang_DTO();
+                kh.setMa_khach_hang(rs.getString("ma_khach_hang"));
+                kh.setTen_khach_hang(rs.getString("ten"));
+                kh.setSo_dien_thoai(rs.getString("sdt"));
+                kh.setEmail(rs.getString("email"));
+                kh.setDia_chi(rs.getString("dia_chi"));
+                danhSach.add(kh);
+            }
+        } catch (SQLException e) {
+            System.out.println("Lỗi khi lấy danh sách khách hàng: " + e.getMessage());
+            e.printStackTrace();
+        }
+        
+        return danhSach;
+    }
+
+    public KhachHang_DTO LayKhachHangTheoMa(String maKH) {
+        String sql = "SELECT * FROM KhachHang WHERE ma_khach_hang = ?";
+        
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, maKH);
+            
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    KhachHang_DTO kh = new KhachHang_DTO();
+                    kh.setMa_khach_hang(rs.getString("ma_khach_hang"));
+                    kh.setTen_khach_hang(rs.getString("ten"));
+                    kh.setSo_dien_thoai(rs.getString("sdt"));
+                    kh.setEmail(rs.getString("email"));
+                    kh.setDia_chi(rs.getString("dia_chi"));
+                    return kh;
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Lỗi khi lấy thông tin khách hàng theo mã: " + e.getMessage());
+            e.printStackTrace();
+        }
+        
+        return null;
+    }
+
     public boolean ThemKhachHang(KhachHang_DTO kh) {
-        String sql = "INSERT INTO khachhang(makhachhang, ten, sdt, email, diachi) VALUES (?, ?, ?, ?, ?)";
-        try {
-            pstmt = conn.prepareStatement(sql);
+        String sql = "INSERT INTO KhachHang (ma_khach_hang, ten, sdt, email, dia_chi) VALUES (?, ?, ?, ?, ?)";
+        
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, kh.getMa_khach_hang());
-            pstmt.setString(2, kh.getTen());
-            pstmt.setString(3, kh.getSdt());
+            pstmt.setString(2, kh.getTen_khach_hang());
+            pstmt.setString(3, kh.getSo_dien_thoai());
             pstmt.setString(4, kh.getEmail());
             pstmt.setString(5, kh.getDia_chi());
-            return pstmt.executeUpdate() > 0;
+            
+            int rowsAffected = pstmt.executeUpdate();
+            return rowsAffected > 0;
         } catch (SQLException e) {
+            System.out.println("Lỗi khi thêm khách hàng: " + e.getMessage());
             e.printStackTrace();
             return false;
         }
     }
 
-    // Cập nhật thông tin khách hàng
+    public boolean XoaKhachHang(String maKH) {
+        String sql = "DELETE FROM KhachHang WHERE ma_khach_hang = ?";
+        
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, maKH);
+            
+            int rowsAffected = pstmt.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            System.out.println("Lỗi khi xóa khách hàng: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public boolean CapNhatKhachHang(KhachHang_DTO kh) {
-        String sql = "UPDATE khachhang SET ten=?, sdt=?, email=?, diachi=? WHERE makhachhang=?";
-        try {
-            pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, kh.getTen());
-            pstmt.setString(2, kh.getSdt());
+        String sql = "UPDATE KhachHang SET ten = ?, sdt = ?, email = ?, dia_chi = ? WHERE ma_khach_hang = ?";
+        
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, kh.getTen_khach_hang());
+            pstmt.setString(2, kh.getSo_dien_thoai());
             pstmt.setString(3, kh.getEmail());
             pstmt.setString(4, kh.getDia_chi());
             pstmt.setString(5, kh.getMa_khach_hang());
-            return pstmt.executeUpdate() > 0;
+            
+            int rowsAffected = pstmt.executeUpdate();
+            return rowsAffected > 0;
         } catch (SQLException e) {
+            System.out.println("Lỗi khi cập nhật khách hàng: " + e.getMessage());
             e.printStackTrace();
             return false;
         }
     }
 
-    // Xóa khách hàng
-    public boolean XoaKhachHang(String maKH) {
-        String sql = "DELETE FROM khachhang WHERE makhachhang=?";
-        try {
-            pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, maKH);
-            return pstmt.executeUpdate() > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    // Lấy thông tin khách hàng theo mã
-    public KhachHang_DTO LayKhachHangTheoMa(String maKH) {
-        String sql = "SELECT * FROM khachhang WHERE makhachhang=?";
-        try {
-            pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, maKH);
-            rs = pstmt.executeQuery();
-            if (rs.next()) {
-                return new KhachHang_DTO(
-                    rs.getString("makhachhang"),
-                    rs.getString("ten"),
-                    rs.getString("sdt"),
-                    rs.getString("email"),
-                    rs.getString("diachi")
-                );
+    public List<KhachHang_DTO> TimKiemKhachHang(String tuKhoa) {
+        List<KhachHang_DTO> ketQua = new ArrayList<>();
+        String sql = "SELECT * FROM KhachHang WHERE ma_khach_hang LIKE ? OR ten LIKE ? OR sdt LIKE ?";
+        
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            String searchPattern = "%" + tuKhoa + "%";
+            pstmt.setString(1, searchPattern);
+            pstmt.setString(2, searchPattern);
+            pstmt.setString(3, searchPattern);
+            
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    KhachHang_DTO kh = new KhachHang_DTO();
+                    kh.setMa_khach_hang(rs.getString("ma_khach_hang"));
+                    kh.setTen_khach_hang(rs.getString("ten"));
+                    kh.setSo_dien_thoai(rs.getString("sdt"));
+                    kh.setEmail(rs.getString("email"));
+                    kh.setDia_chi(rs.getString("dia_chi"));
+                    ketQua.add(kh);
+                }
             }
         } catch (SQLException e) {
+            System.out.println("Lỗi khi tìm kiếm khách hàng: " + e.getMessage());
             e.printStackTrace();
         }
-        return null;
+        
+        return ketQua;
     }
 
-    // Lấy danh sách tất cả khách hàng
-    public List<KhachHang_DTO> LayDanhSachKhachHang() {
-        List<KhachHang_DTO> danhSach = new ArrayList<>();
-        String sql = "SELECT * FROM khachhang";
+    public void closeConnection() {
         try {
-            pstmt = conn.prepareStatement(sql);
-            rs = pstmt.executeQuery();
-            while (rs.next()) {
-                danhSach.add(new KhachHang_DTO(
-                    rs.getString("makhachhang"),
-                    rs.getString("ten"),
-                    rs.getString("sdt"),
-                    rs.getString("email"),
-                    rs.getString("diachi")
-                ));
+            if (conn != null && !conn.isClosed()) {
+                conn.close();
+                System.out.println("Đã đóng kết nối database!");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return danhSach;
-    }
-
-    // Tìm kiếm khách hàng theo tên
-    public List<KhachHang_DTO> TimKiemKhachHang(String ten) {
-        List<KhachHang_DTO> danhSach = new ArrayList<>();
-        String sql = "SELECT * FROM khachhang WHERE ten LIKE ?";
-        try {
-            pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, "%" + ten + "%");
-            rs = pstmt.executeQuery();
-            while (rs.next()) {
-                danhSach.add(new KhachHang_DTO(
-                    rs.getString("makhachhang"),
-                    rs.getString("ten"),
-                    rs.getString("sdt"),
-                    rs.getString("email"),
-                    rs.getString("diachi")
-                ));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return danhSach;
-    }
-
-    // Tìm kiếm khách hàng theo số điện thoại
-    public KhachHang_DTO TimKiemKhachHangTheoSDT(String sdt) {
-        String sql = "SELECT * FROM khachhang WHERE sdt=?";
-        try {
-            pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, sdt);
-            rs = pstmt.executeQuery();
-            if (rs.next()) {
-                return new KhachHang_DTO(
-                    rs.getString("makhachhang"),
-                    rs.getString("ten"),
-                    rs.getString("sdt"),
-                    rs.getString("email"),
-                    rs.getString("diachi")
-                );
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    // Kiểm tra khách hàng đã tồn tại chưa
-    public boolean KiemTraKhachHangTonTai(String maKH) {
-        String sql = "SELECT COUNT(*) FROM khachhang WHERE makhachhang=?";
-        try {
-            pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, maKH);
-            rs = pstmt.executeQuery();
-            if (rs.next()) {
-                return rs.getInt(1) > 0;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    // Đóng kết nối
-    public void DongKetNoi() {
-        try {
-            if (rs != null) rs.close();
-            if (pstmt != null) pstmt.close();
-            if (conn != null) conn.close();
-        } catch (SQLException e) {
+            System.out.println("Lỗi khi đóng kết nối: " + e.getMessage());
             e.printStackTrace();
         }
     }

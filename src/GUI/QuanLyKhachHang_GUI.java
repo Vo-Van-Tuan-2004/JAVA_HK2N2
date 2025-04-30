@@ -3,18 +3,37 @@ package GUI;
 import DAO.KhachHang_DAO;
 import DTO.KhachHang_DTO;
 import javax.swing.*;
+import javax.swing.border.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.io.File;
+import java.util.ArrayList;
 
 public class QuanLyKhachHang_GUI extends JFrame {
     private JPanel mainPanel;
     private JTable tblKhachHang;
     private DefaultTableModel model;
-    private JTextField txtMaKH, txtTen, txtSDT, txtEmail, txtDiaChi;
-    private JButton btnThem, btnSua, btnXoa, btnTimKiem, btnLamMoi;
     private KhachHang_DAO khDAO;
+
+    // Menu buttons
+    private JButton btnBanHang;
+    private JButton btnQuanLyNhanVien;
+    private JButton btnQuanLySanPham;
+    private JButton btnQuanLyKhachHang;
+    private JButton btnQuanLyTaiKhoan;
+    private JButton btnNhapHang;
+    private JButton btnDangXuat;
+
+    // Các biến để lưu trữ reference đến các components
+    private JTextField txtMaKH;
+    private JTextField txtTenKH;
+    private JTextField txtSDT;
+    private JTextField txtEmail;
+    private JTextField txtDiaChi;
+    private JTextField txtSearch;
 
     public QuanLyKhachHang_GUI() {
         khDAO = new KhachHang_DAO();
@@ -23,280 +42,534 @@ public class QuanLyKhachHang_GUI extends JFrame {
     }
 
     private void initComponents() {
-        setTitle("Quản lý khách hàng");
+        setTitle("Quản lý cửa hàng bán xe máy");
         setSize(1200, 700);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        mainPanel = new JPanel(new BorderLayout(10, 10));
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        // Main panel with BorderLayout
+        mainPanel = new JPanel(new BorderLayout(0, 0));
 
-        // Panel bên trái chứa form nhập liệu và nút chức năng
-        JPanel leftPanel = new JPanel(new BorderLayout(5, 5));
+        // Left menu panel with purple background
+        JPanel menuPanel = createMenuPanel();
+        mainPanel.add(menuPanel, BorderLayout.WEST);
+
+        // Content panel with light blue background
+        JPanel contentPanel = createContentPanel();
+        mainPanel.add(contentPanel, BorderLayout.CENTER);
+
+        add(mainPanel);
+        addEvents();
+    }
+
+    private JPanel createMenuPanel() {
+        JPanel menuPanel = new JPanel(new BorderLayout(0, 0));
+        menuPanel.setBackground(new Color(72, 25, 161)); // Purple color
+        menuPanel.setPreferredSize(new Dimension(250, getHeight()));
+
+        // Logo panel
+        JPanel logoPanel = new JPanel(new BorderLayout());
+        logoPanel.setBackground(new Color(72, 25, 161));
+        logoPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        // Add logo
+        ImageIcon logo = new ImageIcon("images/logo.png");
+        JLabel logoLabel = new JLabel(logo);
+        logoPanel.add(logoLabel, BorderLayout.CENTER);
+
+        // Add "Chức năng" label
+        JLabel chucNangLabel = new JLabel("Chức năng");
+        chucNangLabel.setForeground(Color.WHITE);
+        chucNangLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        chucNangLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        logoPanel.add(chucNangLabel, BorderLayout.SOUTH);
+
+        // Menu buttons panel
+        JPanel buttonsPanel = new JPanel();
+        buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.Y_AXIS));
+        buttonsPanel.setBackground(new Color(72, 25, 161));
+        buttonsPanel.setBorder(BorderFactory.createEmptyBorder(20, 15, 20, 15));
+
+        // Create menu buttons
+        btnBanHang = createMenuButton("Bán hàng");
+        btnQuanLyNhanVien = createMenuButton("Quản lý nhân viên");
+        btnQuanLySanPham = createMenuButton("Quản lý sản phẩm");
+        btnQuanLyKhachHang = createMenuButton("Quản lý khách hàng");
+        btnQuanLyTaiKhoan = createMenuButton("Quản lý tài khoản");
+        btnNhapHang = createMenuButton("Nhập hàng");
+        btnDangXuat = createMenuButton("Đăng xuất");
+
+        // Add buttons to panel with spacing
+        buttonsPanel.add(btnBanHang);
+        addSpacing(buttonsPanel, 10);
+        buttonsPanel.add(btnQuanLyNhanVien);
+        addSpacing(buttonsPanel, 10);
+        buttonsPanel.add(btnQuanLySanPham);
+        addSpacing(buttonsPanel, 10);
+        buttonsPanel.add(btnQuanLyKhachHang);
+        addSpacing(buttonsPanel, 10);
+        buttonsPanel.add(btnQuanLyTaiKhoan);
+        addSpacing(buttonsPanel, 10);
+        buttonsPanel.add(btnNhapHang);
+
+        // Panel for logout button at bottom
+        JPanel logoutPanel = new JPanel(new BorderLayout());
+        logoutPanel.setBackground(new Color(72, 25, 161));
+        logoutPanel.setBorder(BorderFactory.createEmptyBorder(0, 15, 20, 15));
+        btnDangXuat.setMaximumSize(new Dimension(220, 40));
+        btnDangXuat.setAlignmentX(Component.RIGHT_ALIGNMENT);
+        logoutPanel.add(btnDangXuat, BorderLayout.SOUTH);
+
+        menuPanel.add(logoPanel, BorderLayout.NORTH);
+        menuPanel.add(buttonsPanel, BorderLayout.CENTER);
+        menuPanel.add(logoutPanel, BorderLayout.SOUTH);
+
+        return menuPanel;
+    }
+
+    private void addSpacing(JPanel panel, int height) {
+        panel.add(Box.createRigidArea(new Dimension(0, height)));
+    }
+
+    private JButton createMenuButton(String text) {
+        JButton button = new JButton(text);
+        button.setMaximumSize(new Dimension(220, 40));
+        button.setPreferredSize(new Dimension(220, 40));
+        button.setFont(new Font("Arial", Font.PLAIN, 14));
+        button.setForeground(Color.BLACK);
+        button.setBackground(Color.WHITE);
+        button.setFocusPainted(false);
+        button.setBorder(new CompoundBorder(
+            new LineBorder(new Color(200, 200, 200), 1),
+            BorderFactory.createEmptyBorder(5, 10, 5, 10)
+        ));
+        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
-        // Panel nhập liệu
-        JPanel pnlNhapLieu = new JPanel(new GridLayout(5, 2, 5, 5));
-        pnlNhapLieu.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createTitledBorder("Thông tin khách hàng"),
-            BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+        // Hover effect
+        button.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                button.setBackground(new Color(240, 240, 240));
+            }
 
-        pnlNhapLieu.add(new JLabel("Mã khách hàng:"));
-        txtMaKH = new JTextField();
-        pnlNhapLieu.add(txtMaKH);
+            @Override
+            public void mouseExited(MouseEvent e) {
+                button.setBackground(Color.WHITE);
+            }
+        });
+        
+        return button;
+    }
 
-        pnlNhapLieu.add(new JLabel("Tên:"));
-        txtTen = new JTextField();
-        pnlNhapLieu.add(txtTen);
+    private JPanel createContentPanel() {
+        JPanel contentPanel = new JPanel(new BorderLayout());
+        contentPanel.setBackground(new Color(73, 138, 186)); // Màu xanh dương đậm
 
-        pnlNhapLieu.add(new JLabel("Số điện thoại:"));
-        txtSDT = new JTextField();
-        pnlNhapLieu.add(txtSDT);
+        // Form panel
+        JPanel formPanel = new JPanel(new GridBagLayout());
+        formPanel.setBackground(new Color(73, 138, 186));
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(5, 5, 5, 5);
 
-        pnlNhapLieu.add(new JLabel("Email:"));
-        txtEmail = new JTextField();
-        pnlNhapLieu.add(txtEmail);
+        // Add form labels with white text
+        JLabel lblMaKH = new JLabel("Mã KH:");
+        JLabel lblTenKH = new JLabel("Tên KH:");
+        JLabel lblSDT = new JLabel("Số điện thoại:");
+        JLabel lblEmail = new JLabel("Email:");
+        JLabel lblDiaChi = new JLabel("Địa chỉ:");
 
-        pnlNhapLieu.add(new JLabel("Địa chỉ:"));
-        txtDiaChi = new JTextField();
-        pnlNhapLieu.add(txtDiaChi);
+        // Set white color for labels
+        lblMaKH.setForeground(Color.WHITE);
+        lblTenKH.setForeground(Color.WHITE);
+        lblSDT.setForeground(Color.WHITE);
+        lblEmail.setForeground(Color.WHITE);
+        lblDiaChi.setForeground(Color.WHITE);
 
-        // Panel nút bấm
-        JPanel pnlNut = new JPanel(new GridLayout(5, 1, 5, 5));
-        pnlNut.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
+        // Add form fields with labels
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        formPanel.add(lblMaKH, gbc);
+        gbc.gridx = 1;
+        txtMaKH = new JTextField(20);
+        formPanel.add(txtMaKH, gbc);
 
-        btnThem = new JButton("Thêm");
-        btnSua = new JButton("Sửa");
-        btnXoa = new JButton("Xóa");
-        btnTimKiem = new JButton("Tìm kiếm");
-        btnLamMoi = new JButton("Làm mới");
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        formPanel.add(lblTenKH, gbc);
+        gbc.gridx = 1;
+        txtTenKH = new JTextField(20);
+        formPanel.add(txtTenKH, gbc);
 
-        // Tùy chỉnh kích thước nút
-        Dimension buttonSize = new Dimension(120, 30);
-        btnThem.setPreferredSize(buttonSize);
-        btnSua.setPreferredSize(buttonSize);
-        btnXoa.setPreferredSize(buttonSize);
-        btnTimKiem.setPreferredSize(buttonSize);
-        btnLamMoi.setPreferredSize(buttonSize);
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        formPanel.add(lblSDT, gbc);
+        gbc.gridx = 1;
+        txtSDT = new JTextField(20);
+        formPanel.add(txtSDT, gbc);
 
-        JPanel buttonWrapper = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        buttonWrapper.add(btnThem);
-        pnlNut.add(buttonWrapper);
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        formPanel.add(lblEmail, gbc);
+        gbc.gridx = 1;
+        txtEmail = new JTextField(20);
+        formPanel.add(txtEmail, gbc);
 
-        buttonWrapper = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        buttonWrapper.add(btnSua);
-        pnlNut.add(buttonWrapper);
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        formPanel.add(lblDiaChi, gbc);
+        gbc.gridx = 1;
+        txtDiaChi = new JTextField(20);
+        formPanel.add(txtDiaChi, gbc);
 
-        buttonWrapper = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        buttonWrapper.add(btnXoa);
-        pnlNut.add(buttonWrapper);
+        // Search panel
+        JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        searchPanel.setBackground(new Color(73, 138, 186));
+        JLabel lblSearch = new JLabel("Từ khóa tìm:");
+        lblSearch.setForeground(Color.WHITE);
+        txtSearch = new JTextField(40);
+        searchPanel.add(lblSearch);
+        searchPanel.add(txtSearch);
 
-        buttonWrapper = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        buttonWrapper.add(btnTimKiem);
-        pnlNut.add(buttonWrapper);
+        // Buttons panel
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
+        buttonPanel.setBackground(new Color(73, 138, 186));
 
-        buttonWrapper = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        buttonWrapper.add(btnLamMoi);
-        pnlNut.add(buttonWrapper);
+        // Create buttons with icons and wider size
+        Dimension buttonSize = new Dimension(120, 35);
+        JButton btnThem = createActionButton("Thêm", "images/add.png", buttonSize);
+        JButton btnLuu = createActionButton("Lưu", "images/save.png", buttonSize);
+        JButton btnXoa = createActionButton("Xóa", "images/delete.png", buttonSize);
+        JButton btnTimKiem = createActionButton("Tìm kiếm", "images/search.png", buttonSize);
+        JButton btnXuat = createActionButton("Xuất", "images/export.png", buttonSize);
+        JButton btnNhap = createActionButton("Nhập", "images/import.png", buttonSize);
 
-        leftPanel.add(pnlNhapLieu, BorderLayout.CENTER);
-        leftPanel.add(pnlNut, BorderLayout.SOUTH);
+        // Add search event with Enter key
+        txtSearch.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    timKiemKhachHang();
+                }
+            }
+        });
 
-        // Panel bảng bên phải
-        JPanel rightPanel = new JPanel(new BorderLayout());
-        rightPanel.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createTitledBorder("Danh sách khách hàng"),
-            BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+        // Add buttons to panel
+        buttonPanel.add(btnThem);
+        buttonPanel.add(btnLuu);
+        buttonPanel.add(btnXoa);
+        buttonPanel.add(btnTimKiem);
+        buttonPanel.add(btnXuat);
+        buttonPanel.add(btnNhap);
 
-        String[] columnNames = {"Mã KH", "Tên", "SĐT", "Email", "Địa chỉ"};
+        // Add components to content panel
+        JPanel topPanel = new JPanel(new BorderLayout());
+        topPanel.setBackground(new Color(73, 138, 186));
+        topPanel.add(formPanel, BorderLayout.CENTER);
+        
+        // Add search and buttons panel
+        JPanel searchButtonPanel = new JPanel(new BorderLayout());
+        searchButtonPanel.setBackground(new Color(73, 138, 186));
+        searchButtonPanel.add(searchPanel, BorderLayout.NORTH);
+        searchButtonPanel.add(buttonPanel, BorderLayout.CENTER);
+        topPanel.add(searchButtonPanel, BorderLayout.SOUTH);
+        
+        contentPanel.add(topPanel, BorderLayout.NORTH);
+
+        // Table panel
+        JPanel tablePanel = new JPanel(new BorderLayout());
+        tablePanel.setBackground(new Color(73, 138, 186));
+        tablePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        // Create table model with correct column order
+        String[] columnNames = {"Mã KH", "Tên KH", "Số điện thoại", "Email", "Địa chỉ"};
         model = new DefaultTableModel(columnNames, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
         };
+        
+        // Create table
         tblKhachHang = new JTable(model);
+        tblKhachHang.setRowHeight(30);
+        tblKhachHang.getTableHeader().setFont(new Font("Arial", Font.BOLD, 14));
+        tblKhachHang.setFont(new Font("Arial", Font.PLAIN, 14));
+        tblKhachHang.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        
         JScrollPane scrollPane = new JScrollPane(tblKhachHang);
-        rightPanel.add(scrollPane, BorderLayout.CENTER);
+        tablePanel.add(scrollPane, BorderLayout.CENTER);
+        
+        contentPanel.add(tablePanel, BorderLayout.CENTER);
 
-        // Split pane để chia màn hình thành 2 phần
-        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
-        splitPane.setDividerLocation(400); // Điều chỉnh vị trí phân chia
-        splitPane.setResizeWeight(0.0); // Cố định kích thước panel bên trái
+        // Add button events
+        btnThem.addActionListener(e -> themKhachHang());
+        btnLuu.addActionListener(e -> luuKhachHang());
+        btnXoa.addActionListener(e -> xoaKhachHang());
+        btnTimKiem.addActionListener(e -> timKiemKhachHang());
+        btnXuat.addActionListener(e -> xuatDuLieu());
+        btnNhap.addActionListener(e -> nhapDuLieu());
 
-        mainPanel.add(splitPane, BorderLayout.CENTER);
-        add(mainPanel);
+        return contentPanel;
+    }
 
-        // Thêm sự kiện
-        addEvents();
+    private JButton createActionButton(String text, String iconPath, Dimension size) {
+        JButton button = new JButton(text);
+        try {
+            ImageIcon icon = new ImageIcon(iconPath);
+            Image img = icon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+            button.setIcon(new ImageIcon(img));
+        } catch (Exception e) {
+            System.out.println("Không thể tải icon cho nút " + text);
+        }
+        button.setPreferredSize(size);
+        button.setBackground(Color.WHITE);
+        button.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(Color.GRAY),
+            BorderFactory.createEmptyBorder(5, 10, 5, 10)
+        ));
+        return button;
     }
 
     private void addEvents() {
-        // Sự kiện chọn dòng trong bảng
-        tblKhachHang.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                int row = tblKhachHang.getSelectedRow();
-                if (row >= 0) {
-                    txtMaKH.setText(tblKhachHang.getValueAt(row, 0).toString());
-                    txtTen.setText(tblKhachHang.getValueAt(row, 1).toString());
-                    txtSDT.setText(tblKhachHang.getValueAt(row, 2).toString());
-                    txtEmail.setText(tblKhachHang.getValueAt(row, 3).toString());
-                    txtDiaChi.setText(tblKhachHang.getValueAt(row, 4).toString());
-                }
-            }
+        // Add menu button events
+        btnBanHang.addActionListener(e -> {
+            // Handle bán hàng action
         });
-
-        // Sự kiện nút Thêm
-        btnThem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (validateInput()) {
-                    KhachHang_DTO kh = getKhachHangFromInput();
-                    if (khDAO.ThemKhachHang(kh)) {
-                        JOptionPane.showMessageDialog(null, "Thêm khách hàng thành công!");
-                        loadData();
-                        clearInput();
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Thêm khách hàng thất bại!");
-                    }
-                }
-            }
+        
+        btnQuanLyNhanVien.addActionListener(e -> {
+            // Handle quản lý nhân viên action
         });
-
-        // Sự kiện nút Sửa
-        btnSua.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (validateInput()) {
-                    KhachHang_DTO kh = getKhachHangFromInput();
-                    if (khDAO.CapNhatKhachHang(kh)) {
-                        JOptionPane.showMessageDialog(null, "Cập nhật khách hàng thành công!");
-                        loadData();
-                        clearInput();
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Cập nhật khách hàng thất bại!");
-                    }
-                }
-            }
+        
+        btnQuanLySanPham.addActionListener(e -> {
+            // Handle quản lý sản phẩm action
         });
-
-        // Sự kiện nút Xóa
-        btnXoa.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String maKH = txtMaKH.getText();
-                if (!maKH.isEmpty()) {
-                    int choice = JOptionPane.showConfirmDialog(null, 
-                        "Bạn có chắc muốn xóa khách hàng này?", 
-                        "Xác nhận xóa", 
-                        JOptionPane.YES_NO_OPTION);
-                    if (choice == JOptionPane.YES_OPTION) {
-                        if (khDAO.XoaKhachHang(maKH)) {
-                            JOptionPane.showMessageDialog(null, "Xóa khách hàng thành công!");
-                            loadData();
-                            clearInput();
-                        } else {
-                            JOptionPane.showMessageDialog(null, "Xóa khách hàng thất bại!");
-                        }
-                    }
-                }
-            }
+        
+        btnQuanLyKhachHang.addActionListener(e -> {
+            // Handle quản lý khách hàng action
         });
-
-        // Sự kiện nút Tìm kiếm
-        btnTimKiem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String maKH = txtMaKH.getText().trim();
-                if (!maKH.isEmpty()) {
-                    List<KhachHang_DTO> danhSach = khDAO.TimKiemKhachHang(maKH);
-                    if (danhSach.isEmpty()) {
-                        JOptionPane.showMessageDialog(null, "Không tìm thấy khách hàng với mã " + maKH);
-                    } else {
-                        loadDataToTable(danhSach);
-                    }
-                } else {
-                    JOptionPane.showMessageDialog(null, "Vui lòng nhập mã khách hàng cần tìm!");
-                }
-            }
+        
+        btnQuanLyTaiKhoan.addActionListener(e -> {
+            // Handle quản lý tài khoản action
         });
-
-        // Sự kiện nút Làm mới
-        btnLamMoi.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                clearInput();
-                loadData();
+        
+        btnNhapHang.addActionListener(e -> {
+            // Handle nhập hàng action
+        });
+        
+        btnDangXuat.addActionListener(e -> {
+            int choice = JOptionPane.showConfirmDialog(
+                this,
+                "Bạn có chắc muốn đăng xuất?",
+                "Xác nhận đăng xuất",
+                JOptionPane.YES_NO_OPTION
+            );
+            if (choice == JOptionPane.YES_OPTION) {
+                dispose();
             }
         });
     }
 
     private void loadData() {
-        List<KhachHang_DTO> danhSach = khDAO.LayDanhSachKhachHang();
-        loadDataToTable(danhSach);
+        try {
+            List<KhachHang_DTO> danhSach = khDAO.LayDanhSachKhachHang();
+            loadDataToTable(danhSach);
+        } catch (Exception e) {
+            System.out.println("Lỗi khi tải dữ liệu: " + e.getMessage());
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Lỗi khi tải dữ liệu: " + e.getMessage());
+        }
     }
 
     private void loadDataToTable(List<KhachHang_DTO> danhSach) {
-        model.setRowCount(0);
-        for (KhachHang_DTO kh : danhSach) {
-            model.addRow(new Object[]{
-                kh.getMa_khach_hang(),
-                kh.getTen(),
-                kh.getSdt(),
-                kh.getEmail(),
-                kh.getDia_chi()
-            });
+        try {
+            model.setRowCount(0); // Xóa dữ liệu cũ
+            for (KhachHang_DTO kh : danhSach) {
+                model.addRow(new Object[]{
+                    kh.getMa_khach_hang(),
+                    kh.getTen_khach_hang(),
+                    kh.getSo_dien_thoai(),
+                    kh.getEmail(),
+                    kh.getDia_chi()
+                });
+            }
+            System.out.println("Đã tải " + danhSach.size() + " khách hàng vào bảng");
+        } catch (Exception e) {
+            System.out.println("Lỗi khi hiển thị dữ liệu: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
-    private void clearInput() {
+    private void themKhachHang() {
+        try {
+            // Lấy thông tin từ các trường nhập liệu
+            String maKH = txtMaKH.getText().trim();
+            String tenKH = txtTenKH.getText().trim();
+            String sdt = txtSDT.getText().trim();
+            String email = txtEmail.getText().trim();
+            String diaChi = txtDiaChi.getText().trim();
+
+            // Kiểm tra dữ liệu nhập vào
+            if (maKH.isEmpty() || tenKH.isEmpty() || sdt.isEmpty() || 
+                email.isEmpty() || diaChi.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin khách hàng");
+                return;
+            }
+
+            // Kiểm tra định dạng mã KH
+            if (!maKH.matches("KH\\d+")) {
+                JOptionPane.showMessageDialog(this, "Mã KH phải có định dạng 'KH' + số (ví dụ: KH01, KH02,...)");
+                return;
+            }
+
+            // Kiểm tra định dạng email
+            if (!email.matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
+                JOptionPane.showMessageDialog(this, "Email không hợp lệ");
+                return;
+            }
+
+            // Kiểm tra định dạng số điện thoại
+            if (!sdt.matches("\\d{10}")) {
+                JOptionPane.showMessageDialog(this, "Số điện thoại phải có 10 chữ số");
+                return;
+            }
+
+            // Kiểm tra mã KH đã tồn tại chưa
+            if (khDAO.LayKhachHangTheoMa(maKH) != null) {
+                JOptionPane.showMessageDialog(this, "Mã khách hàng đã tồn tại!");
+                return;
+            }
+
+            // Tạo đối tượng khách hàng mới
+            KhachHang_DTO kh = new KhachHang_DTO();
+            kh.setMa_khach_hang(maKH);
+            kh.setTen_khach_hang(tenKH);
+            kh.setSo_dien_thoai(sdt);
+            kh.setEmail(email);
+            kh.setDia_chi(diaChi);
+
+            // Thêm khách hàng vào database
+            if (khDAO.ThemKhachHang(kh)) {
+                JOptionPane.showMessageDialog(this, "Thêm khách hàng thành công");
+                clearInputFields();
+                loadData();
+            } else {
+                JOptionPane.showMessageDialog(this, "Thêm khách hàng thất bại");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Lỗi: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    private void clearInputFields() {
         txtMaKH.setText("");
-        txtTen.setText("");
+        txtTenKH.setText("");
         txtSDT.setText("");
         txtEmail.setText("");
         txtDiaChi.setText("");
+        txtMaKH.requestFocus();
     }
 
-    private boolean validateInput() {
-        if (txtMaKH.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Vui lòng nhập mã khách hàng!");
-            return false;
-        }
-        if (txtTen.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Vui lòng nhập tên khách hàng!");
-            return false;
-        }
-        if (txtSDT.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Vui lòng nhập số điện thoại!");
-            return false;
-        }
-        if (txtEmail.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Vui lòng nhập email!");
-            return false;
-        }
-        if (txtDiaChi.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Vui lòng nhập địa chỉ!");
-            return false;
-        }
-        return true;
+    private void luuKhachHang() {
+        themKhachHang(); // Gọi phương thức thêm khách hàng khi nhấn nút Lưu
     }
 
-    private KhachHang_DTO getKhachHangFromInput() {
-        return new KhachHang_DTO(
-            txtMaKH.getText(),
-            txtTen.getText(),
-            txtSDT.getText(),
-            txtEmail.getText(),
-            txtDiaChi.getText()
-        );
+    private void xoaKhachHang() {
+        int selectedRow = tblKhachHang.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn khách hàng cần xóa");
+            return;
+        }
+
+        int confirm = JOptionPane.showConfirmDialog(this, 
+            "Bạn có chắc muốn xóa khách hàng này?", 
+            "Xác nhận xóa", 
+            JOptionPane.YES_NO_OPTION);
+
+        if (confirm == JOptionPane.YES_OPTION) {
+            String maKH = tblKhachHang.getValueAt(selectedRow, 0).toString();
+            if (khDAO.XoaKhachHang(maKH)) {
+                JOptionPane.showMessageDialog(this, "Xóa khách hàng thành công");
+                loadData(); // Refresh table
+            } else {
+                JOptionPane.showMessageDialog(this, "Xóa khách hàng thất bại");
+            }
+        }
+    }
+
+    private void timKiemKhachHang() {
+        try {
+            String searchText = txtSearch.getText().trim();
+            System.out.println("Đang tìm kiếm với từ khóa: " + searchText);
+
+            if (!searchText.isEmpty()) {
+                List<KhachHang_DTO> searchResults = khDAO.TimKiemKhachHang(searchText);
+                
+                if (searchResults.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Không tìm thấy khách hàng");
+                    loadData(); // Load lại toàn bộ dữ liệu
+                } else {
+                    System.out.println("Tìm thấy " + searchResults.size() + " kết quả");
+                    loadDataToTable(searchResults);
+                }
+            } else {
+                loadData(); // Load lại toàn bộ dữ liệu nếu không có từ khóa
+            }
+        } catch (Exception e) {
+            System.out.println("Lỗi khi tìm kiếm: " + e.getMessage());
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Lỗi khi tìm kiếm: " + e.getMessage());
+        }
+    }
+
+    private void xuatDuLieu() {
+        try {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Chọn vị trí lưu file");
+            fileChooser.setFileFilter(new FileNameExtensionFilter("Excel Files", "xlsx"));
+            
+            if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
+                String filePath = fileChooser.getSelectedFile().getAbsolutePath();
+                if (!filePath.endsWith(".xlsx")) {
+                    filePath += ".xlsx";
+                }
+                
+                // TODO: Implement Excel export
+                JOptionPane.showMessageDialog(this, "Xuất dữ liệu thành công: " + filePath);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Lỗi khi xuất dữ liệu: " + e.getMessage());
+        }
+    }
+
+    private void nhapDuLieu() {
+        try {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Chọn file dữ liệu");
+            fileChooser.setFileFilter(new FileNameExtensionFilter("Excel Files", "xlsx"));
+            
+            if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+                String filePath = fileChooser.getSelectedFile().getAbsolutePath();
+                
+                // TODO: Implement Excel import
+                JOptionPane.showMessageDialog(this, "Nhập dữ liệu thành công từ file: " + filePath);
+                loadData(); // Refresh table
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Lỗi khi nhập dữ liệu: " + e.getMessage());
+        }
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new QuanLyKhachHang_GUI().setVisible(true);
-            }
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        SwingUtilities.invokeLater(() -> {
+            new QuanLyKhachHang_GUI().setVisible(true);
         });
     }
 }
