@@ -25,6 +25,7 @@ public class QuanLyKhachHang_GUI extends JFrame {
     private JButton btnQuanLyKhachHang;
     private JButton btnQuanLyTaiKhoan;
     private JButton btnNhapHang;
+    private JButton btnThongKe;
     private JButton btnDangXuat;
 
     // Các biến để lưu trữ reference đến các components
@@ -73,10 +74,13 @@ public class QuanLyKhachHang_GUI extends JFrame {
         logoPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         // Add logo
-        ImageIcon logo = new ImageIcon("images/logo.png");
+        ImageIcon logo = new ImageIcon(
+            new ImageIcon(getClass().getResource("/IMG/logo.png"))
+        .getImage()
+        .getScaledInstance(230, 100, Image.SCALE_SMOOTH)
+        );
         JLabel logoLabel = new JLabel(logo);
         logoPanel.add(logoLabel, BorderLayout.CENTER);
-
         // Add "Chức năng" label
         JLabel chucNangLabel = new JLabel("Chức năng");
         chucNangLabel.setForeground(Color.WHITE);
@@ -97,6 +101,7 @@ public class QuanLyKhachHang_GUI extends JFrame {
         btnQuanLyKhachHang = createMenuButton("Quản lý khách hàng");
         btnQuanLyTaiKhoan = createMenuButton("Quản lý tài khoản");
         btnNhapHang = createMenuButton("Nhập hàng");
+        btnThongKe = createMenuButton("Thống kê");
         btnDangXuat = createMenuButton("Đăng xuất");
 
         // Add buttons to panel with spacing
@@ -111,7 +116,9 @@ public class QuanLyKhachHang_GUI extends JFrame {
         buttonsPanel.add(btnQuanLyTaiKhoan);
         addSpacing(buttonsPanel, 10);
         buttonsPanel.add(btnNhapHang);
-
+        addSpacing(buttonsPanel, 10);
+        buttonsPanel.add(btnThongKe);
+        addSpacing(buttonsPanel, 10);
         // Panel for logout button at bottom
         JPanel logoutPanel = new JPanel(new BorderLayout());
         logoutPanel.setBackground(new Color(72, 25, 161));
@@ -135,12 +142,12 @@ public class QuanLyKhachHang_GUI extends JFrame {
         JButton button = new JButton(text);
         button.setMaximumSize(new Dimension(220, 40));
         button.setPreferredSize(new Dimension(220, 40));
-        button.setFont(new Font("Arial", Font.PLAIN, 14));
-        button.setForeground(Color.BLACK);
-        button.setBackground(Color.WHITE);
+        button.setFont(new Font("Arial", Font.BOLD, 14));
+        button.setForeground(Color.WHITE);
+        button.setBackground(new Color(100, 149, 237));
         button.setFocusPainted(false);
         button.setBorder(new CompoundBorder(
-            new LineBorder(new Color(200, 200, 200), 1),
+            new LineBorder(new Color(100, 149, 237), 2),
             BorderFactory.createEmptyBorder(5, 10, 5, 10)
         ));
         button.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -149,12 +156,12 @@ public class QuanLyKhachHang_GUI extends JFrame {
         button.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                button.setBackground(new Color(240, 240, 240));
+                button.setBackground(new Color(100, 149, 237));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                button.setBackground(Color.WHITE);
+                button.setBackground(new Color(100, 149, 237));
             }
         });
         
@@ -334,15 +341,30 @@ public class QuanLyKhachHang_GUI extends JFrame {
     private void addEvents() {
         // Add menu button events
         btnBanHang.addActionListener(e -> {
-            // Handle bán hàng action
+            try {
+                new BanHang_GUI();
+                dispose();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Chức năng Bán hàng đang phát triển!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            }
         });
         
         btnQuanLyNhanVien.addActionListener(e -> {
-            // Handle quản lý nhân viên action
+            try {
+                new QuanLyNhanVien_GUI().setVisible(true);
+                dispose();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Chức năng Quản lý nhân viên đang phát triển!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            }
         });
         
         btnQuanLySanPham.addActionListener(e -> {
-            // Handle quản lý sản phẩm action
+            try{
+                new QuanLySanPham_GUI().setVisible(true);
+                dispose();
+            }catch(Exception ex){
+                JOptionPane.showConfirmDialog(this, "Chức năng đang hoàn thiện");
+            }
         });
         
         btnQuanLyKhachHang.addActionListener(e -> {
@@ -350,12 +372,25 @@ public class QuanLyKhachHang_GUI extends JFrame {
         });
         
         btnQuanLyTaiKhoan.addActionListener(e -> {
-            // Handle quản lý tài khoản action
+            try {
+                new GUIQuanLyTaiKhoan().setVisible(true);
+                dispose();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Chức năng Quản lý tài khoản đang phát triển!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            }
         });
         
         btnNhapHang.addActionListener(e -> {
-            // Handle nhập hàng action
+            try {
+                new NhapHang_GUI();
+                dispose();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Chức năng Nhập hàng đang phát triển!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            }
         });
+        
+        
+    
         
         btnDangXuat.addActionListener(e -> {
             int choice = JOptionPane.showConfirmDialog(

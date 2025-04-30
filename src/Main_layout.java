@@ -2,13 +2,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package GUI;
+// package GUI;
 
 import java.awt.Color;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 import java.awt.Font;
 
+import GUI.*;
 /**
  *
  * @author Admin
@@ -89,6 +90,11 @@ public class Main_layout extends javax.swing.JFrame {
         banHang_btn.setText("Bán hàng");
 
         qlnv_btn.setText("Quản lý nhân viên ");
+        qlnv_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                qlnv_btnActionPerformed(evt);
+            }
+        });
 
         qlsp_btn.setText("Quản lý sản phẩm");
         qlsp_btn.addActionListener(new java.awt.event.ActionListener() {
@@ -207,17 +213,22 @@ public class Main_layout extends javax.swing.JFrame {
 
     private void qlsp_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_qlsp_btnActionPerformed
         // TODO add your handling code here:
+            QuanLySanPham_GUI qlsp = new QuanLySanPham_GUI();
+            qlsp.setVisible(true);
+            this.dispose();
     }//GEN-LAST:event_qlsp_btnActionPerformed
 
     private void qlkh_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_qlkh_btnActionPerformed
-        // TODO add your handling code here:
+        QuanLyKhachHang_GUI qlkh = new QuanLyKhachHang_GUI();
+        qlkh.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_qlkh_btnActionPerformed
 
     private void qltk_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_qltk_btnActionPerformed
         // TODO add your handling code here:
-        GUIQuanLyTaiKhoan tk = new GUIQuanLyTaiKhoan();
-        tk.setVisible(true);
-        this.dispose();
+        // GUIQuanLyTaiKhoan tk = new GUIQuanLyTaiKhoan();
+        // tk.setVisible(true);
+        // this.dispose();
     }//GEN-LAST:event_qltk_btnActionPerformed
 
     private void nhapHang_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nhapHang_btnActionPerformed
@@ -226,11 +237,16 @@ public class Main_layout extends javax.swing.JFrame {
 
     private void thongKe_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nhapHang_btnActionPerformed
         // TODO add your handling code here:
-        GUIDangNhap dangNhap = new GUIDangNhap();
-        dangNhap.setVisible(true);
-        this.dispose();
+        // GUIDangNhap dangNhap = new GUIDangNhap();
+        // dangNhap.setVisible(true);
+        // this.dispose();
     }//GEN-LAST:event_nhapHang_btnActionPerformed
 
+    private void qlnv_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_qlnv_btnActionPerformed
+        QuanLyNhanVien_GUI qlnv = new QuanLyNhanVien_GUI();
+        qlnv.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_qlnv_btnActionPerformed
     /**
      * @param args the command line arguments
      */
