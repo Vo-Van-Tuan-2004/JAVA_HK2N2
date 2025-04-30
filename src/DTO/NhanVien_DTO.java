@@ -1,104 +1,71 @@
 package DTO;
 
 public class NhanVien_DTO {
-    private String maNhanVien;
-    private String ten;
-    private String chucVu;
-    private String soDienThoai;
-    private String username;
-    private String password;
-    private String mucLuong;
-    private String gioiTinh;
-    private String diaChi;
+    private String ma_nhan_vien;
+    private String ten_nhan_vien;
+    private String so_dien_thoai;
+    private String dia_chi;
+    private String chuc_vu;
+    private double luong;
 
-        // Constructor không tham số
     public NhanVien_DTO() {
     }
-    
-        // Constructor đầy đủ tham số
-    public NhanVien_DTO(String maNhanVien, String ten, String chucVu, String soDienThoai, String username, String password, String mucLuong, String gioiTinh, String diaChi) {
-            this.maNhanVien = maNhanVien;
-            this.ten = ten;
-            this.chucVu = chucVu;
-            this.soDienThoai = soDienThoai;
-            this.username = username;
-            this.password = password;
-            this.mucLuong = mucLuong;
-            this.gioiTinh = gioiTinh;
-            this.diaChi = diaChi;
-        }
-    // Getters and Setters
-    public String getMaNhanVien() {
-        return maNhanVien;
+
+    public NhanVien_DTO(String ma_nhan_vien, String ten_nhan_vien, String so_dien_thoai, 
+                       String dia_chi, String chuc_vu, double luong) {
+        this.ma_nhan_vien = ma_nhan_vien;
+        this.ten_nhan_vien = ten_nhan_vien;
+        this.so_dien_thoai = so_dien_thoai;
+        this.dia_chi = dia_chi;
+        this.chuc_vu = chuc_vu;
+        this.luong = luong;
     }
 
-    public void setMaNhanVien(String maNhanVien) {
-        this.maNhanVien = maNhanVien;
+    public String getMa_nhan_vien() {
+        return ma_nhan_vien;
     }
 
-    public String getTen() {
-        return ten;
+    public void setMa_nhan_vien(String ma_nhan_vien) {
+        this.ma_nhan_vien = ma_nhan_vien;
     }
 
-    public void setTen(String ten) {
-        this.ten = ten;
+    public String getTen_nhan_vien() {
+        return ten_nhan_vien;
     }
 
-    public String getChucVu() {
-        return chucVu;
+    public void setTen_nhan_vien(String ten_nhan_vien) {
+        this.ten_nhan_vien = ten_nhan_vien;
     }
 
-    public void setChucVu(String chucVu) {
-        this.chucVu = chucVu;
+    public String getSo_dien_thoai() {
+        return so_dien_thoai;
     }
 
-    public String getSoDienThoai() {
-        return soDienThoai;
+    public void setSo_dien_thoai(String so_dien_thoai) {
+        this.so_dien_thoai = so_dien_thoai;
     }
 
-    public void setSoDienThoai(String soDienThoai) {
-        this.soDienThoai = soDienThoai;
+    public String getDia_chi() {
+        return dia_chi;
     }
 
-    public String getUsername() {
-        return username;
+    public void setDia_chi(String dia_chi) {
+        this.dia_chi = dia_chi;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public String getChuc_vu() {
+        return chuc_vu;
     }
 
-    public String getPassword() {
-        return password;
+    public void setChuc_vu(String chuc_vu) {
+        this.chuc_vu = chuc_vu;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public double getLuong() {
+        return luong;
     }
 
-    public String getMucLuong() {
-        return mucLuong;
+    public void setLuong(double luong) {
+        this.luong = luong;
     }
-
-    public void setMucLuong(String mucLuong) {
-        this.mucLuong = mucLuong;
-    }
-
-    public String getGioiTinh() {
-        return gioiTinh;
-    }
-
-    public void setGioiTinh(String gioiTinh) {
-        this.gioiTinh = gioiTinh;
-    }
-
-    public String getDiaChi() {
-        return diaChi;
-    }
-
-    public void setDiaChi(String diaChi) {
-        this.diaChi = diaChi;
-    }
-
-   
 }

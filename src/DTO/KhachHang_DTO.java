@@ -2,8 +2,8 @@ package DTO;
 
 public class KhachHang_DTO {
     private String ma_khach_hang;
-    private String ten;
-    private String sdt;
+    private String ten_khach_hang;
+    private String so_dien_thoai;
     private String email;
     private String dia_chi;
 
@@ -12,10 +12,10 @@ public class KhachHang_DTO {
     }
 
     // Constructor đầy đủ tham số
-    public KhachHang_DTO(String ma_khach_hang, String ten, String sdt, String email, String dia_chi) {
+    public KhachHang_DTO(String ma_khach_hang, String ten_khach_hang, String so_dien_thoai, String email, String dia_chi) {
         this.ma_khach_hang = ma_khach_hang;
-        this.ten = ten;
-        this.sdt = sdt;
+        this.ten_khach_hang = ten_khach_hang;
+        this.so_dien_thoai = so_dien_thoai;
         this.email = email;
         this.dia_chi = dia_chi;
     }
@@ -29,22 +29,22 @@ public class KhachHang_DTO {
         this.ma_khach_hang = ma_khach_hang;
     }
 
-    // Getter và Setter cho ten
-    public String getTen() {
-        return ten;
+    // Getter và Setter cho ten_khach_hang
+    public String getTen_khach_hang() {
+        return ten_khach_hang;
     }
 
-    public void setTen(String ten) {
-        this.ten = ten;
+    public void setTen_khach_hang(String ten_khach_hang) {
+        this.ten_khach_hang = ten_khach_hang;
     }
 
-    // Getter và Setter cho sdt
-    public String getSdt() {
-        return sdt;
+    // Getter và Setter cho so_dien_thoai
+    public String getSo_dien_thoai() {
+        return so_dien_thoai;
     }
 
-    public void setSdt(String sdt) {
-        this.sdt = sdt;
+    public void setSo_dien_thoai(String so_dien_thoai) {
+        this.so_dien_thoai = so_dien_thoai;
     }
 
     // Getter và Setter cho email
@@ -63,5 +63,16 @@ public class KhachHang_DTO {
 
     public void setDia_chi(String dia_chi) {
         this.dia_chi = dia_chi;
+    }
+
+    @Override
+    public String toString() {
+        return "KhachHang_DTO{" +
+                "ma_khach_hang='" + ma_khach_hang + '\'' +
+                ", ten_khach_hang='" + ten_khach_hang + '\'' +
+                ", so_dien_thoai='" + so_dien_thoai + '\'' +
+                ", email='" + email + '\'' +
+                ", dia_chi='" + dia_chi + '\'' +
+                '}';
     }
 }
