@@ -3,7 +3,6 @@ package DAO;
 import DTO.SanPham_DTO;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 
 public class SanPham_DAO {
     private Connection conn;
@@ -13,7 +12,7 @@ public class SanPham_DAO {
     private static final String DATABASE = "CuaHangBanXeMay";
     private static final String URL = "jdbc:sqlserver://localhost:1433;databaseName=" + DATABASE + ";encrypt=true;trustServerCertificate=true";
     private static final String USER = "sa";
-    private static final String PASSWORD = "123456789";
+    private static final String PASSWORD = "12345";
 
     public SanPham_DAO() {
         try {
@@ -142,10 +141,8 @@ public class SanPham_DAO {
     }
 
     // Lấy danh sách tất cả sản phẩm
-
-
-    public List<SanPham_DTO> LayDanhSachSanPham() {
-        List<SanPham_DTO> danhSach = new ArrayList<>();
+    public ArrayList<SanPham_DTO> LayDanhSachSanPham() {
+        ArrayList<SanPham_DTO> danhSach = new ArrayList<>();
         String sql = "SELECT sp.*, lsp.ten_loai FROM SanPham sp JOIN LoaiSanPham lsp ON sp.ma_loai = lsp.ma_loai";
         
         try {
@@ -184,8 +181,8 @@ public class SanPham_DAO {
 
 
     // Tìm kiếm sản phẩm theo tên hoặc mã
-    public List<SanPham_DTO> TimKiemSanPham(String keyword) {
-        List<SanPham_DTO> danhSach = new ArrayList<>();
+    public ArrayList<SanPham_DTO> TimKiemSanPham(String keyword) {
+        ArrayList<SanPham_DTO> danhSach = new ArrayList<>();
         String sql = "SELECT * FROM SanPham WHERE ma_spham LIKE ? OR ten_spham LIKE ?";
         try {
             if (conn == null || conn.isClosed()) {
@@ -219,8 +216,8 @@ public class SanPham_DAO {
     }
 
     // Lấy danh sách sản phẩm theo loại
-    public List<SanPham_DTO> LaySanPhamTheoLoai(String maLoai) {
-        List<SanPham_DTO> danhSach = new ArrayList<>();
+    public ArrayList<SanPham_DTO> LaySanPhamTheoLoai(String maLoai) {
+        ArrayList<SanPham_DTO> danhSach = new ArrayList<>();
         String sql = "SELECT * FROM SanPham WHERE ma_loai=?";
         try {
             if (conn == null || conn.isClosed()) {

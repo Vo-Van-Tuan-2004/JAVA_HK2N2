@@ -1,26 +1,21 @@
 package GUI;
 
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
-import javax.swing.table.TableColumnModel;
-
 import DAO.NhaCungCap_DAO;
 import DAO.SanPham_DAO;
-import DTO.ChiTietHoaDonBan_DTO;
 import DTO.ChiTietPhieuNhap_DTO;
 import DTO.NhaCungCap_DTO;
 import DTO.PhieuNhap_DTO;
 import DTO.SanPham_DTO;
-
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumnModel;
 
 public class NhapHang_GUI {
     private JFrame frame ;
@@ -62,7 +57,7 @@ public class NhapHang_GUI {
         timkiemPanel.add(timkiemField);
         dsspPanel.add(timkiemPanel, BorderLayout.NORTH);   
 
-        DefaultTableModel dssp_dtm = new DefaultTableModel(null, new String[]{"Mã sản phẩm", "Tên sản phẩm", "Tồn kho", "Giá nhập cũ"}){
+        DefaultTableModel dssp_dtm = new DefaultTableModel(null, new String[]{"Mã sản phẩm", "Tên sản phẩm", "Tồn kho"}){
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false; 
@@ -73,7 +68,7 @@ public class NhapHang_GUI {
         ArrayList<SanPham_DTO> dssplist = sanphamDao.LayDanhSachSanPham();
         for (SanPham_DTO tmp : dssplist){
                 dssp_dtm.addRow(new Object[]{
-                        tmp.getMa_san_pham(), tmp.getTen_san_pham(), tmp.getSo_luong_ton(), tmp.getGia_nhap()
+                        tmp.getMa_san_pham(), tmp.getTen_san_pham(), tmp.getSo_luong_ton(),
                 });
         }
 
@@ -151,7 +146,7 @@ public class NhapHang_GUI {
         
         JTextField dongiaField = new JTextField();
         dongiaField.setEditable(true);
-        dongiaField.setBorder(BorderFactory.createTitledBorder("Don gia nhap:") );
+        dongiaField.setBorder(BorderFactory.createTitledBorder("Đơn giá nhập:") );
         dongiaField.setPreferredSize(new Dimension(230,40));
         dongiaField.setFont(new Font("Arial",Font.PLAIN, 15));
 
@@ -161,7 +156,7 @@ public class NhapHang_GUI {
         thanhtienField.setPreferredSize(new Dimension(230,40));
         thanhtienField.setFont(new Font("Arial",Font.PLAIN, 15));
 
-        JButton themButton = new JButton("Them");
+        JButton themButton = new JButton("Thêm");
         themButton.setBackground(new Color(16,158,61));
         themButton.setPreferredSize(new Dimension(150,50));
         themButton.setFont(new Font("Arial",Font.BOLD , 30));
@@ -252,7 +247,7 @@ public class NhapHang_GUI {
 
                 for (SanPham_DTO sp : dssplistfind) {
                     dssp_dtm.addRow(new Object[]{
-                        sp.getMa_san_pham(), sp.getTen_san_pham(), sp.getSo_luong_ton(), sp.getGia_nhap()
+                        sp.getMa_san_pham(), sp.getTen_san_pham(), sp.getSo_luong_ton(), sp.getXuat_xu()
                     });
                 }
                 if (dssplistfind.isEmpty()) {

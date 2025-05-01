@@ -1,22 +1,24 @@
-
+--drop database CuaHangBanXeMay;
+--go
 create database CuaHangBanXeMay;
+go
 use CuaHangBanXeMay;
 
 -- Bảng LoaiSanPham
 
 CREATE TABLE LoaiSanPham (
     ma_loai VARCHAR(10) PRIMARY KEY,
-    ten_loai VARCHAR(50) NOT NULL
+    ten_loai NVARCHAR(50) NOT NULL
 );
 
 -- Bảng SanPham
 CREATE TABLE SanPham (
     ma_spham VARCHAR(10) PRIMARY KEY,
-    ten_spham VARCHAR(100) NOT NULL,
-    xuat_xu VARCHAR(50),
+    ten_spham NVARCHAR(100) NOT NULL,
+    xuat_xu NVARCHAR(50),
     so_luong_ton INT NOT NULL DEFAULT 0, -- Lưu trữ số lượng tồn kho
     gia_ban INT NOT NULL,
-    trang_thai VARCHAR(20),
+    trang_thai NVARCHAR(20),
     ma_loai VARCHAR(10),
     FOREIGN KEY (ma_loai) REFERENCES LoaiSanPham(ma_loai)
 );
@@ -24,27 +26,27 @@ CREATE TABLE SanPham (
 -- Bảng KhachHang
 CREATE TABLE KhachHang (
     ma_khach_hang VARCHAR(10) PRIMARY KEY,
-    ten VARCHAR(100) NOT NULL,
+    ten NVARCHAR(100) NOT NULL,
     sdt VARCHAR(15),
     email VARCHAR(100),
-    dia_chi VARCHAR(255)
+    dia_chi NVARCHAR(255)
 );
 
 -- Bảng NhanVien
 CREATE TABLE NhanVien (
     ma_nhan_vien VARCHAR(10) PRIMARY KEY,
-    ten VARCHAR(100) NOT NULL,
-    chuc_vu VARCHAR(50),
+    ten NVARCHAR(100) NOT NULL,
+    chuc_vu NVARCHAR(50),
     so_dien_thoai VARCHAR(15),
     muc_luong INT,
-    gioi_tinh VARCHAR(10),
-    dia_chi VARCHAR(255)
+    gioi_tinh NVARCHAR(10),
+    dia_chi NVARCHAR(255)
 );
 
 -- Bảng tài khoản
 CREATE TABLE TaiKhoan (
     ma_nhan_vien VARCHAR(10) PRIMARY KEY,
-    ten_tai_khoan VARCHAR(50) UNIQUE NOT NULL,
+    ten_tai_khoan NVARCHAR(50) UNIQUE NOT NULL,
     mat_khau VARCHAR(50) NOT NULL,
     FOREIGN KEY (ma_nhan_vien) REFERENCES NhanVien(ma_nhan_vien)
 );
@@ -53,10 +55,10 @@ CREATE TABLE TaiKhoan (
 -- Bảng NhaCungCap
 CREATE TABLE NhaCungCap (
     ma_nha_cung_cap VARCHAR(10) PRIMARY KEY,
-    ten VARCHAR(100) NOT NULL,
-    dia_chi VARCHAR(255),
+    ten NVARCHAR(100) NOT NULL,
+    dia_chi NVARCHAR(255),
     email VARCHAR(100),
-    quoc_gia VARCHAR(50)
+    quoc_gia NVARCHAR(50)
 );
 
 -- Bảng PhieuNhap
@@ -92,7 +94,7 @@ CREATE TABLE XeMay (
 -- Bảng PhuTung
 CREATE TABLE PhuTung (
     ma_phu_tung VARCHAR(10) PRIMARY KEY,
-    chat_lieu VARCHAR(50)
+    chat_lieu NVARCHAR(50)
 );
 
 -- Bảng HoaDonBan
@@ -102,7 +104,7 @@ CREATE TABLE HoaDonBan (
     ma_nhan_vien VARCHAR(10),
     ngay_xuat DATE NOT NULL,
     tong_tien INT NOT NULL,
-    trang_thai VARCHAR(20),
+    trang_thai NVARCHAR(20),
     FOREIGN KEY (ma_khach_hang) REFERENCES KhachHang(ma_khach_hang),
     FOREIGN KEY (ma_nhan_vien) REFERENCES NhanVien(ma_nhan_vien)
 );
@@ -157,9 +159,9 @@ INSERT INTO LoaiSanPham (ma_loai, ten_loai) VALUES
 
 -- Dữ liệu cho bảng SanPham
 INSERT INTO SanPham (ma_spham, ten_spham, xuat_xu, so_luong_ton, gia_ban, trang_thai, ma_loai) VALUES
-('SP01', 'Honda Air Blade 150', 'Nhật Bản', 10, 55000000, 'Còn hàng', 'LSP01'),
-('SP02', 'Yamaha Exciter 155', 'Nhật Bản', 15, 48000000, 'Còn hàng', 'LSP03'),
-('SP03', 'Honda Wave Alpha', 'Việt Nam', 20, 22000000, 'Còn hàng', 'LSP02'),
+('SP01', 'Honda Air Blade 150', N'Nhật Bản', 10, 55000000, 'Còn hàng', 'LSP01'),
+('SP02', 'Yamaha Exciter 155', N'Nhật Bản', 15, 48000000, 'Còn hàng', 'LSP03'),
+('SP03', 'Honda Wave Alpha', N'Việt Nam', 20, 22000000, 'Còn hàng', 'LSP02'),
 ('SP04', 'VinFast Klara', 'Việt Nam', 8, 40000000, 'Còn hàng', 'LSP04'),
 ('SP05', 'Bánh xe Honda', 'Việt Nam', 50, 500000, 'Còn hàng', 'LSP05'),
 ('SP06', 'Động cơ Yamaha', 'Nhật Bản', 30, 2000000, 'Còn hàng', 'LSP06'),

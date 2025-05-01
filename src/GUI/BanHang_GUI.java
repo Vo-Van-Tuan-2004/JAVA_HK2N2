@@ -1,22 +1,14 @@
 package GUI;
-import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseListener;
-
-import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
-
 import DAO.SanPham_DAO;
 import DTO.HoaDonBan_DTO;
 import DTO.SanPham_DTO;
-
+import java.awt.*;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
-
-import GUI.Component.CustomPanel;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 public class BanHang_GUI {
     private JFrame frame ;
@@ -43,10 +35,10 @@ public class BanHang_GUI {
         // Panel danh sach san pham
         JPanel dsspPanel = new JPanel(new BorderLayout());
         dsspPanel.setPreferredSize(new Dimension(600,300));
-        JLabel dsspTitle = new JLabel("Danh sach san pham:");
+        JLabel dsspTitle = new JLabel("Danh sách sản phẩm :");
         dsspTitle.setFont(new Font("Arial", Font.BOLD, 20));
         dsspPanel.add( dsspTitle, BorderLayout.NORTH);
-        DefaultTableModel dssp_dtm = new DefaultTableModel(null, new String[]{"Mã sản phảm", "Tên sản phẩm", "Giá bán", "Số lượng", "Màu sắc"}){
+        DefaultTableModel dssp_dtm = new DefaultTableModel(null, new String[]{"Mã sản phảm", "Tên sản phẩm", "Giá bán", "Số lượng", "Xuất xứ"}){
                 @Override
                 public boolean isCellEditable(int row, int column){
                         return false;
@@ -57,7 +49,7 @@ public class BanHang_GUI {
         ArrayList<SanPham_DTO> dssplist = dao.LayDanhSachSanPham();
         for (SanPham_DTO tmp : dssplist){
                 dssp_dtm.addRow(new Object[]{
-                        tmp.getMa_san_pham(), tmp.getTen_san_pham(), tmp.getGia_ban(), tmp.getSo_luong_ton(), tmp.getMau_sac() 
+                        tmp.getMa_san_pham(), tmp.getTen_san_pham(), tmp.getGia_ban(), tmp.getSo_luong_ton(), tmp.getXuat_xu()
                 });
         }
 //
@@ -70,7 +62,7 @@ public class BanHang_GUI {
         // Pannel gio hang
         JPanel giohangPanel = new JPanel(new BorderLayout());
         giohangPanel.setPreferredSize(new Dimension(600, 300));
-        JLabel giohangTitle = new JLabel("Gio hang:");
+        JLabel giohangTitle = new JLabel("Giỏ hàng:");
         giohangTitle.setFont(new Font("Arial", Font.BOLD, 20));
         giohangPanel.add(giohangTitle, BorderLayout.NORTH);
         DefaultTableModel giohang_dtm = new DefaultTableModel(null,new String[]{"Mã sản phẩm", "Tên sản phẩm", "Số luộng", "Đơn giá", "Thanh tien"}){
@@ -89,7 +81,7 @@ public class BanHang_GUI {
         //Panel tong tien
         JPanel tongtienPanel = new JPanel(new BorderLayout());
         tongtienPanel.setPreferredSize(new Dimension(600,70));
-        JLabel tongtienLabel = new JLabel("Tong tien");
+        JLabel tongtienLabel = new JLabel("Tổng tiền");
         tongtienLabel.setFont(new Font("Arial", Font.BOLD, 20));
         JLabel tongtienField = new JLabel();
         tongtienField.setText("0");
@@ -124,7 +116,7 @@ public class BanHang_GUI {
        
         JTextField mausacField = new JTextField();
         mausacField.setEditable(false);
-        mausacField.setBorder(BorderFactory.createTitledBorder("Màu sắc:") );
+        mausacField.setBorder(BorderFactory.createTitledBorder("Xuất xứ:") );
         mausacField.setPreferredSize(new Dimension(230,30));
         mausacField.setFont(new Font("Arial",Font.PLAIN, 15));
         
@@ -158,14 +150,14 @@ public class BanHang_GUI {
         chucnangPanel.setPreferredSize(new Dimension(250,300));
         chucnangPanel.setBorder(new EmptyBorder(50, 0, 10, 10));
 
-        JButton xoaButton = new JButton("Xoa khoi gio");
+        JButton xoaButton = new JButton("Tạo giỏ mới");
         xoaButton.setFont(new Font("Arial",Font.BOLD, 20));
         xoaButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         xoaButton.setMaximumSize(new Dimension(200, 40));
         xoaButton.setBackground(new Color(255, 128, 0));
         xoaButton.setForeground(Color.WHITE);
         
-        JButton themButton = new JButton("Them vao gio");
+        JButton themButton = new JButton("Thêm vào giỏ");
         themButton.setFont(new Font("Arial", Font.BOLD,20));
         themButton.setFont(new Font("Arial",Font.BOLD, 20));
         themButton.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -173,7 +165,7 @@ public class BanHang_GUI {
         themButton.setBackground(new Color(255, 128, 0));
         themButton.setForeground(Color.WHITE);
         
-        JButton xuatButton = new JButton("Xuat hoa don");
+        JButton xuatButton = new JButton("Xuất hóa đơn");
         xuatButton.setFont(new Font("Arial", Font.BOLD,20));
         xuatButton.setFont(new Font("Arial",Font.BOLD, 20));
         xuatButton.setAlignmentX(Component.CENTER_ALIGNMENT);

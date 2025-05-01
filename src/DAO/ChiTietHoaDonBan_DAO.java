@@ -14,7 +14,6 @@ public class ChiTietHoaDonBan_DAO {
     public boolean themChiTietHoaDonBan(ChiTietHoaDonBan_DTO x){
         String sql = "INSET INTO ChiTietHoaDonBan (ma, ma_hoa_don_ban, ma_san_pham, so_luong, don_gia) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement ps = con.prepareStatement(sql)){
-            ps.setString(1, x.getMa());
             ps.setString(2, x.getMa_hoa_don_ban());
             ps.setString(3, x.getMa_san_pham());
             ps.setInt(4, x.getSo_luong());
@@ -33,7 +32,6 @@ public class ChiTietHoaDonBan_DAO {
             ps.setString(2, x.getMa_san_pham());
             ps.setInt(3, x.getSo_luong());
             ps.setInt(4, x.getDon_gia());
-            ps.setString(5, x.getMa());
             return ps.executeUpdate() > 0;
         } catch (SQLException e){
             e.printStackTrace();
@@ -59,9 +57,8 @@ public class ChiTietHoaDonBan_DAO {
         try (Statement st = con.createStatement(); ResultSet rs = st.executeQuery(sql)) {
             while (rs.next()) {
                 ChiTietHoaDonBan_DTO tmp = new ChiTietHoaDonBan_DTO(
-                        rs.getString("ma"),
                         rs.getString("ma_hoa_don_ban"),
-                        rs.getString("ma_san_pham"),
+                        rs.getString("ma_spham"),
                         rs.getInt("so_luong"),
                         rs.getInt("don_gia")
                 );
@@ -72,21 +69,23 @@ public class ChiTietHoaDonBan_DAO {
         }
         return ds;
     }
-    //tim theo ma 
-    public ChiTietHoaDonBan_DTO timTheoMa(String ma_x) {
-        String sql = "SELECT * FROM ChiTietHoaDonBan WHERE ma = ?";
+    //tim theo ma_hoa_don
+    public ArrayList<ChiTietHoaDonBan_DTO> timTheoMa(String ma_x) {
+        String sql = "SELECT * FROM ChiTietHoaDonBan WHERE ma_hoa_don = ?";
+        ArrayList<ChiTietHoaDonBan_DTO> res = new ArrayList<>();
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, ma_x);
             ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                return new ChiTietHoaDonBan_DTO(
-                        rs.getString("ma"),
+            while (rs.next()) {
+                res.add( new ChiTietHoaDonBan_DTO(
                         rs.getString("ma_hoa_don_ban"),
                         rs.getString("ma_san_pham"),
                         rs.getInt("so_luong"),
                         rs.getInt("don_gia")
+                )
                 );
             }
+            return res;
         } catch (SQLException e) {
             e.printStackTrace();
         }

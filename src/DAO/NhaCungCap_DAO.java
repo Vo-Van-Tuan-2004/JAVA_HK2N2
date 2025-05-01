@@ -1,7 +1,5 @@
 package DAO;
 import DTO.NhaCungCap_DTO;
-import DTO.SanPham_DTO;
-
 import java.sql.*;
 import java.util.ArrayList;
 

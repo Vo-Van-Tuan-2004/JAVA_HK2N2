@@ -1,9 +1,9 @@
 package DTO;
 
 public class ChiTietHoaDonBan_DTO {
-    private String ma;
     private String ma_hoa_don_ban;
-    private String ma_san_pham;
+    private String ma_spham;
+    private int gia_ban;
     private int so_luong;
     private int don_gia;
 
@@ -12,21 +12,11 @@ public class ChiTietHoaDonBan_DTO {
     }
 
     // Constructor đầy đủ tham số
-    public ChiTietHoaDonBan_DTO(String ma, String ma_hoa_don_ban, String ma_san_pham, int so_luong, int don_gia) {
-        this.ma = ma;
+    public ChiTietHoaDonBan_DTO( String ma_hoa_don_ban, String ma_san_pham, int so_luong, int don_gia) {
         this.ma_hoa_don_ban = ma_hoa_don_ban;
-        this.ma_san_pham = ma_san_pham;
+        this.ma_spham = ma_san_pham;
         this.so_luong = so_luong;
         this.don_gia = don_gia;
-    }
-
-    // Getter và Setter cho ma
-    public String getMa() {
-        return ma;
-    }
-
-    public void setMa(String ma) {
-        this.ma = ma;
     }
 
     // Getter và Setter cho ma_hoa_don_ban
@@ -40,11 +30,11 @@ public class ChiTietHoaDonBan_DTO {
 
     // Getter và Setter cho ma_san_pham
     public String getMa_san_pham() {
-        return ma_san_pham;
+        return ma_spham;
     }
 
     public void setMa_san_pham(String ma_san_pham) {
-        this.ma_san_pham = ma_san_pham;
+        this.ma_spham = ma_san_pham;
     }
 
     // Getter và Setter cho so_luong
