@@ -143,7 +143,7 @@ public class QuanLyKhachHang_GUI extends JFrame {
         button.setMaximumSize(new Dimension(220, 40));
         button.setPreferredSize(new Dimension(220, 40));
         button.setFont(new Font("Arial", Font.BOLD, 14));
-        button.setForeground(Color.WHITE);
+        button.setForeground(Color.BLUE);
         button.setBackground(new Color(100, 149, 237));
         button.setFocusPainted(false);
         button.setBorder(new CompoundBorder(

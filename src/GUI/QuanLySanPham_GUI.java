@@ -145,15 +145,15 @@ JLabel logoLabel = new JLabel(logo);
         button.setMaximumSize(new Dimension(220, 40));
         button.setPreferredSize(new Dimension(220, 40));
         button.setFont(new Font("Arial", Font.BOLD, 14));
-        button.setForeground(Color.WHITE);
-        button.setBackground(new Color(100, 149, 237));
+        button.setForeground(Color.BLUE);
+        button.setBackground(Color.WHITE);
         button.setFocusPainted(false);
         button.setBorder(new CompoundBorder(
             new LineBorder(new Color(100, 149, 237), 2),
             BorderFactory.createEmptyBorder(5, 10, 5, 10)
         ));
         button.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        
+        button.setBackground(new Color(100, 149, 237));
         // Hover effect
         button.addMouseListener(new MouseAdapter() {
             @Override
