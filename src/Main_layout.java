@@ -129,6 +129,13 @@ public class Main_layout extends javax.swing.JFrame {
         dangXuat_btn.setText("Đăng xuất");
 
         thongKe_btn.setText("Thống kê");
+        private void thongKe_btnActionPerformed(java.awt.event.ActionEvent evt) {
+        BaoCao_GUI baoCaoGUI = new BaoCao_GUI(); 
+        baoCaoGUI.setVisible(true); 
+}
+
+
+        
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
