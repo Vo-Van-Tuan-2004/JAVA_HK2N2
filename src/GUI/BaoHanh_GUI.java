@@ -18,10 +18,6 @@ public class  BaoHanh_GUI {
 
         JPanel formPanel = new JPanel(new GridLayout(6, 2, 10, 10));
         
-        formPanel.add(new JLabel("Mã Khách Hàng:"));
-        JTextField customerNameField = new JTextField();
-        formPanel.add(customerNameField);
-
         formPanel.add(new JLabel("Mã Bảo Hành:"));
         JTextField warrantyIdField = new JTextField();
         formPanel.add(warrantyIdField);
