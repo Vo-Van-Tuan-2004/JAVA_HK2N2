@@ -1,14 +1,13 @@
 package DAO;
 
+import DTO.PhieuNhap_DTO;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
-
-import DTO.PhieuNhap_DTO;
-import DTO.SanPham_DTO;
 
 public class PhieuNhap_DAO {
     private Connection conn;
@@ -82,5 +81,24 @@ public class PhieuNhap_DAO {
             e.printStackTrace();
         }
         return ma_moi;
+    }
+    public String TaoMaNhapMoi() {
+        String query = "SELECT MAX(ma_hoa_don_ban) AS max_code FROM HoaDonBan";
+        try (Statement stmt = conn.createStatement()) {
+            ResultSet rs = stmt.executeQuery(query);
+            if (rs.next()) {
+                String maxCode = rs.getString("max_code");
+                if (maxCode != null && maxCode.startsWith("PN")) {
+                    // Extract the numeric part and increment it
+                    int currentNumber = Integer.parseInt(maxCode.substring(3));
+                    int newNumber = currentNumber + 1;
+                    return "PN" + String.format("%d", newNumber);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        // Default to HDB1 if no records exist
+        return "PN1";
     }
 }

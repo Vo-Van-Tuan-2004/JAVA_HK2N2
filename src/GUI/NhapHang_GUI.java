@@ -7,8 +7,6 @@ import DTO.NhaCungCap_DTO;
 import DTO.PhieuNhap_DTO;
 import DTO.SanPham_DTO;
 import java.awt.*;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -153,6 +151,7 @@ public class NhapHang_GUI {
         JTextField thanhtienField = new JTextField();
         thanhtienField.setEditable(true);
         thanhtienField.setBorder(BorderFactory.createTitledBorder("Thành tiền:") );
+        thanhtienField.setEditable(false);
         thanhtienField.setPreferredSize(new Dimension(230,40));
         thanhtienField.setFont(new Font("Arial",Font.PLAIN, 15));
 
@@ -163,8 +162,8 @@ public class NhapHang_GUI {
 
         chitietPanel.add(maspField);
         chitietPanel.add(tenspField);
-        chitietPanel.add(soluongField);
         chitietPanel.add(dongiaField);
+        chitietPanel.add(soluongField);
         chitietPanel.add(thanhtienField);
         chitietPanel.add(themButton);
     //chuc nang panel
@@ -329,13 +328,12 @@ public class NhapHang_GUI {
         xuatButton.addActionListener(e ->{
             //lay thong tin ncc
             String nccSelectedItem = (String) nccCombo.getSelectedItem();
-            nccSelectedItem = nccSelectedItem.split(" ")[0];
-           //lay thong tin ngay thang
-            LocalDateTime now = LocalDateTime.now();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            String formattedNow = now.format(formatter);
-
+            nccSelectedItem = nccSelectedItem.split("-")[0].trim();
             PhieuNhap_DTO phieunhap = new PhieuNhap_DTO();
+
+            phieunhap.setMa_nha_cung_cap(nccSelectedItem);
+            phieunhap.setTong_tien(Integer.parseInt(tongtienField.getText()));
+            new XuatPhieuNhap_GUI(phieunhap, phieunhap_dtm);
             
         });
 

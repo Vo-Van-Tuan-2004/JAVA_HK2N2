@@ -261,8 +261,8 @@ public class BanHang_GUI {
         xuatButton.addActionListener(e -> {
                 HoaDonBan_DTO hoadon = new HoaDonBan_DTO(); 
                 hoadon.setTong_tien(Integer.parseInt(tongtienField.getText()));
-                hoadon.setMa_hoa_don_ban("");
                 new XuatHoaDonBan_GUI(hoadon, giohang_dtm);
+                System.out.println("Đã bấm nút Xuất hóa đơn!");
         });
     }
     public static void main(String[] args) {

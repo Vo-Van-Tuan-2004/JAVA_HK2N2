@@ -57,24 +57,21 @@ public class NhaCungCap_DAO {
         }
         return danhSach;
     }
-    //Tim kiem doi tuong
-    public NhaCungCap_DTO timNhaCungCap(String keyword){
+    //Tim kiem doi tuong theo ma
+    public NhaCungCap_DTO timNhaCungCap(String key){
         String sql = " SELECT * FROM NhaCungCap" +
-                     "  WHERE ma_nha_cung_cap LIKE  ?" +
-                      "  OR ten LIKE ? " +
-                      "  OR dia_chi LIKE ? " + 
-                      "  OR email LIKE ? " +
-                      "  OR quoc_gia LIKE ?" ;
+                     "  WHERE ma_nha_cung_cap LIKE  ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)){
-            for (int i=1; i<=5; i++){
-                ps.setString(i, keyword);
-            }
+            ps.setString(1, key);
             ResultSet rs = ps.executeQuery();
             if (rs.next()){
-                //tao table roi hien thi table lenh find area.
-                //khi nhan vao khung find thi hien thi ra mot khung ket qua tim kiem o duoi thanh tim kiem (find area)
-                //nguoi dung co the chon hang tu find area khi chon thi doi tuong nay duoc them vao vung chi tiet san pham va co the them vao gio hang nhu thong thuong.
-                
+                NhaCungCap_DTO ncc =new NhaCungCap_DTO();
+                ncc.setMa_nha_cung_cap(rs.getNString("ma_nha_cung_cap"));
+                ncc.setTen(rs.getString("ten"));
+                ncc.setDia_chi(rs.getString("dia_chi"));
+                ncc.setEmail(rs.getString("email"));
+                ncc.setQuoc_gia(rs.getString("quoc_gia")); 
+                return ncc;
             }
 
         } catch (Exception e) {

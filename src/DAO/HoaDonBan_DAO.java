@@ -7,8 +7,17 @@ import java.util.ArrayList;
 public class HoaDonBan_DAO {
      private Connection connection;
      //lay connect
-     public HoaDonBan_DAO(Connection connect){
-         this.connection = connect;
+     public HoaDonBan_DAO(){
+            try {
+                Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+                connection = DriverManager.getConnection(
+                        "jdbc:sqlserver://localhost:1433;databaseName=CuaHangBanXeMay;encrypt=true;trustServerCertificate=true",
+                        "sa",
+                        "12345"
+                );
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
      }
 
     // Create a new invoice record
@@ -103,6 +112,26 @@ public class HoaDonBan_DAO {
             e.printStackTrace();
             return false;
         }
+    }
+    //Tao ma hoa don moi
+    public String TaoMaMoi() {
+        String query = "SELECT MAX(ma_hoa_don_ban) AS max_code FROM HoaDonBan";
+        try (Statement stmt = connection.createStatement()) {
+            ResultSet rs = stmt.executeQuery(query);
+            if (rs.next()) {
+                String maxCode = rs.getString("max_code");
+                if (maxCode != null && maxCode.startsWith("PNB")) {
+                    // Extract the numeric part and increment it
+                    int currentNumber = Integer.parseInt(maxCode.substring(3));
+                    int newNumber = currentNumber + 1;
+                    return "PNB" + String.format("%d", newNumber);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        // Default to HDB1 if no records exist
+        return "PN1";
     }
 
     // Close the database connection

@@ -1,5 +1,6 @@
 package GUI;
 
+import DAO.ChiTietHoaDonBan_DAO;
 import DAO.HoaDonBan_DAO;
 import DTO.ChiTietHoaDonBan_DTO;
 import DTO.HoaDonBan_DTO;
@@ -21,7 +22,11 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 public class XuatHoaDonBan_GUI extends JFrame {
-    public XuatHoaDonBan_GUI(HoaDonBan_DTO haodon, DefaultTableModel model){
+    private HoaDonBan_DTO n_hoadon_DTO = new HoaDonBan_DTO();
+    private HoaDonBan_DAO n_hoadon_DAO = new HoaDonBan_DAO();
+    private ArrayList<ChiTietHoaDonBan_DTO> n_chitiet = new ArrayList<>(); 
+    
+    public XuatHoaDonBan_GUI(HoaDonBan_DTO hoadon, DefaultTableModel model){
         setSize(400,500);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
@@ -32,36 +37,41 @@ public class XuatHoaDonBan_GUI extends JFrame {
         tt_Panel.setBorder(new EmptyBorder(0,0,0,0));
         
         JPanel MaHD_Panel = new JPanel();
-        MaHD_Panel.setPreferredSize(new Dimension(350,30));
+        MaHD_Panel.setPreferredSize(new Dimension(350,40));
         JLabel MaHD_Label = new JLabel("Mã hóa đơn");
-        MaHD_Label.setPreferredSize(new Dimension(150,30));
+        MaHD_Label.setPreferredSize(new Dimension(150,40));
         JTextField MaHD_Field = new JTextField();
         MaHD_Field.setPreferredSize(new Dimension(100,30));
+        MaHD_Field.setEditable(false);
+        MaHD_Field.setText(n_hoadon_DAO.TaoMaMoi());
+        hoadon.setMa_hoa_don_ban(n_hoadon_DAO.TaoMaMoi());
         MaHD_Panel.add(MaHD_Label);
         MaHD_Panel.add(MaHD_Field);
 
         JPanel MaKH_Panel = new JPanel();
-        MaKH_Panel.setPreferredSize(new Dimension(350,50));
+        MaKH_Panel.setPreferredSize(new Dimension(350,40));
         JLabel MaKH_Label = new JLabel("Mã khách hàng");
-        MaKH_Label.setPreferredSize(new Dimension(150,50));
+        MaKH_Label.setPreferredSize(new Dimension(150,40));
         JTextField MaKH_Field = new JTextField();
         MaKH_Field.setPreferredSize(new Dimension(100,30));
         MaKH_Panel.add(MaKH_Label);
         MaKH_Panel.add(MaKH_Field);
 
         JPanel MaNV_Panel = new JPanel();
-        MaNV_Panel.setPreferredSize(new Dimension(350,50));
+        MaNV_Panel.setPreferredSize(new Dimension(350,40));
         JLabel MaNV_Label = new JLabel("Mã nhân viên");
-        MaNV_Label.setPreferredSize(new Dimension(150,50));
+        MaNV_Label.setPreferredSize(new Dimension(150,40));
         JTextField MaNV_Field = new JTextField();
         MaNV_Field.setPreferredSize(new Dimension(100,30));
+        MaNV_Field.setEditable(false);
+        MaNV_Field.setText(hoadon.getMa_nhan_vien());
         MaNV_Panel.add(MaNV_Label);
         MaNV_Panel.add(MaNV_Field);
 
         JPanel Ngay_Panel = new JPanel();
-        Ngay_Panel.setPreferredSize(new Dimension(350,50));
+        Ngay_Panel.setPreferredSize(new Dimension(350,40));
         JLabel Ngay_Label = new JLabel("Ngày xuất");
-        Ngay_Label.setPreferredSize(new Dimension(150,50));
+        Ngay_Label.setPreferredSize(new Dimension(150,40));
         JTextField Ngay_Field = new JTextField();
         LocalDate today = LocalDate.now();
         int day = today.getDayOfMonth();   
@@ -69,17 +79,19 @@ public class XuatHoaDonBan_GUI extends JFrame {
         int year = today.getYear();
         String Ngay_Text = Integer.toString(day)+ " - " + Integer.toString(month)+ " - " + Integer.toString(year);
         Ngay_Field.setText(Ngay_Text);
+        Ngay_Field.setEditable(false);
         Ngay_Field.setPreferredSize(new Dimension(100,30));
         Ngay_Panel.add(Ngay_Label);
         Ngay_Panel.add(Ngay_Field);
 
         JPanel Tongtien_Panel = new JPanel();
-        Tongtien_Panel.setPreferredSize(new Dimension(350,50));
+        Tongtien_Panel.setPreferredSize(new Dimension(350,40));
         JLabel Tongtien_Label = new JLabel("Tổng tiền");
-        Tongtien_Label.setPreferredSize(new Dimension(150,50));
+        Tongtien_Label.setPreferredSize(new Dimension(150,40));
         JTextField Tongtien_Field = new JTextField();
+        Tongtien_Field.setEditable(false);
         Tongtien_Field.setPreferredSize(new Dimension(100,30));
-        Tongtien_Field.setText(Integer.toString(haodon.getTong_tien()));
+        Tongtien_Field.setText(Integer.toString(hoadon.getTong_tien()));
         Tongtien_Panel.add(Tongtien_Label);
         Tongtien_Panel.add(Tongtien_Field);
 
@@ -109,10 +121,28 @@ public class XuatHoaDonBan_GUI extends JFrame {
         add(Xacnhan_Button, BorderLayout.SOUTH);
 
         Xacnhan_Button.addActionListener(e->{
-            HoaDonBan_DTO n_hoadon_DTO = new HoaDonBan_DTO();
-            HoaDonBan_DAO n_hoadon_DAO = new HoaDonBan_DAO(null);
+            hoadon.setMa_hoa_don_ban(MaHD_Field.getText());
+            hoadon.setMa_khach_hang(MaKH_Field.getText());
+            hoadon.setMa_nhan_vien(MaNV_Field.getText());
             n_hoadon_DAO.them(n_hoadon_DTO);
-            ArrayList<ChiTietHoaDonBan_DTO> n_chitiet = new ArrayList<>(); 
+
+            for (int i = 0; i < model.getRowCount(); i++) {
+                int columnCount = model.getColumnCount();
+                String[] row = new String[columnCount];
+                for (int j = 0; j < columnCount; j++) {
+                    Object value = model.getValueAt(i, j);
+                    row[j] = value != null ? value.toString() : "";
+                
+                ChiTietHoaDonBan_DTO tmp = new ChiTietHoaDonBan_DTO();
+                tmp.setMa_hoa_don_ban(row[0]);
+                tmp.setMa_san_pham(row[1]);
+                tmp.setSo_luong(Integer.parseInt(row[2]));
+                tmp.setDon_gia(Integer.parseInt(row[3]));
+
+                ChiTietHoaDonBan_DAO n_chitiet_DAO = new ChiTietHoaDonBan_DAO();
+                n_chitiet_DAO.themChiTietHoaDonBan(tmp);
+                }
+}
         });
         setVisible(true);
     }

@@ -7,8 +7,20 @@ import java.util.ArrayList;
 public class ChiTietPhieuNhap_DAO{
     private Connection con;
     //lay connect
-    public ChiTietPhieuNhap_DAO(Connection connect){
-        this.con = connect;
+    // public ChiTietPhieuNhap_DAO(Connection connect){
+    //     this.con = connect;
+    // }
+    public ChiTietPhieuNhap_DAO(){
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(
+                    "jdbc:sqlserver://localhost:1433;databaseName=CuaHangBanXeMay;encrypt=true;trustServerCertificate=true",
+                    "sa",
+                    "12345"
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     //them 
     public boolean themChiTietPhieuNhap(ChiTietPhieuNhap_DTO x){

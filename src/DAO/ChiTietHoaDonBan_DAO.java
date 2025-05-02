@@ -6,10 +6,23 @@ import java.util.ArrayList;
 
 public class ChiTietHoaDonBan_DAO {
     private Connection con;
+
     //lay connect
-    public ChiTietHoaDonBan_DAO(Connection connect){
-        this.con = connect;
-    }
+    // public ChiTietHoaDonBan_DAO(Connection connect){
+    //     this.con = connect;
+    // }
+    public ChiTietHoaDonBan_DAO(){
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(
+                    "jdbc:sqlserver://localhost:1433;databaseName=CuaHangBanXeMay;encrypt=true;trustServerCertificate=true",
+                    "sa",
+                    "12345"
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+ }
     //them 
     public boolean themChiTietHoaDonBan(ChiTietHoaDonBan_DTO x){
         String sql = "INSET INTO ChiTietHoaDonBan (ma, ma_hoa_don_ban, ma_san_pham, so_luong, don_gia) VALUES (?, ?, ?, ?, ?)";
