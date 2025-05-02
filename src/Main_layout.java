@@ -129,6 +129,15 @@ public class Main_layout extends javax.swing.JFrame {
         dangXuat_btn.setText("Đăng xuất");
 
         thongKe_btn.setText("Thống kê");
+        thongKe_btn.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+        thongKe_btnActionPerformed(evt);
+    }
+});
+
+
+
+        
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
