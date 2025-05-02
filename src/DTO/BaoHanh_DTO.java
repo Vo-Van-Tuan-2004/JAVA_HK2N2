@@ -2,14 +2,12 @@ package DTO;
 
 public class DTOBAOHANH {
     private String ID_baohanh; 
-    private String ID_khachhang; 
     private String ID_sanpham;  
     private String ngaybatdau; 
     private String ngayketthuc;    
 
-    public DTOBAOHANH(String ID_baohanh, String ID_khachhang, String ID_sanpham, String ngaybatdau, String ngayketthuc) {
+    public DTOBAOHANH(String ID_baohanh, String ID_sanpham, String ngaybatdau, String ngayketthuc) {
         this.ID_baohanh = ID_baohanh;
-        this.ID_khachhang = ID_khachhang;
         this.ID_sanpham = ID_sanpham;
         this.ngaybatdau = ngaybatdau;
         this.ngayketthuc = ngayketthuc;
@@ -23,15 +21,7 @@ public class DTOBAOHANH {
         this.ID_baohanh = ID_baohanh;
     }
 
-    public String getCustomerId() {
-        return ID_khachhang;
-    }
-
-    public void setCustomerId(String customerId) {
-        this.ID_khachhang = ID_khachhang;
-    }
-
-    public String getProductId() {
+   public String getProductId() {
         return ID_sanpham;
     }
 
