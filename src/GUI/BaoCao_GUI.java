@@ -1,4 +1,5 @@
 package GUI;
+
 import DAO.BaoCao_DAO;          
 import DTO.BaoCao_DTO; 
 import javax.swing.*;
@@ -6,15 +7,12 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.List;      
 
-public class BaoCao_GUI 
+public class BaoCao_GUI extends JPanel {
     private JTable tblDoanhThu;
     private BaoCao_DAO baoCaoDAO = new BaoCao_DAO();
 
     public BaoCao_GUI() {
-        setTitle("Thống kê doanh thu");
-        setSize(600, 400);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
+        setLayout(new BorderLayout());
 
         tblDoanhThu = new JTable();
         add(new JScrollPane(tblDoanhThu), BorderLayout.CENTER);
@@ -34,11 +32,5 @@ public class BaoCao_GUI
         }
 
         tblDoanhThu.setModel(model);
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            new BaoCao_GUI().setVisible(true);
-        });
     }
 }
