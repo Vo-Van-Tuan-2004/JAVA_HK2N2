@@ -159,7 +159,6 @@ public class BanHang_GUI {
         
         JButton themButton = new JButton("Thêm vào giỏ");
         themButton.setFont(new Font("Arial", Font.BOLD,20));
-        themButton.setFont(new Font("Arial",Font.BOLD, 20));
         themButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         themButton.setMaximumSize(new Dimension(200, 40));
         themButton.setBackground(new Color(255, 128, 0));
@@ -261,7 +260,9 @@ public class BanHang_GUI {
 //cài đặt hành động cho nút xuất hóa đơn
         xuatButton.addActionListener(e -> {
                 HoaDonBan_DTO hoadon = new HoaDonBan_DTO(); 
-                new XuatHoaDonBan_GUI(hoadon);
+                hoadon.setTong_tien(Integer.parseInt(tongtienField.getText()));
+                hoadon.setMa_hoa_don_ban("");
+                new XuatHoaDonBan_GUI(hoadon, giohang_dtm);
         });
     }
     public static void main(String[] args) {
