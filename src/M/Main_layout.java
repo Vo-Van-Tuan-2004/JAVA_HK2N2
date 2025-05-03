@@ -3,13 +3,17 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 // package GUI;
+package M;
 
 import java.awt.Color;
-import java.awt.Image;
-import javax.swing.ImageIcon;
 import java.awt.Font;
+import java.awt.Image;
 
-import GUI.*;
+import javax.swing.ImageIcon;
+
+import GUI.QuanLyKhachHang_GUI;
+import GUI.QuanLyNhanVien_GUI;
+import GUI.QuanLySanPham_GUI;
 /**
  *
  * @author Admin

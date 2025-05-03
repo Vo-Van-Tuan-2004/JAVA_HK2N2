@@ -286,6 +286,11 @@ public class NhapHang_GUI {
             public void updateThanhTien() {
                 String dongiaText = dongiaField.getText();
                 String soluongText = soluongField.getText();
+                if (!soluongText.matches("\\d+")){
+                    soluongField.setBackground(new Color(230,113,113));;
+                } else {
+                    soluongField.setBackground(new Color(255,255,255));
+                }
                 String thanhtienText = thanhtienField.getText();
                 if (!dongiaText.isEmpty() && !soluongText.isEmpty()) {
                     try {

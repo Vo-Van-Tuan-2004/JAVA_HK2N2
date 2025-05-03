@@ -5,6 +5,8 @@
 package GUI;
 
 import BLL.taiKhoan_BLL;
+import M.Main_layout;
+
 import java.awt.Color;
 import java.awt.Image;
 import javax.swing.ImageIcon;

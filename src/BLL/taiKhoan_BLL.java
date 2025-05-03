@@ -1,6 +1,6 @@
 package BLL;
 
-import DAL.taiKhoan_DAL;
+import DAO.taiKhoan_DAL;
 import DTO.taiKhoan_DTO;
 import java.util.List;
 import java.util.Random;

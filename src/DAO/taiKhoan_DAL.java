@@ -1,4 +1,4 @@
-package DAL;
+package DAO;
 
 import DTO.taiKhoan_DTO;
 import java.sql.Connection;
@@ -20,13 +20,21 @@ public class taiKhoan_DAL {
     }
     private Connection conn;
 
+    // public taiKhoan_DAL() throws Exception {
+    //     String url = "jdbc:mysql://localhost:3306/CuaHangBanXeMay?useSSL=false&serverTimezone=UTC";
+    //     String user = "root";
+    //     String password = "";
+    //     Class.forName("com.mysql.cj.jdbc.Driver");
+    //     conn = DriverManager.getConnection(url,user,password);
+    // }
     public taiKhoan_DAL() throws Exception {
-        String url = "jdbc:mysql://localhost:3306/CuaHangBanXeMay?useSSL=false&serverTimezone=UTC";
-        String user = "root";
-        String password = "";
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        conn = DriverManager.getConnection(url,user,password);
+        String url = "jdbc:sqlserver://localhost:1433;databaseName=CuaHangBanXeMay;encrypt=false";
+        String user = "sa";
+        String password = "12345";
+        Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+        conn = DriverManager.getConnection(url, user, password);
     }
+
 
     public boolean maNhanVienExists(String maNhanVien) {
         String sql = "SELECT COUNT(*) FROM NhanVien WHERE ma_nhan_vien = ?";

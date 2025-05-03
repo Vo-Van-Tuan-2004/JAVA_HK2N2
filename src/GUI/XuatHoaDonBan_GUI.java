@@ -142,7 +142,7 @@ public class XuatHoaDonBan_GUI extends JFrame {
                 ChiTietHoaDonBan_DAO n_chitiet_DAO = new ChiTietHoaDonBan_DAO();
                 n_chitiet_DAO.themChiTietHoaDonBan(tmp);
                 }
-}
+            }
         });
         setVisible(true);
     }
