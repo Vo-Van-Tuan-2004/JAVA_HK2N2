@@ -2,15 +2,13 @@ package GUI;
 
 import DAO.SanPham_DAO;
 import DTO.SanPham_DTO;
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
+import javax.swing.*;
+import javax.swing.border.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import java.io.File;
-import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
 
 public class QuanLySanPham_GUI extends JFrame {
     private JPanel mainPanel;
@@ -44,7 +42,7 @@ public class QuanLySanPham_GUI extends JFrame {
 
     private void initComponents() {
         setTitle("Quản lý cửa hàng bán xe máy");
-        setSize(1200, 700);
+        setSize(1200, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 

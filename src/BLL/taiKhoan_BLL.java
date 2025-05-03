@@ -18,7 +18,7 @@ public class taiKhoan_BLL {
             maNhanVien = generateRandomMaNhanVien();
         } while (taiKhoan_DAL.maNhanVienExists(maNhanVien));
 
-        taiKhoan_DTO user = new taiKhoan_DTO(maNhanVien, tenTaiKhoan, matKhau);
+        taiKhoan_DTO user = new taiKhoan_DTO(maNhanVien, tenTaiKhoan, matKhau,"Nhân viên");
         return taiKhoan_DAL.register(user);
     }
 

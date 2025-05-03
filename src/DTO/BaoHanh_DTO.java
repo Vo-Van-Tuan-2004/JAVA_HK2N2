@@ -1,12 +1,12 @@
 package DTO;
 
-public class DTOBAOHANH {
+public class BaoHanh_DTO {
     private String ID_baohanh; 
     private String ID_sanpham;  
     private String ngaybatdau; 
     private String ngayketthuc;    
 
-    public DTOBAOHANH(String ID_baohanh, String ID_sanpham, String ngaybatdau, String ngayketthuc) {
+    public BaoHanh_DTO(String ID_baohanh, String ID_sanpham, String ngaybatdau, String ngayketthuc) {
         this.ID_baohanh = ID_baohanh;
         this.ID_sanpham = ID_sanpham;
         this.ngaybatdau = ngaybatdau;

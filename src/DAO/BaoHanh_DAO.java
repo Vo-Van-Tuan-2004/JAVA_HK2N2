@@ -1,11 +1,11 @@
 
 package DAO;
 
-import DTO.DTOBAOHANH;
+import DTO.BaoHanh_DTO;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class DatabaseConnection {
+public class BaoHanh_DAO {
     private Connection conn; 
     private static final String DATABASE = "CuaHangBanXeMay";
     private static final String URL = "jdbc:sqlserver://localhost:1433;databaseName=" + DATABASE + ";encrypt=true;trustServerCertificate=true";
@@ -59,5 +59,6 @@ public class DatabaseConnection {
         }
         return ds;
     }
+}
 
  

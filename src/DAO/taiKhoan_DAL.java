@@ -83,16 +83,24 @@ public class taiKhoan_DAL {
         }
     }
 
-    public taiKhoan_DTO login(String tenTaiKhoan, String matKhau){
-        String sql  = "SELECT * FROM TaiKhoan WHERE ten_tai_khoan = ? AND mat_khau = ?";
-        try (PreparedStatement stmt = conn.prepareStatement(sql)){
+    public taiKhoan_DTO login(String tenTaiKhoan, String matKhau) {
+        String sql = "SELECT tk.ma_nhan_vien, tk.ten_tai_khoan, tk.mat_khau, nv.chuc_vu " +
+                     "FROM TaiKhoan tk " +
+                     "JOIN NhanVien nv ON tk.ma_nhan_vien = nv.ma_nhan_vien " +
+                     "WHERE tk.ten_tai_khoan = ? AND tk.mat_khau = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, tenTaiKhoan);
             stmt.setString(2, matKhau);
             ResultSet rs = stmt.executeQuery();
-            if (rs.next()){
-                return new taiKhoan_DTO(rs.getString("ma_nhan_vien"), tenTaiKhoan, matKhau);
+            if (rs.next()) {
+                return new taiKhoan_DTO(
+                    rs.getString("ma_nhan_vien"),
+                    rs.getString("ten_tai_khoan"),
+                    rs.getString("mat_khau"),
+                    rs.getString("chuc_vu")
+                );
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println("Lỗi đăng nhập: " + e.getMessage());
         }
         return null;
@@ -108,7 +116,8 @@ public class taiKhoan_DAL {
                 taiKhoan_DTO account = new taiKhoan_DTO(
                     rs.getString("ma_nhan_vien"),
                     rs.getString("ten_tai_khoan"),
-                    rs.getString("mat_khau")
+                    rs.getString("mat_khau"),
+                    rs.getString("chuc_vu")
                 );
                 accounts.add(account);
             }
@@ -157,7 +166,8 @@ public class taiKhoan_DAL {
                 taiKhoan_DTO account = new taiKhoan_DTO(
                     rs.getString("ma_nhan_vien"),
                     rs.getString("ten_tai_khoan"),
-                    rs.getString("mat_khau")
+                    rs.getString("mat_khau"),
+                    rs.getString("chuc_vu")
                 );
                 accounts.add(account);
             }
