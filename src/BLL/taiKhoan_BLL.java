@@ -3,7 +3,6 @@ package BLL;
 import DAO.taiKhoan_DAL;
 import DTO.taiKhoan_DTO;
 import java.util.List;
-import java.util.Random;
 
 public class taiKhoan_BLL {
     private taiKhoan_DAL taiKhoan_DAL;
@@ -12,21 +11,27 @@ public class taiKhoan_BLL {
         taiKhoan_DAL = new taiKhoan_DAL();
     }
 
-    public boolean registerUser(String tenTaiKhoan, String matKhau) throws Exception {
-        String maNhanVien;
-        do {
-            maNhanVien = generateRandomMaNhanVien();
-        } while (taiKhoan_DAL.maNhanVienExists(maNhanVien));
-
-        taiKhoan_DTO user = new taiKhoan_DTO(maNhanVien, tenTaiKhoan, matKhau);
-        return taiKhoan_DAL.register(user);
+    public boolean registerUser(String maNhanVien, String tenTaiKhoan, String matKhau) {
+        // Use the provided employee code directly without generating random code
+        try {
+            if (!taiKhoan_DAL.maNhanVienExists(maNhanVien)) {
+                System.out.println("Mã nhân viên không tồn tại");
+                return false; // Employee code does not exist
+            }
+            if (taiKhoan_DAL.maTaiKhoanExists(maNhanVien)) {
+                System.out.println("Mã tài khoản đã tồn tại");
+                return false; // Account code already exists
+            }
+            taiKhoan_DTO user = new taiKhoan_DTO(maNhanVien, tenTaiKhoan, matKhau);
+            taiKhoan_DAL.register(user);
+            return true;
+        } catch (Exception e) {
+            System.out.println("Lỗi đăng ký tài khoản: " + e.getMessage());
+            return false;
+        }
     }
 
-    private String generateRandomMaNhanVien() {
-        Random rand = new Random();
-        int num = rand.nextInt(90000) + 10000; // 5 digit number
-        return "NV" + num;
-    }
+    // Remove generateRandomMaNhanVien method as it is no longer needed
 
     public boolean loginUser(String tenTaiKhoan, String matKhau){
         return taiKhoan_DAL.login(tenTaiKhoan, matKhau) != null;
