@@ -18,7 +18,7 @@ public class taiKhoan_BLL {
                 System.out.println("Mã nhân viên không tồn tại");
                 return false; // Employee code does not exist
             }
-            if (taiKhoan_DAL.maTaiKhoanExists(maNhanVien)) {
+            if (taiKhoan_DAL.maNhanVienExists(maNhanVien)) {
                 System.out.println("Mã tài khoản đã tồn tại");
                 return false; // Account code already exists
             }
@@ -29,6 +29,10 @@ public class taiKhoan_BLL {
             System.out.println("Lỗi đăng ký tài khoản: " + e.getMessage());
             return false;
         }
+    }
+
+    public boolean isEmployeeIdExists(String maNhanVien) {
+        return taiKhoan_DAL.maNhanVienExists(maNhanVien);
     }
 
     // Remove generateRandomMaNhanVien method as it is no longer needed
