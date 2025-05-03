@@ -172,7 +172,7 @@ public class GUIDangNhap extends javax.swing.JFrame {
             if (success) {
                 javax.swing.JOptionPane.showMessageDialog(this, "Đăng nhập thành công!", "Thông báo", javax.swing.JOptionPane.INFORMATION_MESSAGE);
                 // Create a dummy DTO since loginUser doesn't return user details
-                taiKhoan_DTO user = new taiKhoan_DTO("", tenTaiKhoan, matKhau, "Nhân viên");
+                taiKhoan_DTO user = new taiKhoan_DTO("", tenTaiKhoan, matKhau, "Quản lý");
                 Main_layout main_layout = new Main_layout(user);
                 main_layout.setVisible(true);
                 this.dispose();

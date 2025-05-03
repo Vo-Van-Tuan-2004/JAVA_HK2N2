@@ -120,18 +120,18 @@ public class HoaDonBan_DAO {
             ResultSet rs = stmt.executeQuery(query);
             if (rs.next()) {
                 String maxCode = rs.getString("max_code");
-                if (maxCode != null && maxCode.startsWith("PNB")) {
+                if (maxCode != null && maxCode.startsWith("HDB")) {
                     // Extract the numeric part and increment it
                     int currentNumber = Integer.parseInt(maxCode.substring(3));
                     int newNumber = currentNumber + 1;
-                    return "PNB" + String.format("%d", newNumber);
+                    return "HDB" + String.format("%d", newNumber);
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         // Default to HDB1 if no records exist
-        return "PN1";
+        return "HD1";
     }
 
     // Close the database connection

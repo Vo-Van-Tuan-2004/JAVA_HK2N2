@@ -6,6 +6,7 @@ import DTO.ChiTietPhieuNhap_DTO;
 import DTO.NhaCungCap_DTO;
 import DTO.PhieuNhap_DTO;
 import DTO.SanPham_DTO;
+import DTO.taiKhoan_DTO;
 import java.awt.*;
 import java.util.ArrayList;
 import javax.swing.*;
@@ -16,21 +17,19 @@ import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumnModel;
 
 public class NhapHang_GUI {
-    private JFrame frame ;
+    private JPanel frame ;
     private PhieuNhap_DTO phieunhap = new PhieuNhap_DTO();
     private ArrayList<ChiTietPhieuNhap_DTO> dsctpn = new ArrayList<>(); 
 
-    public NhapHang_GUI(){
-        frame = new JFrame();
+    public NhapHang_GUI( taiKhoan_DTO user){
+        frame = new JPanel();
         frame.setSize(1000, 700);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
         frame.setLayout(new BorderLayout());
-//menu panel
-        JPanel menuPanel = new JPanel();
-        menuPanel.setLayout(new BoxLayout(menuPanel, BoxLayout.Y_AXIS));
-        menuPanel.setBackground(new Color(50, 60, 70));
-        menuPanel.setPreferredSize(new Dimension(150,700));
+// //menu panel
+//         JPanel menuPanel = new JPanel();
+//         menuPanel.setLayout(new BoxLayout(menuPanel, BoxLayout.Y_AXIS));
+//         menuPanel.setBackground(new Color(50, 60, 70));
+//         menuPanel.setPreferredSize(new Dimension(150,700));
 
 //main panel
         JPanel mainPanel = new JPanel(new BorderLayout());
@@ -224,7 +223,7 @@ public class NhapHang_GUI {
         rightPanel.add(chucnangPanel, BorderLayout.CENTER);
         mainPanel.add(leftPanel, BorderLayout.WEST);
         mainPanel.add(rightPanel, BorderLayout.CENTER);
-        frame.add(menuPanel, BorderLayout.WEST);
+        // frame.add(menuPanel, BorderLayout.WEST);
         frame.add(mainPanel, BorderLayout.CENTER);
         frame.setVisible(true);
 // hành động cho Panel tìm kiếm
@@ -344,7 +343,10 @@ public class NhapHang_GUI {
 
 
     }  
+    public JPanel getMainPanel(){
+        return frame;
+    }
     public static void main(String[] args) {
-        new NhapHang_GUI();
+        new NhapHang_GUI(null);
     } 
 }

@@ -156,19 +156,6 @@ public class GUIDangKy extends javax.swing.JFrame {
             return;
         }
 
-        // Email validation regex
-        String emailRegex = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
-        if (!email.matches(emailRegex)) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Email không đúng định dạng.", "Lỗi", javax.swing.JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        // Phone number validation: only digits
-        if (!phone.matches("\\d+")) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Số điện thoại chỉ được nhập số.", "Lỗi", javax.swing.JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
         try {
             taiKhoan_BLL bll = new taiKhoan_BLL();
             boolean success = bll.registerUser(tenTaiKhoan, matKhau);

@@ -2,8 +2,8 @@ package GUI;
 import DAO.SanPham_DAO;
 import DTO.HoaDonBan_DTO;
 import DTO.SanPham_DTO;
+import DTO.taiKhoan_DTO;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -11,23 +11,21 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
 public class BanHang_GUI {
-    private JFrame frame ;
-    public BanHang_GUI(ActionListener listen ){
+    private JPanel frame ;
+    public BanHang_GUI(taiKhoan_DTO user ){
        
-        frame = new JFrame();
+        frame = new JPanel();
         frame.setSize(1000, 700);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
         frame.setLayout(new BorderLayout());
 //menu panel
-        JPanel menuPanel = new JPanel();
-        menuPanel.setLayout(new BoxLayout(menuPanel, BoxLayout.Y_AXIS));
-        menuPanel.setBackground(new Color(50, 60, 70));
-        menuPanel.setPreferredSize(new Dimension(150,700));
+        // JPanel menuPanel = new JPanel();
+        // menuPanel.setLayout(new BoxLayout(menuPanel, BoxLayout.Y_AXIS));
+        // menuPanel.setBackground(new Color(50, 60, 70));
+        // menuPanel.setPreferredSize(new Dimension(150,700));
 
 //main panel
         JPanel mainPanel = new JPanel(new BorderLayout());
-        mainPanel.setPreferredSize(new Dimension(850,700));
+        mainPanel.setPreferredSize(new Dimension(900,700));
 //left_main panel
         JPanel leftPanel = new JPanel(new BorderLayout());
         leftPanel.setPreferredSize(new Dimension(600, 700));
@@ -186,7 +184,7 @@ public class BanHang_GUI {
         rightPanel.add(chucnangPanel, BorderLayout.CENTER);
         mainPanel.add(leftPanel, BorderLayout.WEST);
         mainPanel.add(rightPanel, BorderLayout.CENTER);
-        frame.add(menuPanel, BorderLayout.WEST);
+        // frame.add(menuPanel, BorderLayout.WEST);
         frame.add(mainPanel, BorderLayout.CENTER);
         frame.setVisible(true);
 
@@ -264,6 +262,9 @@ public class BanHang_GUI {
                 new XuatHoaDonBan_GUI(hoadon, giohang_dtm);
                 System.out.println("Đã bấm nút Xuất hóa đơn!");
         });
+    }
+    public JPanel getMainPanel() {
+        return frame;
     }
     public static void main(String[] args) {
        new BanHang_GUI(null);

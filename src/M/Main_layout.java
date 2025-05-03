@@ -1,12 +1,18 @@
 package M;
 
 import DTO.taiKhoan_DTO;
+import GUI.BanHang_GUI;
+import GUI.NhapHang_GUI;
 import GUI.QuanLyKhachHang_GUI;
 import GUI.QuanLyNhanVien_GUI;
 import GUI.QuanLySanPham_GUI;
+
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 
 public class Main_layout extends javax.swing.JFrame {
@@ -83,6 +89,11 @@ public class Main_layout extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         banHang_btn.setText("Bán hàng");
+        banHang_btn.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                banHang_btnActionPerformed(e);
+            }
+        });
 
         qlnv_btn.setText("Quản lý nhân viên");
         qlnv_btn.addActionListener(new java.awt.event.ActionListener() {
@@ -216,6 +227,14 @@ public class Main_layout extends javax.swing.JFrame {
         pack();
     }
 
+    private void banHang_btnActionPerformed(java.awt.event.ActionEvent evt) {
+        jPanel2.removeAll();
+        BanHang_GUI banHang = new BanHang_GUI(null);
+        jPanel2.setLayout(new BorderLayout());
+        jPanel2.add(banHang.getMainPanel(), BorderLayout.CENTER);
+        jPanel2.revalidate();
+        jPanel2.repaint();
+    }
     private void qlsp_btnActionPerformed(java.awt.event.ActionEvent evt) {
         QuanLySanPham_GUI qlsp = new QuanLySanPham_GUI();
         qlsp.setVisible(true);
@@ -241,7 +260,12 @@ public class Main_layout extends javax.swing.JFrame {
     }
 
     private void nhapHang_btnActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO: Thêm xử lý cho nhập hàng
+        jPanel2.removeAll();
+        NhapHang_GUI nhapHang = new NhapHang_GUI(null);
+        jPanel2.setLayout(new BorderLayout());
+        jPanel2.add(nhapHang.getMainPanel(), BorderLayout.CENTER);
+        jPanel2.revalidate();
+        jPanel2.repaint();
     }
 
     private void thongKe_btnActionPerformed(java.awt.event.ActionEvent evt) {
