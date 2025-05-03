@@ -30,7 +30,7 @@ public class GUIDangKy extends javax.swing.JFrame {
         Color buttonForeground = Color.WHITE;
 
         javax.swing.JButton[] buttons = {
-            jButton1, jButton2, jButton3
+            jButton1, jButton2
         };
 
         for (javax.swing.JButton btn : buttons) {
@@ -93,7 +93,9 @@ public class GUIDangKy extends javax.swing.JFrame {
         jTextField6 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jTextField7 = new javax.swing.JTextField();
+        jTextField7.setColumns(20);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -156,7 +158,7 @@ public class GUIDangKy extends javax.swing.JFrame {
 
         ageLabel.setText("Ngày sinh : ");
 
-        dayBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31" }));
+        dayBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         dayBox.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 dayBoxItemStateChanged(evt);
@@ -168,9 +170,9 @@ public class GUIDangKy extends javax.swing.JFrame {
             }
         });
 
-        monthBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" }));
+        monthBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        yearBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1950", "1951", "1952", "1953", "1954", "1955", "1956", "1957", "1958", "1959", "1960", "1961", "1962", "1963", "1964", "1965", "1966", "1967", "1968", "1969", "1970", "1971", "1972", "1973", "1974", "1975", "1976", "1977", "1978", "1979", "1980", "1981", "1982", "1983", "1984", "1985", "1986", "1987", "1988", "1989", "1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998", "1999", "2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025" }));
+        yearBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         sexLabel.setText("Giới tính : ");
 
@@ -197,17 +199,29 @@ public class GUIDangKy extends javax.swing.JFrame {
         });
 
         jButton2.setText("Đăng Ký");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("Chọn ảnh đại diện");
+        jLabel1.setText("Mã nhân viên:");
+
+        jTextField7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField7ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGap(47, 47, 47)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(47, 47, 47)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(sexLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(ageLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -251,18 +265,21 @@ public class GUIDangKy extends javax.swing.JFrame {
                                         .addGap(30, 30, 30)
                                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(362, 362, 362)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(407, 407, 407)
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(130, Short.MAX_VALUE))
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(141, 141, 141)
-                .addComponent(jButton3)
-                .addGap(26, 26, 26)
+                .addGap(117, 117, 117)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(51, 51, 51)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(userNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -302,11 +319,14 @@ public class GUIDangKy extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        String maNhanVien = jTextField7.getText().trim();
         String tenTaiKhoan = jTextField1.getText();
         String matKhau = jTextField2.getText();
         String xacNhanMatKhau = jTextField3.getText();
+        String email = jTextField5.getText().trim();
+        String phone = jTextField6.getText().trim();
 
-        if (tenTaiKhoan.isEmpty() || matKhau.isEmpty() || xacNhanMatKhau.isEmpty()) {
+        if (maNhanVien.isEmpty() || tenTaiKhoan.isEmpty() || matKhau.isEmpty() || xacNhanMatKhau.isEmpty() || email.isEmpty() || phone.isEmpty()) {
             javax.swing.JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin đăng ký.", "Lỗi", javax.swing.JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -316,16 +336,33 @@ public class GUIDangKy extends javax.swing.JFrame {
             return;
         }
 
+        // Email validation regex
+        String emailRegex = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
+        if (!email.matches(emailRegex)) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Email không đúng định dạng.", "Lỗi", javax.swing.JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Phone number validation: only digits
+        if (!phone.matches("\\d+")) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Số điện thoại chỉ được nhập số.", "Lỗi", javax.swing.JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         try {
             BLL.taiKhoan_BLL bll = new BLL.taiKhoan_BLL();
-            boolean success = bll.registerUser(tenTaiKhoan, matKhau);
+            if (!bll.isEmployeeIdExists(maNhanVien)) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Mã nhân viên không tồn tại.", "Lỗi", javax.swing.JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            boolean success = bll.registerUser(maNhanVien, tenTaiKhoan, matKhau);
             if (success) {
                 javax.swing.JOptionPane.showMessageDialog(this, "Đăng ký thành công!", "Thông báo", javax.swing.JOptionPane.INFORMATION_MESSAGE);
                 this.dispose();
                 GUI.GUIDangNhap loginForm = new GUI.GUIDangNhap();
                 loginForm.setVisible(true);
             } else {
-                javax.swing.JOptionPane.showMessageDialog(this, "Đăng ký thất bại. Tài khoản có thể đã tồn tại.", "Lỗi", javax.swing.JOptionPane.ERROR_MESSAGE);
+                javax.swing.JOptionPane.showMessageDialog(this, "Đăng ký thất bại. Tài khoản có thể đã tồn tại hoặc mã nhân viên không hợp lệ.", "Lỗi", javax.swing.JOptionPane.ERROR_MESSAGE);
             }
         } catch (Exception e) {
             javax.swing.JOptionPane.showMessageDialog(this, "Lỗi khi đăng ký: " + e.getMessage(), "Lỗi", javax.swing.JOptionPane.ERROR_MESSAGE);
@@ -356,6 +393,10 @@ public class GUIDangKy extends javax.swing.JFrame {
         GUIDangNhap pageDangNhap = new GUIDangNhap();
         pageDangNhap.setVisible(true);// TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTextField7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField7ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField7ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -399,7 +440,7 @@ public class GUIDangKy extends javax.swing.JFrame {
     private javax.swing.JLabel emailLabel;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JTextField jTextField1;
@@ -408,6 +449,7 @@ public class GUIDangKy extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
+    private javax.swing.JTextField jTextField7;
     private javax.swing.JLabel matKhauLabel;
     private javax.swing.JComboBox<String> monthBox;
     private javax.swing.JRadioButton namBtnRadio;
