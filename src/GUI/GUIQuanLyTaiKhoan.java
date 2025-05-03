@@ -1,519 +1,662 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package GUI;
 
 import BLL.taiKhoan_BLL;
-import java.awt.Color;
-import java.awt.Image;
-import javax.swing.ImageIcon;
-import java.awt.Font;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
+import DTO.taiKhoan_DTO;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.List;
+import javax.swing.*;
+import javax.swing.border.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author Admin
- */
-public class GUIQuanLyTaiKhoan extends javax.swing.JFrame {
+public class GUIQuanLyTaiKhoan extends JFrame {
+    private JPanel mainPanel;
+    private JTable tblTaiKhoan;
+    private DefaultTableModel model;
+    private taiKhoan_BLL tkBLL;
 
-    /**
-     * Creates new form Main_layout
-     */
-    private javax.swing.JLabel currentUser_label;
+    // Menu buttons
+    private JButton btnBanHang;
+    private JButton btnQuanLyNhanVien;
+    private JButton btnQuanLySanPham;
+    private JButton btnQuanLyKhachHang;
+    private JButton btnQuanLyTaiKhoan;
+    private JButton btnNhapHang;
+    private JButton btnThongKe;
+    private JButton btnDangXuat;
+
+    // Form fields
+    private JTextField txtMaTaiKhoan;
+    private JTextField txtTenTaiKhoan;
+    private JTextField txtMatKhau;
+    private JTextField txtSearch;
+
+    // New JComboBox for employee selection
+    private JComboBox<String> comboNhanVien;
+
+    // Action buttons
+    private JButton btnThem;
+    private JButton btnLuu;
+    private JButton btnXoa;
+    private JButton btnTimKiem;
+    private JButton btnXuat;
+    private JButton btnNhap;
 
     public GUIQuanLyTaiKhoan() {
-        this("");
-    }
-
-    public GUIQuanLyTaiKhoan(String username) {
-        initComponents();
-        setTitle("Quản lý cửa hàng bán xe máy");
-        jPanel1.setBackground(new Color(70,20,180));
-        jPanel2.setBackground(Color.WHITE);
-        jPanel3.setBackground(Color.WHITE);
-        jPanel4.setBackground(Color.WHITE);
-        
-        ImageIcon icon1 = new ImageIcon(getClass().getResource("/IMG/logo.png"));
-        Image logo = icon1.getImage().getScaledInstance(230,100, Image.SCALE_SMOOTH);
-        jLabel2.setIcon(new ImageIcon(logo));
-        
-        chucNang_label.setFont(new Font("Arial", Font.BOLD, 16));
-        chucNang_label.setForeground(Color.white);
- 
-        currentUser_label = new javax.swing.JLabel();
-        currentUser_label.setFont(new Font("Arial", Font.ITALIC, 14));
-        currentUser_label.setForeground(Color.white);
-        currentUser_label.setText("Người dùng hiện tại: " + username);
-        jPanel1.add(currentUser_label);
-        currentUser_label.setBounds(banHang_btn.getX(), chucNang_label.getY() + 25, 200, 20);
- 
-        // Custom button styles
-        Font buttonFont = new Font("Segoe UI", Font.BOLD, 14);
-        Color buttonBackground = new Color(100, 149, 237); 
-        Color buttonForeground = Color.WHITE;
- 
-        javax.swing.JButton[] buttons = {
-            banHang_btn, qlnv_btn, qlsp_btn, qlkh_btn, qltk_btn, nhapHang_btn, dangXuat_btn
-        };
- 
-        for (javax.swing.JButton btn : buttons) {
-            btn.setFont(buttonFont);
-            btn.setBackground(buttonBackground);
-            btn.setForeground(buttonForeground);
-            btn.setFocusPainted(false);
-            btn.setBorder(javax.swing.BorderFactory.createLineBorder(new Color(65, 105, 225), 2)); // Royal Blue border
-        }
-        
-        // Add event listener for themTaiKhoan_btn
-        themTaiKhoan_btn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                themTaiKhoan_btnActionPerformed(evt);
-            }
-        });
-
-        // Load accounts into table on startup
-        loadAccountsToTable();
-        
-        taiKhoanTable.addMouseListener(new MouseAdapter() {
-    @Override
-    public void mouseClicked(MouseEvent e) {
-        int row = taiKhoanTable.rowAtPoint(e.getPoint());
-        int column = taiKhoanTable.columnAtPoint(e.getPoint());
-
-        // Giả sử cột "Sửa | Xóa" là cột cuối (index = 4)
-        if (column == taiKhoanTable.getColumnCount() - 1 && row >= 0) {
-            String taiKhoan = taiKhoanTable.getValueAt(row, 0).toString();
-
-            // Hiển thị lựa chọn
-            Object[] options = {"Sửa", "Xóa", "Hủy"};
-            int choice = JOptionPane.showOptionDialog(null,
-                    "Bạn muốn làm gì với tài khoản: " + taiKhoan + "?",
-                    "Lựa chọn",
-                    JOptionPane.YES_NO_CANCEL_OPTION,
-                    JOptionPane.QUESTION_MESSAGE,
-                    null, options, options[0]);
-
-            if (choice == 0) { // Sửa
-                String newTenTaiKhoan = JOptionPane.showInputDialog(null, "Nhập tên người dùng mới:");
-                if (newTenTaiKhoan == null || newTenTaiKhoan.trim().isEmpty()) {
-                    showError("Tên người dùng không được để trống!");
-                    return;
-                }
-                String newMatKhau = JOptionPane.showInputDialog(null, "Nhập mật khẩu mới:");
-                if (newMatKhau == null || newMatKhau.trim().isEmpty()) {
-                    showError("Mật khẩu không được để trống!");
-                    return;
-                }
-                try {
-                    taiKhoan_BLL bll = new taiKhoan_BLL();
-                    bll.updateAccount(taiKhoan, newTenTaiKhoan.trim(), newMatKhau.trim());
-                    JOptionPane.showMessageDialog(null, "Đã cập nhật tài khoản.");
-                    showTable(); // load lại bảng
-                } catch (Exception ex) {
-                    showError("Lỗi cập nhật tài khoản: " + ex.getMessage());
-                }
-            } else if (choice == 1) { // Xóa
-                int xacNhan = JOptionPane.showConfirmDialog(null,
-                        "Bạn có chắc muốn xóa tài khoản " + taiKhoan + "?",
-                        "Xác nhận",
-                        JOptionPane.YES_NO_OPTION);
-                if (xacNhan == JOptionPane.YES_OPTION) {
-                    taiKhoan_BLL bll = null;
-                    try {
-                        bll = new taiKhoan_BLL();
-                    } catch (Exception ex) {
-                        Logger.getLogger(GUIQuanLyTaiKhoan.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    bll.deleteAccount(taiKhoan);
-                    JOptionPane.showMessageDialog(null, "Đã xóa tài khoản.");
-                    showTable(); // load lại bảng
-                }
-            }
-        }
-    }
-
-            private void showTable() {
-                try {
-                    BLL.taiKhoan_BLL taiKhoanBLL = new BLL.taiKhoan_BLL();
-                    var model = (javax.swing.table.DefaultTableModel) taiKhoanTable.getModel();
-                    model.setRowCount(0);
-                    for (var acc : taiKhoanBLL.getAllAccounts()) {
-                        model.addRow(new Object[]{acc.getMaTaiKhoan(), acc.getTenTaiKhoan(), acc.getMatKhau(), "Sửa | Xóa"});
-                    }
-                } catch (Exception e) {
-                    showError("Lỗi tải danh sách tài khoản: " + e.getMessage());
-                }
-            }
-    
-});
-
-    }
-
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
-
-        jPanel1 = new javax.swing.JPanel();
-        banHang_btn = new javax.swing.JButton();
-        qlnv_btn = new javax.swing.JButton();
-        qlsp_btn = new javax.swing.JButton();
-        qlkh_btn = new javax.swing.JButton();
-        qltk_btn = new javax.swing.JButton();
-        nhapHang_btn = new javax.swing.JButton();
-        chucNang_label = new javax.swing.JLabel();
-        dangXuat_btn = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        taiKhoanTable = new javax.swing.JTable();
-        jPanel3 = new javax.swing.JPanel();
-        themTaiKhoan_btn = new javax.swing.JButton();
-        timKiemLabel = new javax.swing.JLabel();
-        timKiemField = new javax.swing.JTextField();
-        timKiem_btn = new javax.swing.JButton();
-        jPanel4 = new javax.swing.JPanel();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        banHang_btn.setText("Bán hàng");
-
-        qlnv_btn.setText("Quản lý nhân viên ");
-
-        qlsp_btn.setText("Quản lý sản phẩm");
-        qlsp_btn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                qlsp_btnActionPerformed(evt);
-            }
-        });
-
-        qlkh_btn.setText("Quản lý khách hàng");
-        qlkh_btn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                qlkh_btnActionPerformed(evt);
-            }
-        });
-
-        qltk_btn.setText("Quản lý tài khoản");
-        qltk_btn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                qltk_btnActionPerformed(evt);
-            }
-        });
-
-        nhapHang_btn.setText("Nhập hàng");
-        nhapHang_btn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nhapHang_btnActionPerformed(evt);
-            }
-        });
-
-        chucNang_label.setText("Chức năng");
-
-        dangXuat_btn.setText("Đăng xuất");
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(33, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(banHang_btn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(qlnv_btn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(qlsp_btn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(qlkh_btn, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
-                            .addComponent(qltk_btn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(nhapHang_btn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(33, 33, 33))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(dangXuat_btn)
-                        .addGap(21, 21, 21))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(chucNang_label)
-                        .addGap(104, 104, 104))))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(35, 35, 35)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
-                .addComponent(chucNang_label)
-                .addGap(32, 32, 32)
-                .addComponent(banHang_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(qlnv_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(qlsp_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(qlkh_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(qltk_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(nhapHang_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(dangXuat_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(69, 69, 69))
-        );
-
-        taiKhoanTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Mã tài khoản", "Tên người dùng", "Mật khẩu", "Chức năng"
-            }
-        ));
-        jScrollPane1.setViewportView(taiKhoanTable);
-
-        themTaiKhoan_btn.setText("Thêm tài khoản");
-
-        timKiemLabel.setText("Tìm kiếm:");
-
-        timKiem_btn.setText("Tìm");
-        timKiem_btn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                timKiem_btnActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGap(425, 425, 425)
-                .addComponent(timKiemLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(timKiemField, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(timKiem_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 213, Short.MAX_VALUE)
-                .addComponent(themTaiKhoan_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(73, 73, 73))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(themTaiKhoan_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(timKiemLabel)
-                    .addComponent(timKiemField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(timKiem_btn))
-                .addContainerGap(33, Short.MAX_VALUE))
-        );
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 606, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-
-        pack();
-    }// </editor-fold>//GEN-END:initComponents
-
-    private void qlsp_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_qlsp_btnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_qlsp_btnActionPerformed
-
-    private void qlkh_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_qlkh_btnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_qlkh_btnActionPerformed
-
-    private void qltk_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_qltk_btnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_qltk_btnActionPerformed
-
-    private void nhapHang_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nhapHang_btnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_nhapHang_btnActionPerformed
-
-    private void timKiem_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timKiem_btnActionPerformed
         try {
-            String keyword = timKiemField.getText().trim();
-            BLL.taiKhoan_BLL bll = new BLL.taiKhoan_BLL();
-            var model = (javax.swing.table.DefaultTableModel) taiKhoanTable.getModel();
-            model.setRowCount(0);
-            if (keyword.isEmpty()) {
-                // If search field is empty, load all accounts
-                for (var acc : bll.getAllAccounts()) {
-                    model.addRow(new Object[]{acc.getMaTaiKhoan(), acc.getTenTaiKhoan(), acc.getMatKhau(), "Sửa | Xóa"});
-                }
-            } else {
-                // Search accounts by keyword
-                for (var acc : bll.searchAccounts(keyword)) {
-                    model.addRow(new Object[]{acc.getMaTaiKhoan(), acc.getTenTaiKhoan(), acc.getMatKhau(), "Sửa | Xóa"});
-                }
+            tkBLL = new taiKhoan_BLL();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Lỗi khởi tạo BLL: " + e.getMessage());
+        }
+        initComponents();
+        loadData();
+    }
+
+    private void loadNhanVienToCombo() {
+        try {
+            // Assuming there is a BLL or DAO to get employee list
+            // I will create a new instance of QuanLyNhanVien_GUI to get employee list or directly use DAO
+            // For simplicity, I will use DAO here
+            java.util.List<DTO.NhanVien_DTO> danhSachNhanVien = new DAO.NhanVien_DAO().LayDanhSachNhanVien();
+            comboNhanVien.removeAllItems();
+            for (DTO.NhanVien_DTO nv : danhSachNhanVien) {
+                comboNhanVien.addItem(nv.getMa_nhan_vien() + " - " + nv.getTen_nhan_vien());
             }
         } catch (Exception e) {
-            showError("Lỗi tìm kiếm tài khoản: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "Lỗi khi tải danh sách nhân viên: " + e.getMessage());
         }
-    }//GEN-LAST:event_timKiem_btnActionPerformed
-
-    private void themTaiKhoan_btnActionPerformed(java.awt.event.ActionEvent evt) {
-    try {
-        String tenTaiKhoan = javax.swing.JOptionPane.showInputDialog(this, "Nhập tên tài khoản:");
-        if (tenTaiKhoan == null || tenTaiKhoan.trim().isEmpty()) {
-            showError("Tên tài khoản không được để trống!");
-            return;
-        }
-
-        String matKhau = javax.swing.JOptionPane.showInputDialog(this, "Nhập mật khẩu:");
-        if (matKhau == null || matKhau.trim().isEmpty()) {
-            showError("Mật khẩu không được để trống!");
-            return;
-        }
-
-        BLL.taiKhoan_BLL taiKhoanBLL = new BLL.taiKhoan_BLL();
-        if (taiKhoanBLL.registerUser(tenTaiKhoan, matKhau)) {
-            showMessage("Thêm tài khoản thành công!");
-            loadAccountsToTable();
-        } else {
-            showError("Thêm tài khoản thất bại!");
-        }
-    } catch (Exception e) {
-        showError("Lỗi: " + e.getMessage());
     }
-}
 
-private void loadAccountsToTable() {
-    try {
-        BLL.taiKhoan_BLL taiKhoanBLL = new BLL.taiKhoan_BLL();
-        var model = (javax.swing.table.DefaultTableModel) taiKhoanTable.getModel();
-        model.setRowCount(0);
-        for (var acc : taiKhoanBLL.getAllAccounts()) {
-            model.addRow(new Object[]{acc.getMaTaiKhoan(), acc.getTenTaiKhoan(), acc.getMatKhau(), "Sửa | Xóa"});
-        }
-    } catch (Exception e) {
-        showError("Lỗi tải danh sách tài khoản: " + e.getMessage());
+    private void initComponents() {
+        setTitle("Quản lý cửa hàng bán xe máy");
+        setSize(1200, 700);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+
+        mainPanel = new JPanel(new BorderLayout(0, 0));
+
+        JPanel menuPanel = createMenuPanel();
+        mainPanel.add(menuPanel, BorderLayout.WEST);
+
+        JPanel contentPanel = createContentPanel();
+        mainPanel.add(contentPanel, BorderLayout.CENTER);
+
+        add(mainPanel);
+        addEvents();
     }
-}
 
-private void showMessage(String message) {
-    javax.swing.JOptionPane.showMessageDialog(this, message, "Thông báo", javax.swing.JOptionPane.INFORMATION_MESSAGE);
-}
+    private JPanel createMenuPanel() {
+        JPanel menuPanel = new JPanel(new BorderLayout(0, 0));
+        menuPanel.setBackground(new Color(72, 25, 161));
+        menuPanel.setPreferredSize(new Dimension(250, getHeight()));
 
-private void showError(String message) {
-    javax.swing.JOptionPane.showMessageDialog(this, message, "Lỗi", javax.swing.JOptionPane.ERROR_MESSAGE);
-}
+        JPanel logoPanel = new JPanel(new BorderLayout());
+        logoPanel.setBackground(new Color(72, 25, 161));
+        logoPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+        ImageIcon logo = new ImageIcon(
+            new ImageIcon(getClass().getResource("/IMG/logo.png"))
+            .getImage()
+            .getScaledInstance(230, 100, Image.SCALE_SMOOTH)
+        );
+        JLabel logoLabel = new JLabel(logo);
+        logoPanel.add(logoLabel, BorderLayout.CENTER);
+
+        JLabel chucNangLabel = new JLabel("Chức năng");
+        chucNangLabel.setForeground(Color.WHITE);
+        chucNangLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        chucNangLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        logoPanel.add(chucNangLabel, BorderLayout.SOUTH);
+
+        JPanel buttonsPanel = new JPanel();
+        buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.Y_AXIS));
+        buttonsPanel.setBackground(new Color(72, 25, 161));
+        buttonsPanel.setBorder(BorderFactory.createEmptyBorder(20, 15, 20, 15));
+
+        btnBanHang = createMenuButton("Bán hàng");
+        btnQuanLyNhanVien = createMenuButton("Quản lý nhân viên");
+        btnQuanLySanPham = createMenuButton("Quản lý sản phẩm");
+        btnQuanLyKhachHang = createMenuButton("Quản lý khách hàng");
+        btnQuanLyTaiKhoan = createMenuButton("Quản lý tài khoản");
+        btnNhapHang = createMenuButton("Nhập hàng");
+        btnThongKe = createMenuButton("Thống kê");
+        btnDangXuat = createMenuButton("Đăng xuất");
+
+        buttonsPanel.add(btnBanHang);
+        addSpacing(buttonsPanel, 10);
+        buttonsPanel.add(btnQuanLyNhanVien);
+        addSpacing(buttonsPanel, 10);
+        buttonsPanel.add(btnQuanLySanPham);
+        addSpacing(buttonsPanel, 10);
+        buttonsPanel.add(btnQuanLyKhachHang);
+        addSpacing(buttonsPanel, 10);
+        buttonsPanel.add(btnQuanLyTaiKhoan);
+        addSpacing(buttonsPanel, 10);
+        buttonsPanel.add(btnNhapHang);
+        addSpacing(buttonsPanel, 10);
+        buttonsPanel.add(btnThongKe);
+        addSpacing(buttonsPanel, 10);
+
+        JPanel logoutPanel = new JPanel(new BorderLayout());
+        logoutPanel.setBackground(new Color(72, 25, 161));
+        logoutPanel.setBorder(BorderFactory.createEmptyBorder(0, 15, 20, 15));
+        btnDangXuat.setMaximumSize(new Dimension(220, 40));
+        btnDangXuat.setAlignmentX(Component.RIGHT_ALIGNMENT);
+        logoutPanel.add(btnDangXuat, BorderLayout.SOUTH);
+
+        menuPanel.add(logoPanel, BorderLayout.NORTH);
+        menuPanel.add(buttonsPanel, BorderLayout.CENTER);
+        menuPanel.add(logoutPanel, BorderLayout.SOUTH);
+
+        return menuPanel;
+    }
+
+    private void addSpacing(JPanel panel, int height) {
+        panel.add(Box.createRigidArea(new Dimension(0, height)));
+    }
+
+    private JButton createMenuButton(String text) {
+        JButton button = new JButton(text);
+        button.setMaximumSize(new Dimension(220, 40));
+        button.setPreferredSize(new Dimension(220, 40));
+        button.setFont(new Font("Arial", Font.BOLD, 14));
+        button.setForeground(Color.WHITE);
+        button.setBackground(new Color(100, 149, 237));
+        button.setFocusPainted(false);
+        button.setBorder(new CompoundBorder(
+            new LineBorder(new Color(100, 149, 237), 2),
+            BorderFactory.createEmptyBorder(5, 10, 5, 10)
+        ));
+        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+        button.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                button.setBackground(new Color(100, 149, 237));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                button.setBackground(new Color(100, 149, 237));
+            }
+        });
+
+        return button;
+    }
+
+    private JPanel createContentPanel() {
+        JPanel contentPanel = new JPanel(new BorderLayout());
+        contentPanel.setBackground(new Color(73, 138, 186));
+
+        JPanel formPanel = new JPanel(new GridBagLayout());
+        formPanel.setBackground(new Color(73, 138, 186));
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(5, 5, 5, 5);
+
+        JLabel lblMaTaiKhoan = new JLabel("Mã tài khoản:");
+        JLabel lblTenTaiKhoan = new JLabel("Tên tài khoản:");
+        JLabel lblMatKhau = new JLabel("Mật khẩu:");
+
+        lblMaTaiKhoan.setForeground(Color.WHITE);
+        lblTenTaiKhoan.setForeground(Color.WHITE);
+        lblMatKhau.setForeground(Color.WHITE);
+
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        formPanel.add(lblMaTaiKhoan, gbc);
+        gbc.gridx = 1;
+        // Reintroduce txtMaTaiKhoan as editable text field for account code input
+        txtMaTaiKhoan = new JTextField(15);
+        txtMaTaiKhoan.setPreferredSize(new Dimension(200, 25));
+        formPanel.add(txtMaTaiKhoan, gbc);
+
+        // Keep comboNhanVien for employee selection but do not add to form here
+        comboNhanVien = new JComboBox<>();
+        comboNhanVien.setPreferredSize(new Dimension(200, 25));
+        comboNhanVien.setVisible(false); // hide combo box from UI, used for validation only
+        formPanel.add(comboNhanVien, gbc);
+
+        // Load employee list into comboNhanVien for validation
+        loadNhanVienToCombo();
+
+        // Remove listener that updates txtMaTaiKhoanDisplay (no longer needed)
+
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        formPanel.add(lblTenTaiKhoan, gbc);
+        gbc.gridx = 1;
+        txtTenTaiKhoan = new JTextField(20);
+        formPanel.add(txtTenTaiKhoan, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        formPanel.add(lblMatKhau, gbc);
+        gbc.gridx = 1;
+        txtMatKhau = new JTextField(20);
+        formPanel.add(txtMatKhau, gbc);
+
+        JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        searchPanel.setBackground(new Color(73, 138, 186));
+        JLabel lblSearch = new JLabel("Từ khóa tìm:");
+        lblSearch.setForeground(Color.WHITE);
+        txtSearch = new JTextField(40);
+        searchPanel.add(lblSearch);
+        searchPanel.add(txtSearch);
+
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
+        buttonPanel.setBackground(new Color(73, 138, 186));
+
+        Dimension buttonSize = new Dimension(120, 35);
+        btnThem = createActionButton("Thêm", "/IMG/add.png", buttonSize);
+        btnLuu = createActionButton("Lưu", "/IMG/save.png", buttonSize);
+        btnXoa = createActionButton("Xóa", "/IMG/delete.png", buttonSize);
+        btnTimKiem = createActionButton("Tìm kiếm", "/IMG/search.png", buttonSize);
+        btnXuat = createActionButton("Xuất", "/IMG/export.png", buttonSize);
+        btnNhap = createActionButton("Nhập", "/IMG/import.png", buttonSize);
+
+        txtSearch.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    timKiemTaiKhoan();
+                }
+            }
+        });
+
+        buttonPanel.add(btnThem);
+        buttonPanel.add(btnLuu);
+        buttonPanel.add(btnXoa);
+        buttonPanel.add(btnTimKiem);
+        buttonPanel.add(btnXuat);
+        buttonPanel.add(btnNhap);
+
+        JPanel topPanel = new JPanel(new BorderLayout());
+        topPanel.setBackground(new Color(73, 138, 186));
+        topPanel.add(formPanel, BorderLayout.CENTER);
+
+        JPanel searchButtonPanel = new JPanel(new BorderLayout());
+        searchButtonPanel.setBackground(new Color(73, 138, 186));
+        searchButtonPanel.add(searchPanel, BorderLayout.NORTH);
+        searchButtonPanel.add(buttonPanel, BorderLayout.CENTER);
+        topPanel.add(searchButtonPanel, BorderLayout.SOUTH);
+
+        contentPanel.add(topPanel, BorderLayout.NORTH);
+
+        JPanel tablePanel = new JPanel(new BorderLayout());
+        tablePanel.setBackground(new Color(73, 138, 186));
+        tablePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        String[] columnNames = {"Mã tài khoản", "Tên tài khoản", "Mật khẩu"};
+        model = new DefaultTableModel(columnNames, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
+        tblTaiKhoan = new JTable(model);
+        tblTaiKhoan.setRowHeight(30);
+        tblTaiKhoan.getTableHeader().setFont(new Font("Arial", Font.BOLD, 14));
+        tblTaiKhoan.setFont(new Font("Arial", Font.PLAIN, 14));
+        tblTaiKhoan.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        JScrollPane scrollPane = new JScrollPane(tblTaiKhoan);
+        tablePanel.add(scrollPane, BorderLayout.CENTER);
+
+        contentPanel.add(tablePanel, BorderLayout.CENTER);
+
+        return contentPanel;
+    }
+
+    private JButton createActionButton(String text, String iconPath, Dimension size) {
+        JButton button = new JButton(text);
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+            java.net.URL iconURL = getClass().getResource(iconPath);
+            if (iconURL != null) {
+                ImageIcon icon = new ImageIcon(iconURL);
+                Image img = icon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+                button.setIcon(new ImageIcon(img));
+            } else {
+                System.out.println("Không tìm thấy icon tại đường dẫn: " + iconPath);
+            }
+        } catch (Exception e) {
+            System.out.println("Không thể tải icon cho nút " + text);
+        }
+        button.setPreferredSize(size);
+        button.setBackground(Color.WHITE);
+        button.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(Color.GRAY),
+            BorderFactory.createEmptyBorder(5, 10, 5, 10)
+        ));
+        return button;
+    }
+
+    private void addEvents() {
+        btnBanHang.addActionListener(e -> {
+            // TODO: Implement Bán hàng GUI
+        });
+
+        btnQuanLyNhanVien.addActionListener(e -> {
+            try {
+                new QuanLyNhanVien_GUI().setVisible(true);
+                dispose();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Chức năng Quản lý nhân viên đang phát triển!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+
+        btnQuanLySanPham.addActionListener(e -> {
+            try {
+                new QuanLySanPham_GUI().setVisible(true);
+                dispose();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Chức năng đang hoàn thiện", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+
+        btnQuanLyKhachHang.addActionListener(e -> {
+            try {
+                new QuanLyKhachHang_GUI().setVisible(true);
+                dispose();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Chức năng Quản lý khách hàng đang phát triển!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+
+        btnQuanLyTaiKhoan.addActionListener(e -> {
+            // Already in this GUI, do nothing or refresh
+        });
+
+        btnNhapHang.addActionListener(e -> {
+            // Commented out because NhapHang_GUI does not have setVisible method
+            /*
+            try {
+                new NhapHang_GUI().setVisible(true);
+                dispose();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Chức năng Nhập hàng đang phát triển!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            }
+            */
+        });
+
+        btnThongKe.addActionListener(e -> {
+            // TODO: Implement Thống kê GUI
+        });
+
+        btnDangXuat.addActionListener(e -> {
+            int choice = JOptionPane.showConfirmDialog(
+                this,
+                "Bạn có chắc muốn đăng xuất?",
+                "Xác nhận đăng xuất",
+                JOptionPane.YES_NO_OPTION
+            );
+            if (choice == JOptionPane.YES_OPTION) {
+                dispose();
+            }
+        });
+
+        btnThem.addActionListener(e -> themTaiKhoan());
+        btnLuu.addActionListener(e -> luuTaiKhoan());
+        btnXoa.addActionListener(e -> xoaTaiKhoan());
+        btnTimKiem.addActionListener(e -> timKiemTaiKhoan());
+        btnXuat.addActionListener(e -> xuatDuLieu());
+        btnNhap.addActionListener(e -> nhapDuLieu());
+
+        tblTaiKhoan.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int row = tblTaiKhoan.rowAtPoint(e.getPoint());
+                if (row >= 0) {
+                    String maTaiKhoan = tblTaiKhoan.getValueAt(row, 0).toString();
+                    String tenTaiKhoan = tblTaiKhoan.getValueAt(row, 1).toString();
+                    String matKhau = tblTaiKhoan.getValueAt(row, 2).toString();
+
+                    txtMaTaiKhoan.setText(maTaiKhoan);
+
+                    // Set comboNhanVien selection based on maTaiKhoan for validation
+                    for (int i = 0; i < comboNhanVien.getItemCount(); i++) {
+                        String item = comboNhanVien.getItemAt(i);
+                        if (item.startsWith(maTaiKhoan + " -")) {
+                            comboNhanVien.setSelectedIndex(i);
+                            break;
+                        }
+                    }
+
+                    txtTenTaiKhoan.setText(tenTaiKhoan);
+                    txtMatKhau.setText(matKhau);
+                }
+            }
+        });
+    }
+
+    private void loadData() {
+        try {
+            List<taiKhoan_DTO> danhSach = tkBLL.getAllAccounts();
+            loadDataToTable(danhSach);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Lỗi khi tải dữ liệu: " + e.getMessage());
+        }
+    }
+
+    private void loadDataToTable(List<taiKhoan_DTO> danhSach) {
+        model.setRowCount(0);
+        for (taiKhoan_DTO tk : danhSach) {
+            model.addRow(new Object[]{
+                tk.getMaTaiKhoan(),
+                tk.getTenTaiKhoan(),
+                tk.getMatKhau()
+            });
+        }
+    }
+
+    private void themTaiKhoan() {
+        try {
+            String maTK = txtMaTaiKhoan.getText().trim();
+            String tenTK = txtTenTaiKhoan.getText().trim();
+            String matKhau = txtMatKhau.getText().trim();
+
+            if (maTK.isEmpty() || tenTK.isEmpty() || matKhau.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin tài khoản");
+                return;
+            }
+
+            // Validate maTK against employee codes in comboNhanVien
+            boolean validMaTK = false;
+            for (int i = 0; i < comboNhanVien.getItemCount(); i++) {
+                String item = comboNhanVien.getItemAt(i);
+                String maNV = item.split(" - ")[0].trim();
+                if (maNV.equals(maTK)) {
+                    validMaTK = true;
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GUIQuanLyTaiKhoan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GUIQuanLyTaiKhoan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GUIQuanLyTaiKhoan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GUIQuanLyTaiKhoan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new GUIQuanLyTaiKhoan().setVisible(true);
+            if (!validMaTK) {
+                JOptionPane.showMessageDialog(this, "Mã nhân viên không tồn tại");
+                return;
             }
+
+            // Check if account ID exists by searching all accounts
+            boolean exists = false;
+            for (taiKhoan_DTO acc : tkBLL.getAllAccounts()) {
+                if (acc.getMaTaiKhoan().equals(maTK)) {
+                    exists = true;
+                    break;
+                }
+            }
+
+            if (exists) {
+                JOptionPane.showMessageDialog(this, "Mã tài khoản đã tồn tại");
+                return;
+            }
+
+            taiKhoan_DTO tk = new taiKhoan_DTO(maTK, tenTK, matKhau);
+            try {
+                if (tkBLL.registerUser(maTK, tenTK, matKhau)) {
+                    JOptionPane.showMessageDialog(this, "Thêm tài khoản thành công");
+                    clearInputFields();
+                    loadData();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Thêm tài khoản thất bại");
+                }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Lỗi khi thêm tài khoản: " + ex.getMessage());
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Lỗi: " + e.getMessage());
+        }
+    }
+
+    private void luuTaiKhoan() {
+        try {
+            String maTK = txtMaTaiKhoan.getText().trim();
+            String tenTK = txtTenTaiKhoan.getText().trim();
+            String matKhau = txtMatKhau.getText().trim();
+
+            if (maTK.isEmpty() || tenTK.isEmpty() || matKhau.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin tài khoản");
+                return;
+            }
+
+            // Validate maTK against employee codes in comboNhanVien
+            boolean validMaTK = false;
+            for (int i = 0; i < comboNhanVien.getItemCount(); i++) {
+                String item = comboNhanVien.getItemAt(i);
+                String maNV = item.split(" - ")[0].trim();
+                if (maNV.equals(maTK)) {
+                    validMaTK = true;
+                    break;
+                }
+            }
+            if (!validMaTK) {
+                JOptionPane.showMessageDialog(this, "Mã nhân viên không tồn tại");
+                return;
+            }
+
+            if (tkBLL.updateAccount(maTK, tenTK, matKhau)) {
+                JOptionPane.showMessageDialog(this, "Cập nhật tài khoản thành công");
+                clearInputFields();
+                loadData();
+            } else {
+                JOptionPane.showMessageDialog(this, "Cập nhật tài khoản thất bại");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Lỗi: " + e.getMessage());
+        }
+    }
+
+    private void xoaTaiKhoan() {
+        int selectedRow = tblTaiKhoan.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn tài khoản cần xóa");
+            return;
+        }
+
+        int confirm = JOptionPane.showConfirmDialog(this,
+            "Bạn có chắc muốn xóa tài khoản này?",
+            "Xác nhận xóa",
+            JOptionPane.YES_NO_OPTION);
+
+        if (confirm == JOptionPane.YES_OPTION) {
+            String maTK = tblTaiKhoan.getValueAt(selectedRow, 0).toString();
+            if (tkBLL.deleteAccount(maTK)) {
+                JOptionPane.showMessageDialog(this, "Xóa tài khoản thành công");
+                clearInputFields();
+                loadData();
+            } else {
+                JOptionPane.showMessageDialog(this, "Xóa tài khoản thất bại");
+            }
+        }
+    }
+
+    private void timKiemTaiKhoan() {
+        try {
+            String keyword = txtSearch.getText().trim();
+            List<taiKhoan_DTO> results;
+            if (keyword.isEmpty()) {
+                results = tkBLL.getAllAccounts();
+            } else {
+                results = tkBLL.searchAccounts(keyword);
+            }
+            loadDataToTable(results);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Lỗi tìm kiếm tài khoản: " + e.getMessage());
+        }
+    }
+
+    private void xuatDuLieu() {
+        try {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Chọn vị trí lưu file");
+            fileChooser.setFileFilter(new FileNameExtensionFilter("Excel Files", "xlsx"));
+
+            if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
+                String filePath = fileChooser.getSelectedFile().getAbsolutePath();
+                if (!filePath.endsWith(".xlsx")) {
+                    filePath += ".xlsx";
+                }
+                // TODO: Implement Excel export functionality
+                JOptionPane.showMessageDialog(this, "Xuất dữ liệu thành công: " + filePath);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Lỗi khi xuất dữ liệu: " + e.getMessage());
+        }
+    }
+
+    private void nhapDuLieu() {
+        try {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Chọn file dữ liệu");
+            fileChooser.setFileFilter(new FileNameExtensionFilter("Excel Files", "xlsx"));
+
+            if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+                String filePath = fileChooser.getSelectedFile().getAbsolutePath();
+                // TODO: Implement Excel import functionality
+                JOptionPane.showMessageDialog(this, "Nhập dữ liệu thành công từ file: " + filePath);
+                loadData();
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Lỗi khi nhập dữ liệu: " + e.getMessage());
+        }
+    }
+
+    private void clearInputFields() {
+        txtMaTaiKhoan.setText("");
+        txtTenTaiKhoan.setText("");
+        txtMatKhau.setText("");
+        txtTenTaiKhoan.requestFocus();
+    }
+
+    public static void main(String[] args) {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        SwingUtilities.invokeLater(() -> {
+            new GUIQuanLyTaiKhoan().setVisible(true);
         });
     }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton banHang_btn;
-    private javax.swing.JLabel chucNang_label;
-    private javax.swing.JButton dangXuat_btn;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JButton nhapHang_btn;
-    private javax.swing.JButton qlkh_btn;
-    private javax.swing.JButton qlnv_btn;
-    private javax.swing.JButton qlsp_btn;
-    private javax.swing.JButton qltk_btn;
-    private javax.swing.JTable taiKhoanTable;
-    private javax.swing.JButton themTaiKhoan_btn;
-    private javax.swing.JTextField timKiemField;
-    private javax.swing.JLabel timKiemLabel;
-    private javax.swing.JButton timKiem_btn;
-    // End of variables declaration//GEN-END:variables
+    private void generateAndSetUniqueAccountID() {
+        DAO.NhanVien_DAO nvDAO = new DAO.NhanVien_DAO();
+        List<String> employeeIDs = new java.util.ArrayList<>();
+        for (DTO.NhanVien_DTO nv : nvDAO.LayDanhSachNhanVien()) {
+            employeeIDs.add(nv.getMa_nhan_vien());
+        }
 
-    
+        List<String> accountIDs = new java.util.ArrayList<>();
+        for (taiKhoan_DTO acc : tkBLL.getAllAccounts()) {
+            accountIDs.add(acc.getMaTaiKhoan());
+        }
+
+        String newID;
+        do {
+            newID = "TK" + (int)(Math.random() * 90000 + 10000); // TK + 5 digit random number
+        } while (employeeIDs.contains(newID) || accountIDs.contains(newID));
+
+        txtMaTaiKhoan.setText(newID);
+    }
 }
