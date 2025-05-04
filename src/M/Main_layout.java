@@ -3,12 +3,16 @@ package M;
 import DTO.taiKhoan_DTO;
 import GUI.BanHang_GUI;
 import GUI.NhapHang_GUI;
+import GUI.QuanLy_SP_GUI;
+import GUI.QuanLy_KH_GUI;
+import GUI.QuanLy_NV_GUI;
 import GUI.QuanLyKhachHang_GUI;
 import GUI.QuanLyNhanVien_GUI;
 import GUI.QuanLySanPham_GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -237,15 +241,23 @@ public class Main_layout extends javax.swing.JFrame {
         jPanel2.repaint();
     }
     private void qlsp_btnActionPerformed(java.awt.event.ActionEvent evt) {
-        QuanLySanPham_GUI qlsp = new QuanLySanPham_GUI();
-        qlsp.setVisible(true);
-        this.dispose();
+        jPanel2.removeAll();
+        QuanLy_SP_GUI QLSanPham = new QuanLy_SP_GUI();
+        QLSanPham.setPreferredSize(new Dimension(900,700));
+        jPanel2.setLayout(new BorderLayout());
+        jPanel2.add(QLSanPham.getMainPanel(), BorderLayout.CENTER);
+        jPanel2.revalidate();
+        jPanel2.repaint();
     }
 
     private void qlkh_btnActionPerformed(java.awt.event.ActionEvent evt) {
-        QuanLyKhachHang_GUI qlkh = new QuanLyKhachHang_GUI();
-        qlkh.setVisible(true);
-        this.dispose();
+        jPanel2.removeAll();
+        QuanLy_KH_GUI QLKhachHang = new QuanLy_KH_GUI();
+        QLKhachHang.setPreferredSize(new Dimension(900,700));
+        jPanel2.setLayout(new BorderLayout());
+        jPanel2.add(QLKhachHang.getMainPanel(), BorderLayout.CENTER);
+        jPanel2.revalidate();
+        jPanel2.repaint();
     }
 
     private void qltk_btnActionPerformed(java.awt.event.ActionEvent evt) {
@@ -274,9 +286,13 @@ public class Main_layout extends javax.swing.JFrame {
     }
 
     private void qlnv_btnActionPerformed(java.awt.event.ActionEvent evt) {
-        QuanLyNhanVien_GUI qlnv = new QuanLyNhanVien_GUI();
-        qlnv.setVisible(true);
-        this.dispose();
+        jPanel2.removeAll();
+        QuanLy_NV_GUI QLNhanVien = new QuanLy_NV_GUI();
+        QLNhanVien.setPreferredSize(new Dimension(900,700));
+        jPanel2.setLayout(new BorderLayout());
+        jPanel2.add(QLNhanVien.getMainPanel(), BorderLayout.CENTER);
+        jPanel2.revalidate();
+        jPanel2.repaint();
     }
 
     private void dangXuat_btnActionPerformed(java.awt.event.ActionEvent evt) {

@@ -12,7 +12,7 @@ public class NhanVien_DAO {
     private static final String DATABASE = "CuaHangBanXeMay";
     private static final String URL = "jdbc:sqlserver://localhost:1433;databaseName=" + DATABASE + ";encrypt=true;trustServerCertificate=true;useUnicode=true;characterEncoding=UTF-8;";
     private static final String USER = "sa";
-    private static final String PASSWORD = "123456789";
+    private static final String PASSWORD = "12345";
 
     public NhanVien_DAO(Connection connect){
         this.conn = connect;
