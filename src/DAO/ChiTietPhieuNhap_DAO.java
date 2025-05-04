@@ -6,10 +6,10 @@ import java.util.ArrayList;
 
 public class ChiTietPhieuNhap_DAO{
     private Connection con;
-    //lay connect
-    // public ChiTietPhieuNhap_DAO(Connection connect){
-    //     this.con = connect;
-    // }
+    // lay connect
+    public ChiTietPhieuNhap_DAO(Connection connect){
+        this.con = connect;
+    }
     public ChiTietPhieuNhap_DAO(){
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");

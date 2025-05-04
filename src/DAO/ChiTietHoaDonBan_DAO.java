@@ -11,6 +11,9 @@ public class ChiTietHoaDonBan_DAO {
     // public ChiTietHoaDonBan_DAO(Connection connect){
     //     this.con = connect;
     // }
+    public ChiTietHoaDonBan_DAO(Connection connect){
+        this.con = connect;
+    }
     public ChiTietHoaDonBan_DAO(){
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");

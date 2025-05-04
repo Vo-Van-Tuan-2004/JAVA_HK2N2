@@ -7,6 +7,9 @@ import java.util.ArrayList;
 public class HoaDonBan_DAO {
      private Connection connection;
      //lay connect
+     public HoaDonBan_DAO(Connection connect){
+        this.connection = connect;
+     }
      public HoaDonBan_DAO(){
             try {
                 Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");

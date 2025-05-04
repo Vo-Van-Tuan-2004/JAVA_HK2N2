@@ -33,7 +33,7 @@ public class NhapHang_GUI {
 
 //main panel
         JPanel mainPanel = new JPanel(new BorderLayout());
-        mainPanel.setPreferredSize(new Dimension(850,700));
+        mainPanel.setPreferredSize(new Dimension(900,700));
 //left_main panel
         JPanel leftPanel = new JPanel(new BorderLayout());
         leftPanel.setPreferredSize(new Dimension(600, 700));

@@ -11,6 +11,7 @@ public class taiKhoan_BLL {
         taiKhoan_DAL = new taiKhoan_DAL();
     }
 
+
     public boolean registerUser(String tenTaiKhoan, String matKhau) {
         try {
             if (taiKhoan_DAL.tenTaiKhoanExists(tenTaiKhoan)) {
@@ -29,6 +30,9 @@ public class taiKhoan_BLL {
         return taiKhoan_DAL.login(tenTaiKhoan, matKhau) != null;
     }
 
+    public taiKhoan_DTO getuser(String tenTaiKhoan){
+        return taiKhoan_DAL.getAccountByTenNhanVien(tenTaiKhoan);
+    }
     public List<taiKhoan_DTO> getAllAccounts() {
         return taiKhoan_DAL.getAllAccounts();
     }

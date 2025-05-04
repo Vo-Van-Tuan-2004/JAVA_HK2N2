@@ -14,6 +14,9 @@ public class SanPham_DAO {
     private static final String USER = "sa";
     private static final String PASSWORD = "12345";
 
+    public SanPham_DAO(Connection connect){
+        this.conn = connect;
+    }
     public SanPham_DAO() {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");

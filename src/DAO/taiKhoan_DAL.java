@@ -21,7 +21,7 @@ public class taiKhoan_DAL {
     //     conn = DriverManager.getConnection(url,user,password);
     // }
     public taiKhoan_DAL() throws Exception {
-        String url = "jdbc:sqlserver://localhost:1433;databaseName=CuaHangBanXeMay;encrypt=false";
+        String url = "jdbc:sqlserver://localhost:1433;databaseName=CuaHangBanXeMay;encrypt=false;useUnicode=true;characterEncoding=UTF-8;";
         String user = "sa";
         String password = "12345";
         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -136,6 +136,29 @@ public class taiKhoan_DAL {
         return null;
     }
 
+
+    public taiKhoan_DTO getAccountByTenNhanVien(String ten){
+        String sql = "SELECT tk.ma_nhan_vien, tk.ten_tai_khoan, tk.mat_khau, nv.chuc_vu " +
+                     "FROM TaiKhoan tk " +
+                     "JOIN NhanVien nv ON tk.ma_nhan_vien = nv.ma_nhan_vien " +
+                     "WHERE tk.ten_tai_khoan = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, ten);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return new taiKhoan_DTO(
+                    rs.getString("ma_nhan_vien"),
+                    rs.getString("ten_tai_khoan"),
+                    rs.getString("mat_khau"),
+                    rs.getString("chuc_vu")
+                );
+            }
+        } catch (SQLException e) {
+            System.out.println("Lỗi lấy tài khoản: " + e.getMessage());
+        }
+        return null;
+    }
+    
     public List<taiKhoan_DTO> getAllAccounts() {
         List<taiKhoan_DTO> accounts = new ArrayList<>();
         String sql = "SELECT tk.ma_nhan_vien, tk.ten_tai_khoan, tk.mat_khau, nv.chuc_vu " +

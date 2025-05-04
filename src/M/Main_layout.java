@@ -68,6 +68,7 @@ public class Main_layout extends javax.swing.JFrame {
             qlsp_btn.setVisible(false); // Quản lý sản phẩm
             nhapHang_btn.setVisible(false); // Nhập hàng
             thongKe_btn.setVisible(false); // Thống kê
+            System.out.print("nhan vien dang dang nhap");
         }
     }
 

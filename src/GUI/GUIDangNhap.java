@@ -157,22 +157,49 @@ public class GUIDangNhap extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }
 
+    // private void btnDangNhapActionPerformed(java.awt.event.ActionEvent evt) {
+    //     String tenTaiKhoan = UserNameField.getText().trim();
+    //     String matKhau = new String(MatKhauField.getPassword()).trim();
+
+    //     if (tenTaiKhoan.isEmpty() || matKhau.isEmpty()) {
+    //         javax.swing.JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu.", "Lỗi", javax.swing.JOptionPane.ERROR_MESSAGE);
+    //         return;
+    //     }
+
+    //     try {
+    //         taiKhoan_BLL bll = new taiKhoan_BLL();
+    //         boolean success = bll.loginUser(tenTaiKhoan, matKhau);
+    //         if (success) {
+    //             javax.swing.JOptionPane.showMessageDialog(this, "Đăng nhập thành công!", "Thông báo", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+    //             // Create a dummy DTO since loginUser doesn't return user details
+    //             taiKhoan_DTO user = new taiKhoan_DTO();
+    //             user = bll.getuser(tenTaiKhoan);
+    //         //    taiKhoan_DTO user = new taiKhoan_DTO("", tenTaiKhoan, matKhau, "");
+    //             Main_layout main_layout = new Main_layout(user);
+    //             main_layout.setVisible(true);
+    //             this.dispose();
+    //         } else {
+    //             javax.swing.JOptionPane.showMessageDialog(this, "Tên đăng nhập hoặc mật khẩu không đúng.", "Lỗi", javax.swing.JOptionPane.ERROR_MESSAGE);
+    //         }
+    //     } catch (Exception e) {
+    //         javax.swing.JOptionPane.showMessageDialog(this, "Lỗi khi đăng nhập: " + e.getMessage(), "Lỗi", javax.swing.JOptionPane.ERROR_MESSAGE);
+    //     }
+    //}
+
     private void btnDangNhapActionPerformed(java.awt.event.ActionEvent evt) {
         String tenTaiKhoan = UserNameField.getText().trim();
         String matKhau = new String(MatKhauField.getPassword()).trim();
-
+    
         if (tenTaiKhoan.isEmpty() || matKhau.isEmpty()) {
             javax.swing.JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu.", "Lỗi", javax.swing.JOptionPane.ERROR_MESSAGE);
             return;
         }
-
+    
         try {
             taiKhoan_BLL bll = new taiKhoan_BLL();
-            boolean success = bll.loginUser(tenTaiKhoan, matKhau);
-            if (success) {
+            taiKhoan_DTO user = bll.getuser(tenTaiKhoan); // Lấy thông tin user
+            if (user != null && bll.loginUser(tenTaiKhoan, matKhau)) {
                 javax.swing.JOptionPane.showMessageDialog(this, "Đăng nhập thành công!", "Thông báo", javax.swing.JOptionPane.INFORMATION_MESSAGE);
-                // Create a dummy DTO since loginUser doesn't return user details
-                taiKhoan_DTO user = new taiKhoan_DTO("", tenTaiKhoan, matKhau, "Quản lý");
                 Main_layout main_layout = new Main_layout(user);
                 main_layout.setVisible(true);
                 this.dispose();

@@ -413,7 +413,7 @@ JLabel logoLabel = new JLabel(logo);
         btnNhapHang.addActionListener(e -> {
             // Handle nhập hàng action
             try {
-                new NhapHang_GUI();
+                new NhapHang_GUI(null);
                 dispose();
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, "Chức năng Nhập hàng đang phát triển!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);

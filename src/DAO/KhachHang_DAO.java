@@ -14,6 +14,9 @@ public class KhachHang_DAO {
     private static final String USER = "sa";
     private static final String PASSWORD = "123456789";
 
+    public KhachHang_DAO(Connection connect){
+        this.conn = connect;
+    }
     public KhachHang_DAO() {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");

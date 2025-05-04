@@ -14,6 +14,10 @@ public class PhieuNhap_DAO {
     private PreparedStatement pstmt;
     private ResultSet rs;
 
+    public PhieuNhap_DAO(Connection connect){
+        this.conn = connect;
+    }
+
     public PhieuNhap_DAO() {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
