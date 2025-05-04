@@ -1,13 +1,13 @@
 package DTO;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 public class HoaDonBan_DTO {
     private String ma_hoa_don_ban;
     private String ma_khach_hang;
     private String ma_nhan_vien;
-    private Date ngay_xuat;
-    private int tong_tien;
+    private LocalDate ngay_xuat;
+    private long tong_tien; // Đổi từ int sang long
     private String trang_thai;
 
     // Constructor mặc định
@@ -15,7 +15,7 @@ public class HoaDonBan_DTO {
     }
 
     // Constructor đầy đủ tham số
-    public HoaDonBan_DTO(String ma_hoa_don_ban, String ma_khach_hang, String ma_nhan_vien, Date ngay_xuat, int tong_tien, String trang_thai) {
+    public HoaDonBan_DTO(String ma_hoa_don_ban, String ma_khach_hang, String ma_nhan_vien, LocalDate ngay_xuat, long tong_tien, String trang_thai) {
         this.ma_hoa_don_ban = ma_hoa_don_ban;
         this.ma_khach_hang = ma_khach_hang;
         this.ma_nhan_vien = ma_nhan_vien;
@@ -52,20 +52,20 @@ public class HoaDonBan_DTO {
     }
 
     // Getter và Setter cho ngay_xuat
-    public Date getNgay_xuat() {
+    public LocalDate getNgay_xuat() {
         return ngay_xuat;
     }
 
-    public void setNgay_xuat(Date ngay_xuat) {
+    public void setNgay_xuat(LocalDate ngay_xuat) {
         this.ngay_xuat = ngay_xuat;
     }
 
     // Getter và Setter cho tong_tien
-    public int getTong_tien() {
+    public long getTong_tien() {
         return tong_tien;
     }
 
-    public void setTong_tien(int tong_tien) {
+    public void setTong_tien(long tong_tien) {
         this.tong_tien = tong_tien;
     }
 

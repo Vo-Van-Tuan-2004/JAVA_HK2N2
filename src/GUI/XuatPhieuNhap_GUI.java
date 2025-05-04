@@ -145,7 +145,7 @@ public class XuatPhieuNhap_GUI extends JFrame {
                 n_chitiet_DAO.themChiTietPhieuNhap(tmp);
                 }
             }
-
+            dispose();
         });
         setVisible(true);
     }

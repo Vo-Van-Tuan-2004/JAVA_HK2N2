@@ -230,7 +230,7 @@ public class Main_layout extends javax.swing.JFrame {
 
     private void banHang_btnActionPerformed(java.awt.event.ActionEvent evt) {
         jPanel2.removeAll();
-        BanHang_GUI banHang = new BanHang_GUI(null);
+        BanHang_GUI banHang = new BanHang_GUI(currentUser);
         jPanel2.setLayout(new BorderLayout());
         jPanel2.add(banHang.getMainPanel(), BorderLayout.CENTER);
         jPanel2.revalidate();
@@ -262,7 +262,7 @@ public class Main_layout extends javax.swing.JFrame {
 
     private void nhapHang_btnActionPerformed(java.awt.event.ActionEvent evt) {
         jPanel2.removeAll();
-        NhapHang_GUI nhapHang = new NhapHang_GUI(null);
+        NhapHang_GUI nhapHang = new NhapHang_GUI(currentUser);
         jPanel2.setLayout(new BorderLayout());
         jPanel2.add(nhapHang.getMainPanel(), BorderLayout.CENTER);
         jPanel2.revalidate();
