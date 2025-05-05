@@ -18,6 +18,7 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
+import javax.swing.JPanel;
 
 
 public class Main_layout extends javax.swing.JFrame {
@@ -75,7 +76,7 @@ public class Main_layout extends javax.swing.JFrame {
             qlsp_btn.setVisible(false); // Quản lý sản phẩm
             nhapHang_btn.setVisible(false); // Nhập hàng
             thongKe_btn.setVisible(false); // Thống kê
-            baoHanh_btn.setVisible(false); // Bảo hành
+            //baoHanh_btn.setVisible(false); // Bảo hành
             System.out.print("nhan vien dang dang nhap");
         }
     }
@@ -258,10 +259,14 @@ public class Main_layout extends javax.swing.JFrame {
 
     private void baoHanh_btnActionPerformed(java.awt.event.ActionEvent evt) {
         jPanel2.removeAll();
-        // Assume a BaoHanh_GUI class exists or will be created
-        BaoHanh_GUI baoHanh = new BaoHanh_GUI(); // You need to create this class
+        BaoHanh_GUI baoHanh = new BaoHanh_GUI(); 
         jPanel2.setLayout(new BorderLayout());
-        jPanel2.add(baoHanh.getMainPanel(), BorderLayout.CENTER);
+        jPanel2.setPreferredSize(new Dimension(900,700));
+        JPanel nPanel = new JPanel();
+        nPanel.setLayout(new BorderLayout());
+        nPanel.add(baoHanh.getMainPanel(), BorderLayout.CENTER);
+        jPanel2.add(nPanel, BorderLayout.CENTER);
+       // jPanel2.add(baoHanh.getMainPanel(), BorderLayout.CENTER);
         jPanel2.revalidate();
         jPanel2.repaint();
     }
