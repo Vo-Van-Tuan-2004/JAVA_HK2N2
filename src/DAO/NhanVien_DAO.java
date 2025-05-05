@@ -47,7 +47,7 @@ public class NhanVien_DAO {
                 nv.setSo_dien_thoai(rs.getString("so_dien_thoai"));
                 nv.setDia_chi(rs.getString("dia_chi"));
                 nv.setChuc_vu(rs.getString("chuc_vu"));
-                nv.setLuong(rs.getDouble("muc_luong"));
+                nv.setLuong(rs.getInt("muc_luong"));
                 danhSach.add(nv);
             }
         } catch (SQLException e) {
@@ -71,7 +71,7 @@ public class NhanVien_DAO {
                     nv.setSo_dien_thoai(rs.getString("so_dien_thoai"));
                     nv.setDia_chi(rs.getString("dia_chi"));
                     nv.setChuc_vu(rs.getString("chuc_vu"));
-                    nv.setLuong(rs.getDouble("muc_luong"));
+                    nv.setLuong(rs.getInt("muc_luong"));
                     return nv;
                 }
             }
@@ -132,7 +132,7 @@ public class NhanVien_DAO {
                     nv.setSo_dien_thoai(rs.getString("so_dien_thoai"));
                     nv.setDia_chi(rs.getString("dia_chi"));
                     nv.setChuc_vu(rs.getString("chuc_vu"));
-                    nv.setLuong(rs.getDouble("muc_luong"));
+                    nv.setLuong(rs.getInt("muc_luong"));
                     ketQua.add(nv);
                 }
             }

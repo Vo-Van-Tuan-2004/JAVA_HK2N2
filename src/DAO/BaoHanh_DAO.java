@@ -10,7 +10,7 @@ public class BaoHanh_DAO {
     private static final String DATABASE = "CuaHangBanXeMay";
     private static final String URL = "jdbc:sqlserver://localhost:1433;databaseName=" + DATABASE + ";encrypt=true;trustServerCertificate=true";
     private static final String USER = "sa";
-    private static final String PASSWORD = "123456789";
+    private static final String PASSWORD = "12345";
    
 
     private Connection getConnection() {
@@ -24,7 +24,7 @@ public class BaoHanh_DAO {
         return conn;
     }
 
-    public boolean themPhieuBaoHanh(DTOBAOHANH bh) {
+    public boolean themPhieuBaoHanh(BaoHanh_DTO bh) {
         String sql = "INSERT INTO BaoHanh (ID_baohanh, ID_sanpham, ngaybatdau, ngayketthuc) VALUES (?, ?, ?, ?)";
         try {
             PreparedStatement ps = getConnection().prepareStatement(sql);
@@ -39,14 +39,14 @@ public class BaoHanh_DAO {
         }
     }
 
-    public ArrayList<DTOBAOHANH> layDanhSachBaoHanh() {
-        ArrayList<DTOBAOHANH> ds = new ArrayList<>();
+    public ArrayList<BaoHanh_DTO> layDanhSachBaoHanh() {
+        ArrayList<BaoHanh_DTO> ds = new ArrayList<>();
         String sql = "SELECT * FROM BaoHanh";
         try {
             Statement st = getConnection().createStatement();
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()) {
-                DTOBAOHANH bh = new DTOBAOHANH(
+                BaoHanh_DTO bh = new BaoHanh_DTO(
                     rs.getString("ID_baohanh"),
                     rs.getString("ID_sanpham"),
                     rs.getString("ngaybatdau"),

@@ -6,13 +6,13 @@ public class NhanVien_DTO {
     private String so_dien_thoai;
     private String dia_chi;
     private String chuc_vu;
-    private double luong;
+    private int luong;
 
     public NhanVien_DTO() {
     }
 
     public NhanVien_DTO(String ma_nhan_vien, String ten_nhan_vien, String so_dien_thoai, 
-                       String dia_chi, String chuc_vu, double luong) {
+                       String dia_chi, String chuc_vu, int luong) {
         this.ma_nhan_vien = ma_nhan_vien;
         this.ten_nhan_vien = ten_nhan_vien;
         this.so_dien_thoai = so_dien_thoai;
@@ -61,11 +61,11 @@ public class NhanVien_DTO {
         this.chuc_vu = chuc_vu;
     }
 
-    public double getLuong() {
+    public int getLuong() {
         return luong;
     }
 
-    public void setLuong(double luong) {
+    public void setLuong(int luong) {
         this.luong = luong;
     }
 }

@@ -270,7 +270,7 @@ public class QuanLy_NV_GUI extends JPanel {
                 return;
             }
 
-            double luong = Double.parseDouble(luongStr);
+            int luong = Integer.parseInt(luongStr);
             if (luong < 0) {
                 JOptionPane.showMessageDialog(this, "Lương phải là số dương");
                 return;

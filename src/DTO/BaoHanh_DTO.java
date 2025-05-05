@@ -17,7 +17,7 @@ public class BaoHanh_DTO {
         return ID_baohanh;
     }
 
-    public void setWarrantyId(String warrantyId) {
+    public void setWarrantyId(String ID_baohanh) {
         this.ID_baohanh = ID_baohanh;
     }
 
@@ -25,7 +25,7 @@ public class BaoHanh_DTO {
         return ID_sanpham;
     }
 
-    public void setProductId(String productId) {
+    public void setProductId(String ID_sanpham) {
         this.ID_sanpham = ID_sanpham;
     }
 
@@ -33,7 +33,7 @@ public class BaoHanh_DTO {
         return ngaybatdau;
     }
 
-    public void setStartDate(String startDate) {
+    public void setStartDate(String ngaybatdau) {
         this.ngaybatdau = ngaybatdau;
     }
 
@@ -41,7 +41,7 @@ public class BaoHanh_DTO {
         return ngayketthuc;
     }
 
-    public void setEndDate(String endDate) {
+    public void setEndDate(String ngayketthuc) {
         this.ngayketthuc = ngayketthuc;
     }
 }

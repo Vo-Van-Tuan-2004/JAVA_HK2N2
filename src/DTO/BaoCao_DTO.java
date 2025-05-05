@@ -2,9 +2,9 @@ package DTO;
 
 public class BaoCao_DTO {
     private int thang;
-    private double tongDoanhThu;
+    private Long tongDoanhThu;
 
-    public BaoCao_DTO(int thang, double tongDoanhThu) {
+    public BaoCao_DTO(int thang, Long tongDoanhThu) {
         this.thang = thang;
         this.tongDoanhThu = tongDoanhThu;
     }
@@ -13,7 +13,7 @@ public class BaoCao_DTO {
         return thang;
     }
 
-    public double getTongDoanhThu() {
+    public Long getTongDoanhThu() {
         return tongDoanhThu;
     }
 }

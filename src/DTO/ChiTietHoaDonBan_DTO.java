@@ -3,7 +3,7 @@ package DTO;
 public class ChiTietHoaDonBan_DTO {
     private String ma_hoa_don_ban;
     private String ma_spham;
-    private int gia_ban;
+// private int gia_ban;
     private int so_luong;
     private int don_gia;
 

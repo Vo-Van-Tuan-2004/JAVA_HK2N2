@@ -2,13 +2,13 @@ package M;
 
 import DTO.taiKhoan_DTO;
 import GUI.BanHang_GUI;
+import GUI.BaoCao_GUI;
+import GUI.BaoHanh_GUI;
 import GUI.NhapHang_GUI;
 import GUI.QuanLy_SP_GUI;
 import GUI.QuanLy_KH_GUI;
 import GUI.QuanLy_NV_GUI;
-import GUI.QuanLyKhachHang_GUI;
-import GUI.QuanLyNhanVien_GUI;
-import GUI.QuanLySanPham_GUI;
+import GUI.QuanLy_TK_GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -18,6 +18,7 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
+
 
 public class Main_layout extends javax.swing.JFrame {
 
@@ -54,7 +55,7 @@ public class Main_layout extends javax.swing.JFrame {
         Color buttonForeground = Color.WHITE;
 
         javax.swing.JButton[] buttons = {
-            banHang_btn, qlnv_btn, qlsp_btn, qlkh_btn, qltk_btn, nhapHang_btn, dangXuat_btn, thongKe_btn
+            banHang_btn, baoHanh_btn, qlnv_btn, qlsp_btn, qlkh_btn, qltk_btn, nhapHang_btn, dangXuat_btn, thongKe_btn
         };
 
         for (javax.swing.JButton btn : buttons) {
@@ -65,6 +66,8 @@ public class Main_layout extends javax.swing.JFrame {
             btn.setBorder(javax.swing.BorderFactory.createLineBorder(new Color(65, 105, 225), 2));
         }
 
+            qltk_btn.setVisible(false);
+
         // Điều khiển hiển thị button dựa trên vai trò
         if (!"Quản lý".equalsIgnoreCase(user.getChucVu())) {
             // Ẩn các nút không dành cho nhân viên
@@ -72,6 +75,7 @@ public class Main_layout extends javax.swing.JFrame {
             qlsp_btn.setVisible(false); // Quản lý sản phẩm
             nhapHang_btn.setVisible(false); // Nhập hàng
             thongKe_btn.setVisible(false); // Thống kê
+            baoHanh_btn.setVisible(false); // Bảo hành
             System.out.print("nhan vien dang dang nhap");
         }
     }
@@ -80,6 +84,7 @@ public class Main_layout extends javax.swing.JFrame {
     private void initComponents() {
         jPanel1 = new javax.swing.JPanel();
         banHang_btn = new javax.swing.JButton();
+        baoHanh_btn = new javax.swing.JButton(); // New button
         qlnv_btn = new javax.swing.JButton();
         qlsp_btn = new javax.swing.JButton();
         qlkh_btn = new javax.swing.JButton();
@@ -100,6 +105,13 @@ public class Main_layout extends javax.swing.JFrame {
             }
         });
 
+        baoHanh_btn.setText("Bảo hành"); // New button text
+        baoHanh_btn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                baoHanh_btnActionPerformed(e);
+            }
+        });
+
         qlnv_btn.setText("Quản lý nhân viên");
         qlnv_btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -108,28 +120,28 @@ public class Main_layout extends javax.swing.JFrame {
         });
 
         qlsp_btn.setText("Quản lý sản phẩm");
-        qlsp_btn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        qlsp_btn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 qlsp_btnActionPerformed(evt);
             }
         });
 
         qlkh_btn.setText("Quản lý khách hàng");
-        qlkh_btn.addActionListener(new java.awt.event.ActionListener() {
+        qlkh_btn.addActionListener(new ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 qlkh_btnActionPerformed(evt);
             }
         });
 
         qltk_btn.setText("Quản lý tài khoản");
-        qltk_btn.addActionListener(new java.awt.event.ActionListener() {
+        qltk_btn.addActionListener(new ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 qltk_btnActionPerformed(evt);
             }
         });
 
         nhapHang_btn.setText("Nhập hàng");
-        nhapHang_btn.addActionListener(new java.awt.event.ActionListener() {
+        nhapHang_btn.addActionListener(new ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 nhapHang_btnActionPerformed(evt);
             }
@@ -138,14 +150,14 @@ public class Main_layout extends javax.swing.JFrame {
         chucNang_label.setText("Chức năng");
 
         dangXuat_btn.setText("Đăng xuất");
-        dangXuat_btn.addActionListener(new java.awt.event.ActionListener() {
+        dangXuat_btn.addActionListener(new ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 dangXuat_btnActionPerformed(evt);
             }
         });
 
         thongKe_btn.setText("Thống kê");
-        thongKe_btn.addActionListener(new java.awt.event.ActionListener() {
+        thongKe_btn.addActionListener(new ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 thongKe_btnActionPerformed(evt);
             }
@@ -167,6 +179,7 @@ public class Main_layout extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(banHang_btn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(baoHanh_btn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE) // New button
                             .addComponent(qlnv_btn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(qlsp_btn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(qlkh_btn, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
@@ -185,6 +198,8 @@ public class Main_layout extends javax.swing.JFrame {
                 .addComponent(chucNang_label)
                 .addGap(32, 32, 32)
                 .addComponent(banHang_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(baoHanh_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE) // New button
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(qlnv_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -240,6 +255,17 @@ public class Main_layout extends javax.swing.JFrame {
         jPanel2.revalidate();
         jPanel2.repaint();
     }
+
+    private void baoHanh_btnActionPerformed(java.awt.event.ActionEvent evt) {
+        jPanel2.removeAll();
+        // Assume a BaoHanh_GUI class exists or will be created
+        BaoHanh_GUI baoHanh = new BaoHanh_GUI(); // You need to create this class
+        jPanel2.setLayout(new BorderLayout());
+        jPanel2.add(baoHanh.getMainPanel(), BorderLayout.CENTER);
+        jPanel2.revalidate();
+        jPanel2.repaint();
+    }
+
     private void qlsp_btnActionPerformed(java.awt.event.ActionEvent evt) {
         jPanel2.removeAll();
         QuanLy_SP_GUI QLSanPham = new QuanLy_SP_GUI();
@@ -261,15 +287,13 @@ public class Main_layout extends javax.swing.JFrame {
     }
 
     private void qltk_btnActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO: Thêm xử lý cho quản lý tài khoản
-        // Nhân viên chỉ được chỉnh sửa thông tin tài khoản của chính mình
-        if (!"Quản lý".equalsIgnoreCase(currentUser.getChucVu())) {
-            // Gọi GUI quản lý tài khoản với giới hạn chỉ cho phép chỉnh sửa tài khoản của currentUser
-            // Ví dụ: new QuanLyTaiKhoan_GUI(currentUser, true);
-        } else {
-            // Gọi GUI quản lý tài khoản với quyền quản lý đầy đủ
-            // Ví dụ: new QuanLyTaiKhoan_GUI(currentUser, false);
-        }
+        jPanel2.removeAll();
+        QuanLy_TK_GUI QLTaiKhoan = new QuanLy_TK_GUI(currentUser);
+        QLTaiKhoan.setPreferredSize(new Dimension(900,700));
+        jPanel2.setLayout(new BorderLayout());
+        jPanel2.add(QLTaiKhoan.getMainPanel(), BorderLayout.CENTER);
+        jPanel2.revalidate();
+        jPanel2.repaint();
     }
 
     private void nhapHang_btnActionPerformed(java.awt.event.ActionEvent evt) {
@@ -282,7 +306,12 @@ public class Main_layout extends javax.swing.JFrame {
     }
 
     private void thongKe_btnActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO: Thêm xử lý cho thống kê
+        jPanel2.removeAll();
+        BaoCao_GUI baoCao = new BaoCao_GUI();
+        jPanel2.setLayout(new BorderLayout());
+        jPanel2.add(baoCao.getMainPanel(), BorderLayout.CENTER);
+        jPanel2.revalidate();
+        jPanel2.repaint();
     }
 
     private void qlnv_btnActionPerformed(java.awt.event.ActionEvent evt) {
@@ -321,6 +350,7 @@ public class Main_layout extends javax.swing.JFrame {
     }
 
     private javax.swing.JButton banHang_btn;
+    private javax.swing.JButton baoHanh_btn; // New field
     private javax.swing.JLabel chucNang_label;
     private javax.swing.JButton dangXuat_btn;
     private javax.swing.JLabel jLabel2;

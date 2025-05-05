@@ -1,14 +1,14 @@
 package GUI;
 
-import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
 
 public class BaoHanh_GUI extends JPanel {
     public BaoHanh_GUI() {
         setLayout(new BorderLayout());
 
         JPanel formPanel = new JPanel(new GridLayout(4, 2, 10, 10));
-        
+        setPreferredSize(new Dimension(900,700));
         formPanel.add(new JLabel("Mã Bảo Hành:"));
         JTextField warrantyIdField = new JTextField();
         formPanel.add(warrantyIdField);
@@ -34,5 +34,8 @@ public class BaoHanh_GUI extends JPanel {
         buttonPanel.add(cancelButton);
 
         add(buttonPanel, BorderLayout.SOUTH);
+    }
+    public JPanel getMainPanel(){
+        return this;
     }
 }
