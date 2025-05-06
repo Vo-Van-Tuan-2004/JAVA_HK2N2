@@ -27,7 +27,7 @@ public class HoaDonBan_DAO {
     public boolean them(HoaDonBan_DTO hoaDonBan) {
         String query = "INSERT INTO HoaDonBan (ma_hoa_don_ban, ma_khach_hang, ma_nhan_vien, ngay_xuat, tong_tien, trang_thai) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setString(1, hoaDonBan.getMa_hoa_don_ban());
+            stmt.setString(1, hoaDonBan.getMa_hoa_don_ban() );
             stmt.setString(2, hoaDonBan.getMa_khach_hang());
             stmt.setString(3, hoaDonBan.getMa_nhan_vien());
             stmt.setDate(4, hoaDonBan.getNgay_xuat() != null ? Date.valueOf(hoaDonBan.getNgay_xuat()) : null);
@@ -124,13 +124,13 @@ public class HoaDonBan_DAO {
                 if (maxCode != null && maxCode.startsWith("HDB")) {
                     int currentNumber = Integer.parseInt(maxCode.substring(3));
                     int newNumber = currentNumber + 1;
-                    return "HDB" + String.format("%03d", newNumber);
+                    return "HDB" + String.format("%02d", newNumber);
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return "HDB001";
+        return "HDB01";
     }
 
     public void closeConnection() {

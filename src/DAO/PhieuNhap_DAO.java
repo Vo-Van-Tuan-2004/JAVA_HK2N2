@@ -61,10 +61,10 @@ public class PhieuNhap_DAO {
         try (PreparedStatement pstmt = conn.prepareStatement(sql); ResultSet rs = pstmt.executeQuery()) {
             if (rs.next()) {
                 String ma_cuoi = rs.getString("ma_phieu_nhap");
-                if (ma_cuoi.startsWith("PN") && ma_cuoi.length() >= 5) {
+                if (ma_cuoi.startsWith("PN") && ma_cuoi.length() >= 4) {
                     int so = Integer.parseInt(ma_cuoi.substring(2));
                     so++;
-                    return String.format("PN%03d", so);
+                    return String.format("PN%02d", so);
                 } else {
                     throw new SQLException("Mã phiếu nhập không đúng định dạng: " + ma_cuoi);
                 }
@@ -73,7 +73,7 @@ public class PhieuNhap_DAO {
             System.err.println("Lỗi khi tạo mã phiếu nhập mới: " + e.getMessage());
             e.printStackTrace();
         }
-        return "PN001"; // Chỉ trả về nếu bảng trống
+        return "PN01"; // Chỉ trả về nếu bảng trống
     }
 
     public boolean capNhatSoLuongTon(String ma_spham, int so_luong_nhap) {

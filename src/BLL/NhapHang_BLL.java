@@ -50,7 +50,7 @@ public class NhapHang_BLL {
     }
     public boolean luuPhieuNhap(PhieuNhap_DTO phieuNhap, ArrayList<ChiTietPhieuNhap_DTO> dsChiTiet) {
         try {
-            // Kiểm tra dữ liệu đầu vào
+
             if (phieuNhap.getMa_phieu_nhap() == null || phieuNhap.getMa_nha_cung_cap() == null) {
                 System.err.println("Mã phiếu nhập hoặc mã nhà cung cấp không hợp lệ");
                 return false;
@@ -62,13 +62,13 @@ public class NhapHang_BLL {
                 }
             }
     
-            // Kiểm tra kết nối
+
             if (conn == null || conn.isClosed()) {
                 getConnection();
             }
-            conn.setAutoCommit(false); // Bắt đầu giao dịch
+            conn.setAutoCommit(false);
     
-            // Lưu phiếu nhập
+
             boolean success = phieuNhapDAO.ThemPhieuNhap(phieuNhap);
             if (!success) {
                 System.err.println("Lưu phiếu nhập thất bại: " + phieuNhap.getMa_phieu_nhap());

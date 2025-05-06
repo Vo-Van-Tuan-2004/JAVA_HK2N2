@@ -25,6 +25,7 @@ public class BanHang_BLL {
             hoaDonBanDAO = new HoaDonBan_DAO(connection);
             chiTietHoaDonBanDAO = new ChiTietHoaDonBan_DAO(connection);
         } catch (ClassNotFoundException | SQLException e) {
+            System.out.print("eeeeeeeeeeeeeeeeeee");
             e.printStackTrace();
         }
     }
